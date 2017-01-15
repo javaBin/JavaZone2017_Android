@@ -1,0 +1,194 @@
+apply plugin: 'com.android.application'
+apply plugin: 'jacoco'
+
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
+    flatDir {
+        dirs '../third_party/AndroidSlidingUpPanel/libs/'
+    }
+    flatDir {
+        dirs '../third_party/svg-android/libs/'
+    }
+}
+android {
+    compileSdkVersion 25
+    buildToolsVersion "24.0.1"
+    defaultConfig {
+        applicationId "no.javazone"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+
+
+        buildConfigField("String", "CONFERENCE_HASHTAG", "\"${conference_hashtag}\"")
+        buildConfigField("String", "CONFERENCE_HASHTAG_PREFIX", "\"${conference_hashtag_prefix}\"")
+        buildConfigField("String", "BOOTSTRAP_DATA_TIMESTAMP", "\"${bootstrap_data_timestamp}\"")
+        buildConfigField("String", "PRECONFERENCE_DAY_START", "\"${preconference_day_start}\"")
+        buildConfigField("String", "PRECONFERENCE_DAY_END", "\"${preconference_day_end}\"")
+        buildConfigField("String", "CONFERENCE_DAY1_START", "\"${conference_day1_start}\"")
+        buildConfigField("String", "CONFERENCE_DAY1_END", "\"${conference_day1_end}\"")
+        buildConfigField("String", "CONFERENCE_DAY2_START", "\"${conference_day2_start}\"")
+        buildConfigField("String", "CONFERENCE_DAY2_END", "\"${conference_day2_end}\"")
+        buildConfigField("String", "CONFERENCE_DAY3_START", "\"${conference_day3_start}\"")
+        buildConfigField("String", "CONFERENCE_DAY3_END", "\"${conference_day3_end}\"")
+        buildConfigField("String", "INPERSON_TIMEZONE", "\"${inperson_timezone}\"")
+
+
+        buildConfigField("String[]", "FIREBASE_URLS", "{\"${iosched_firebase_debug_db1}\"," +
+                "\"${iosched_firebase_debug_db2}\",\"${iosched_firebase_debug_db3}\"}")
+        buildConfigField("boolean", "ENABLE_MYSCHEDULE_IN_NAVIGATION", "true")
+        buildConfigField("boolean", "ENABLE_IOLIVE_IN_NAVIGATION", "false")
+        buildConfigField("boolean", "ENABLE_EXPLORE_IN_NAVIGATION", "true")
+        buildConfigField("boolean", "ENABLE_MAP_IN_NAVIGATION", "true")
+        buildConfigField("boolean", "ENABLE_SOCIAL_IN_NAVIGATION", "false")
+        buildConfigField("boolean", "ENABLE_VIDEOLIB_IN_NAVIGATION", "true")
+        buildConfigField("boolean", "ENABLE_SIGNIN_IN_NAVIGATION", "true")
+        buildConfigField("boolean", "ENABLE_SETTINGS_IN_NAVIGATION", "true")
+        buildConfigField("boolean", "ENABLE_ABOUT_IN_NAVIGATION", "true")
+        buildConfigField("boolean", "ENABLE_EXTENDED_SESSION_URL", "true")
+        buildConfigField("String", "CONFERENCE_VERSION", "\"${conf_version}\"")
+        buildConfigField("String", "PRODUCTION_WEBSITE_HOST_NAME", "\"${production_website_host_name}\"")
+        buildConfigField("String", "WEB_URL_SCHEDULE_PATH", "\"${web_url_schedule_path}\"")
+
+        resValue("string", "pref_conf_messages_enabled", "pref_conf_messages_enabled_${conf_version}")
+        buildConfigField("String", "PREF_CONF_MESSAGES_ENABLED", "\"pref_conf_messages_enabled_${conf_version}\"")
+
+        resValue("string", "pref_attendee_at_venue", "pref_attendee_at_venue_${conf_version}")
+        buildConfigField("String", "PREF_ATTENDEE_AT_VENUE", "\"pref_attendee_at_venue_${conf_version}\"")
+
+        resValue("string", "pref_session_reminders_enabled", "pref_session_reminders_enabled_${conf_version}")
+        buildConfigField("String", "PREF_SESSION_REMINDERS_ENABLED", "\"pref_session_reminders_enabled_${conf_version}\"")
+
+        resValue("string", "pref_session_feedback_reminders_enabled", "pref_session_feedback_reminders_enabled_${conf_version}")
+        buildConfigField("String", "PREF_SESSION_FEEDBACK_REMINDERS_ENABLED", "\"pref_session_feedback_reminders_enabled_${conf_version}\"")
+
+        buildConfigField("String", "PREF_DATA_BOOTSTRAP_DONE", "\"pref_bootstrap_done_${conf_version}\"")
+
+
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file("../debug.keystore")
+            storePassword "android"
+            keyAlias "javazonedebugkey"
+            keyPassword "android"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+        disable 'InvalidPackage'
+
+    }
+
+    aaptOptions {
+        noCompress 'apk'
+    }
+
+    packagingOptions {
+        // Exclude files to avoid packaging collisions (same file name in multiple dependencies).
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
+    // Test Android jar comes with unimplemented methods that throw exceptions by default. This
+    // option forces the methods to return default values instead. Required for static methods,
+    // such as TextUtils, as those cannot be mocked with Mockito.
+    // Refer http://tools.android.com/tech-docs/unit-testing-support#TOC-Method-...-not-mocked.-
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:design:25.1.0'
+    compile "com.android.support:cardview-v7:25.1.0"
+    compile "com.android.support:support-v13:25.1.0"
+    compile "com.android.support:recyclerview-v7:25.1.0"
+    compile "com.android.support:preference-v7:25.1.0"
+    compile "com.google.android.gms:play-services-analytics:10.0.1"
+    compile "com.google.android.gms:play-services-drive:10.0.1"
+    compile "com.google.android.gms:play-services-maps:10.0.1"
+    compile "com.google.android.gms:play-services-gcm:10.0.1"
+    compile "com.google.android.gms:play-services-plus:10.0.1"
+
+    compile 'net.danlew:android.joda:2.9.4.1'
+
+    // Different Open Source Librariesg
+    compile ('com.squareup.retrofit2:retrofit:2.1.0') {
+        // exclude Retrofit’s OkHttp peer-dependency module and define your own module import
+        exclude module: 'okhttp'
+    }
+    compile 'com.squareup.okhttp3:okhttp:3.3.1'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+    // JSON utility library.
+    compile 'com.google.code.gson:gson:2.4'
+
+    // Glide library, used to handle asynchronous loading and caching of images.
+    compile 'com.github.bumptech.glide:glide:3.5.2'
+
+    compile files('../third_party/disklrucache/libs/disklrucache-2.0.2.jar')
+    compile files('../third_party/volley/libs/volley.jar')
+    compile files('../third_party/basic-http-client/libs/basic-http-client-android-0.88.jar')
+    // SVG processor for the Conference Map overlay.
+    compile (name:'svg-android-2.0.7-20150515.214425-1', ext:'jar')
+    // Android Sliding Up Panel library. Compiled from third_party/AndroidSlidingUpPanel.
+    // Version number denotes original checked out commit, see README.google in library directory.
+    compile (name:'android-sliding-up-panel-master-8129831576', ext:'aar')
+
+    // Google Maps Android API utility library
+    compile('com.google.maps.android:android-maps-utils:0.3.4') {
+        exclude group: "com.google.android.gms"
+    }
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.hamcrest:hamcrest-core:1.3'
+    testCompile 'org.mockito:mockito-core:1.10.8'
+    testCompile 'org.powermock:powermock-api-mockito:1.6.4'
+    testCompile 'org.powermock:powermock-module-junit4-rule-agent:1.6.4'
+    testCompile 'org.powermock:powermock-module-junit4-rule:1.6.4'
+    testCompile 'org.powermock:powermock-module-junit4:1.6.4'
+    testCompile 'org.json:json:20090211'
+
+    // Added to resolve conflicts between the app build and the test build. The app build resolves
+    // the jsr305 dependency to version 1.3.9, but in the test build the espresso-core dependency
+    // resolves jsr305 to 2.0.1. Declaring a compile dependency on jsr305 2.0.1 will ensure 2.0.1 or
+    // greater is used for both app and test builds.
+    compile 'com.google.code.findbugs:jsr305:2.0.1'
+
+    // Needed to implement the IdlingResource interface on certain async models.
+    compile 'com.android.support.test.espresso:espresso-idling-resource:2.2.2'
+    // Dependencies for android tests which reside in the "androidTest" src folder.
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2'
+    // Resolve conflicts between main and test APK:
+    androidTestCompile "com.android.support:support-annotations:25.1.0"
+    androidTestCompile "com.android.support:recyclerview-v7:25.1.0"
+    androidTestCompile "com.android.support:design:25.1.0"
+
+    compile 'com.google.guava:guava:18.0'
+    compile 'com.estimote:sdk:0.11.0@aar'
+    compile 'com.firebase:firebase-client-android:2.5.0'
+}
