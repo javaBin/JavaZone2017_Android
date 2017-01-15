@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import no.javazone.BuildConfig;
+import no.javazone.util.SettingsUtils;
 import no.javazone.util.TimeUtils;
 
 import static no.javazone.util.LogUtils.LOGE;

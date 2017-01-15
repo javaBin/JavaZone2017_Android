@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="no.javazone">
 
 
@@ -80,7 +81,164 @@
             </intent-filter>
         </activity>
 
+        <!-- Session alarm/calendar integrating components. -->
+        <receiver android:name=".receiver.SessionAlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="com.google.samples.apps.iosched.action.UPDATE_CALENDAR_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
+        <service
+            android:name=".service.SessionAlarmService"
+            android:exported="false" />
+
+        <!-- BEGIN Google Analytics install referral measurement -->
+        <!-- The service (provided by the Google Play services client library) that receives an
+             intent from the CampaignTrackingReceiver upon install referral. -->
+        <service
+            android:name="com.google.android.gms.analytics.CampaignTrackingService"
+            android:exported="false" />
+
+        <!-- The receiver is called when Google Play has install referrer information and the app
+             was installed from Google Play. On API >= 13 the receiver is called after first app
+             launch rather than after install. -->
+        <receiver
+            android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+        <!-- For more information on Google Analytics install referral measurement see
+             https://goo.gl/RWn9xv -->
+        <!-- END Google Analytics install referral measurement -->
+
+        <!-- Register AnalyticsReceiver and AnalyticsService to support background
+             dispatching on non-Google Play devices. -->
+        <receiver android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
+            </intent-filter>
+        </receiver>
+        <service android:name="com.google.android.gms.analytics.AnalyticsService"
+            android:enabled="true"
+            android:exported="false"/>
+
+
+        <!--
+          This is a receiver provided by Google Play Services. It handles receiving
+          messages and passes them to GcmListenerService which offers a callback
+          that we will override to take action based on the content of the message received.
+
+          The com.google.android.c2dm.permission.SEND permission is necessary
+          so only GCM services can send data messages for the app.
+        -->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+
+                <!-- Receives the actual messages. -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.google.samples.apps.iosched" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Data, sync and schedule editing components -->
+
+        <provider
+            android:name=".archframework.database.provider.ScheduleProvider"
+            android:authorities="no.javazone"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:syncable="true"
+            android:writePermission="no.javazone.permission.WRITE_SCHEDULE" />
+
+        <service
+            android:name=".sync.SyncService"
+            android:exported="true"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
+
+        <!-- An IntentService responsible for bootstrapping the app with the necessary
+            data such as session, speakers, etc. This data is used prior to the app's
+            first sync to the backend server. -->
+        <service
+            android:name=".service.DataBootstrapService"
+            android:exported="false" />
+
+        <!--
+             a simple receiver that triggers a sync for any message it receives. used by our
+             GCM implementation
+        -->
+        <receiver android:name=".sync.TriggerSyncReceiver" />
+
+        <!-- Other manifest items -->
+
+        <meta-data
+            android:name="android.app.default_searchable"
+            android:value=".ui.BrowseSessionsActivity" />
+<!--
+
+          GCMMessageListenerService is the extension of the GcmListenerService,
+          where we handle received GCM messages.
+
+        <service
+            android:name=".gcm.GCMMessageListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".gcm.GCMInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".gcm.GCMRegistrationIntentService"
+            android:exported="false" />
+
+        <service
+            android:name=".gcm.GCMUnregisterIntentService"
+            android:exported="false" /> -->
+
+        <!-- App widget components -->
+
+        <receiver
+            android:name=".appwidget.ScheduleWidgetProvider"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <!-- This specifies the widget provider info -->
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widgetinfo" />
+        </receiver>
+
+        <!-- The service serving the RemoteViews to the collection widget -->
+
+        <service
+            android:name=".appwidget.ScheduleWidgetRemoteViewsService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
 
     </application>

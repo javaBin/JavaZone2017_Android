@@ -68,7 +68,7 @@ public class FirebaseUtils {
     public static String getFirebaseUid(final Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getString(
-                makeAccountSpecificPrefKey("javazone", PREFIX_PREF_FIREBASE_UID), "");
+                makeAccountSpecificPrefKey("no.javazone", PREFIX_PREF_FIREBASE_UID), "");
     }
 
     protected static String makeAccountSpecificPrefKey(String accountName, String prefix) {
@@ -86,7 +86,7 @@ public class FirebaseUtils {
         LOGI(TAG, "Saving Firebase UID for accountName " + accountName);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         sp.edit().putString(
-                makeAccountSpecificPrefKey("javazone", PREFIX_PREF_FIREBASE_UID),
+                makeAccountSpecificPrefKey("no.javazone", PREFIX_PREF_FIREBASE_UID),
                 uid).apply();
     }
 
@@ -101,7 +101,7 @@ public class FirebaseUtils {
     public static String getFirebaseUrl(Context context, String accountName) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getString(
-                makeAccountSpecificPrefKey("javazone",
+                makeAccountSpecificPrefKey("no.javazone",
                         PREFIX_PREF_FIREBASE_URL), "");
     }
 
@@ -120,7 +120,7 @@ public class FirebaseUtils {
         int index = (int) (crc.getValue() % firebaseUrls.length);
         LOGI(TAG, "Selected Firebase db # " + index);
         sp.edit().putString(
-                makeAccountSpecificPrefKey("javazone", PREFIX_PREF_FIREBASE_URL),
+                makeAccountSpecificPrefKey("no.javazone", PREFIX_PREF_FIREBASE_URL),
                 firebaseUrls[index]).apply();
     }
 

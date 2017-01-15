@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package no.javazone.feedback;
+package no.javazone.archframework.feedback;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -29,7 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import no.javazone.feedback.SessionFeedbackModel.SessionFeedbackData;
+import no.javazone.archframework.feedback.SessionFeedbackModel.SessionFeedbackData;
 
 import static no.javazone.util.LogUtils.LOGD;
 import static no.javazone.util.LogUtils.LOGE;

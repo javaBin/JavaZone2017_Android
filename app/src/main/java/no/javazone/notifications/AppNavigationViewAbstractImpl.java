@@ -19,8 +19,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import no.javazone.archframework.PresenterImpl;
-import no.javazone.archframework.UpdatableView;
+import no.javazone.archframework.presenters.PresenterImpl;
+import no.javazone.archframework.database.UpdatableView;
 import no.javazone.notifications.NavigationModel.NavigationUserActionEnum;
 import no.javazone.util.ActivityUtils;
 

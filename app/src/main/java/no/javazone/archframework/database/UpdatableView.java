@@ -13,12 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package no.javazone.archframework;
+package no.javazone.archframework.database;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+
+import no.javazone.archframework.models.Model;
+import no.javazone.archframework.presenters.Presenter;
 
 /**
  * An UpdatableView is a UI class, often a {@link android.app.Fragment}, that provides a {@link

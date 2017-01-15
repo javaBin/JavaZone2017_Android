@@ -51,23 +51,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.samples.apps.iosched.map.util.MarkerLoadingTask;
-import com.google.samples.apps.iosched.map.util.MarkerModel;
-import com.google.samples.apps.iosched.provider.ScheduleContract;
-import com.google.samples.apps.iosched.util.AnalyticsHelper;
-import com.google.samples.apps.iosched.util.MapUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import no.java.schedule.io.model.Coordinates;
-import no.java.schedule.util.EstimoteBeaconManager;
-import no.java.schedule.util.NetworkUtil;
-import no.java.schedule.v2.R;
+import no.javazone.archframework.beacon.util.EstimoteBeaconManager;
+import no.javazone.archframework.beacon.util.NetworkUtil;
+import no.javazone.util.AnalyticsHelper;
+import no.javazone.util.MapUtils;
 
-import static com.google.samples.apps.iosched.util.LogUtils.LOGD;
-import static com.google.samples.apps.iosched.util.LogUtils.makeLogTag;
 
 /**
  * Shows a map of the conference venue.

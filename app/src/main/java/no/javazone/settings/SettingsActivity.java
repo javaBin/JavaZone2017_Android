@@ -35,6 +35,7 @@ import no.javazone.notifications.NavigationModel;
 import no.javazone.ui.activity.base.BaseActivity;
 import no.javazone.ui.widget.DrawShadowFrameLayout;
 import no.javazone.util.PermissionsUtils;
+import no.javazone.util.SettingsUtils;
 import no.javazone.util.UIUtils;
 
 /**

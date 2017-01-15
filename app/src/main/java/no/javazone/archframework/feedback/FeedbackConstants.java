@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package no.javazone.archframework;
 
-/**
- * Represents an action in the {@link UpdatableView} performed by the user, for example when the
- * user clicks a specific button.
- */
-public interface UserActionEnum {
+package no.javazone.archframework.feedback;
 
-    public int getId();
+public class FeedbackConstants {
 
+    public static final int FEEDBACK_CONNECT_TIMEOUT_MS = 15000;
+
+    public static final int FEEDBACK_READ_TIMEOUT_MS = 15000;
+
+    public static final int GOOGLE_API_CLIENT_CONNECTION_TIMEOUT_S = 10;
 }

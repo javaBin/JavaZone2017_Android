@@ -24,11 +24,13 @@ import android.net.Uri;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
-import com.google.samples.apps.iosched.provider.ScheduleContract;
-import com.google.samples.apps.iosched.util.MapUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import no.javazone.archframework.database.provider.ScheduleContract;
+import no.javazone.archframework.maps.model.MarkerModel;
+import no.javazone.util.MapUtils;
 
 /**
  * Background task that queries the content provider and prepares a list of {@link MarkerModel}s

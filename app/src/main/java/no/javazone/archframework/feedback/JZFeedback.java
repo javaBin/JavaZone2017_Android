@@ -1,4 +1,4 @@
-package no.javazone.feedback;
+package no.javazone.archframework.feedback;
 
 import java.io.Serializable;
 

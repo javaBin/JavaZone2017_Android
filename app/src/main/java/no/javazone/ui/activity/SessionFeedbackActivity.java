@@ -20,12 +20,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import no.javazone.R;
-import no.javazone.feedback.FeedbackHelper;
-import no.javazone.feedback.SessionFeedbackModel;
 import no.javazone.ui.activity.base.BaseActivity;
 import no.javazone.util.BeamUtils;
 
@@ -60,17 +57,7 @@ public class SessionFeedbackActivity extends BaseActivity {
             finish();
         }
 
-        addPresenterFragment(R.id.session_feedback_frag,
-                new SessionFeedbackModel(mSessionUri, getApplicationContext(),
-                        new FeedbackHelper(this)),
-                SessionFeedbackModel.SessionFeedbackQueryEnum.values(),
-                SessionFeedbackModel.SessionFeedbackUserActionEnum.values());
-
-
-        Toolbar toolbar = getActionBarToolbar();
-        toolbar.setNavigationIcon(R.drawable.ic_up);
-        toolbar.setNavigationContentDescription(R.string.close_and_go_back);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        setToolbarAsUp(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavUtils.navigateUpTo(SessionFeedbackActivity.this,

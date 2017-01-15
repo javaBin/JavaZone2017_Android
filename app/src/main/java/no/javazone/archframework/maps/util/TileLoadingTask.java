@@ -21,8 +21,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.google.samples.apps.iosched.provider.ScheduleContract;
-import com.google.samples.apps.iosched.util.MapUtils;
 import com.jakewharton.disklrucache.DiskLruCache;
 
 import java.io.File;
@@ -30,8 +28,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.google.samples.apps.iosched.util.LogUtils.LOGD;
-import static com.google.samples.apps.iosched.util.LogUtils.makeLogTag;
+import no.javazone.archframework.database.provider.ScheduleContract;
+import no.javazone.util.MapUtils;
+
+import static no.javazone.util.LogUtils.LOGD;
+import static no.javazone.util.LogUtils.makeLogTag;
 
 /**
  * Background task that queries the content provider and prepares a list of

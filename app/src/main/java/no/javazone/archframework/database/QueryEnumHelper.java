@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package no.javazone.archframework;
+package no.javazone.archframework.database;
 
 /**
  * Provides static methods to help with processing {@link QueryEnum}.

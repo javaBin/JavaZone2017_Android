@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package no.javazone.settings;
+package no.javazone.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import java.util.TimeZone;
 
-import no.javazone.BuildConfig;
-import no.javazone.util.TimeUtils;
+import java.util.TimeZone;
 
 import static no.javazone.util.LogUtils.makeLogTag;
 
@@ -38,13 +36,26 @@ public class SettingsUtils {
      * This is changed each year to effectively reset certain preferences that should be re-asked
      * each year. Note, res/xml/settings_prefs.xml must be updated when this value is updated.
      */
-    public static final String CONFERENCE_YEAR_PREF_POSTFIX = "_2016";
+    public static final String CONFERENCE_YEAR_PREF_POSTFIX = "_2017";
 
     /**
      * Boolean preference indicating the user would like to see times in their local timezone
      * throughout the app.
      */
     public static final String PREF_LOCAL_TIMES = "pref_local_times";
+
+    /**
+     * Boolean preference indicating that the user will be attending the conference.
+     */
+    public static final String PREF_ATTENDEE_AT_VENUE = "pref_attendee_at_venue" +
+            CONFERENCE_YEAR_PREF_POSTFIX;
+
+    /**
+     * Boolean preference indicating whether the app has
+     * {@code com.google.samples.apps.iosched.ui.BaseActivity.performDataBootstrap installed} the
+     * {@code R.raw.bootstrap_data bootstrap data}.
+     */
+    public static final String PREF_DATA_BOOTSTRAP_DONE = "pref_data_bootstrap_done";
 
     /**
      * Boolean indicating whether the app should attempt to sign in on startup (default true).
@@ -113,6 +124,18 @@ public class SettingsUtils {
     public static final String PREF_ANALYTICS_ENABLED = "pref_analytics_enabled";
 
     /**
+     * Boolean indicating whether to show session reminder notifications.
+     */
+    public static final String PREF_SHOW_SESSION_REMINDERS = "pref_show_session_reminders" +
+            CONFERENCE_YEAR_PREF_POSTFIX;
+
+    /**
+     * Boolean indicating whether to show session feedback notifications.
+     */
+    public static final String PREF_SHOW_SESSION_FEEDBACK_REMINDERS =
+            "pref_show_session_feedback_reminders" + CONFERENCE_YEAR_PREF_POSTFIX;
+
+    /**
      * Return the {@link TimeZone} the app is set to use (either user or conference).
      *
      * @param context Context to be used to lookup the {@link android.content.SharedPreferences}.
@@ -144,7 +167,7 @@ public class SettingsUtils {
      */
     public static boolean isAttendeeAtVenue(final Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(BuildConfig.PREF_ATTENDEE_AT_VENUE, true);
+        return sp.getBoolean(PREF_ATTENDEE_AT_VENUE, true);
     }
 
     /**
@@ -154,7 +177,7 @@ public class SettingsUtils {
      */
     public static void markDataBootstrapDone(final Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        sp.edit().putBoolean(BuildConfig.PREF_DATA_BOOTSTRAP_DONE, true).apply();
+        sp.edit().putBoolean(PREF_DATA_BOOTSTRAP_DONE, true).apply();
     }
 
     /**
@@ -164,7 +187,7 @@ public class SettingsUtils {
      */
     public static boolean isDataBootstrapDone(final Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(BuildConfig.PREF_DATA_BOOTSTRAP_DONE, false);
+        return sp.getBoolean(PREF_DATA_BOOTSTRAP_DONE, false);
     }
 
     /**
@@ -175,7 +198,7 @@ public class SettingsUtils {
      */
     public static void setAttendeeAtVenue(final Context context, final boolean newValue) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        sp.edit().putBoolean(BuildConfig.PREF_ATTENDEE_AT_VENUE, newValue).apply();
+        sp.edit().putBoolean(PREF_ATTENDEE_AT_VENUE, newValue).apply();
     }
 
     /**
@@ -322,7 +345,7 @@ public class SettingsUtils {
     /**
      * Mark {@code newValue whether} this is the first time the first-app-run-processes have run.
      * Managed by {@link com.google.samples.apps.iosched.ui.BaseActivity the}
-     * {@link BaseActivity two} base activities.
+     * {@link com.google.samples.apps.iosched.core.activities.BaseActivity two} base activities.
      *
      * @param context  Context to be used to edit the {@link android.content.SharedPreferences}.
      * @param newValue New value that will be set.
@@ -349,7 +372,7 @@ public class SettingsUtils {
      */
     public static void markSyncAttemptedNow(final Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        sp.edit().putLong(PREF_LAST_SYNC_ATTEMPTED, TimeUtils.getCurrentTime(context)).apply();
+        sp.edit().putLong(PREF_LAST_SYNC_ATTEMPTED, UIUtils.getCurrentTime(context)).apply();
     }
 
     /**
@@ -369,7 +392,7 @@ public class SettingsUtils {
      */
     public static void markSyncSucceededNow(final Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        sp.edit().putLong(PREF_LAST_SYNC_SUCCEEDED, TimeUtils.getCurrentTime(context)).apply();
+        sp.edit().putLong(PREF_LAST_SYNC_SUCCEEDED, UIUtils.getCurrentTime(context)).apply();
     }
 
     /**
@@ -389,25 +412,7 @@ public class SettingsUtils {
      */
     public static boolean shouldShowSessionReminders(final Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(BuildConfig.PREF_SESSION_REMINDERS_ENABLED, false);
-    }
-
-    /**
-     * @param context  Context to be used to edit the {@link android.content.SharedPreferences}.
-     * @param show Whether app should show session reminders
-     */
-    public static void setShowSessionReminders(final Context context, boolean show) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        sp.edit().putBoolean(BuildConfig.PREF_SESSION_REMINDERS_ENABLED, show).apply();
-    }
-
-    /**
-     * @param context  Context to be used to edit the {@link android.content.SharedPreferences}.
-     * @param show Whether app should show session feedback reminders
-     */
-    public static void setShowSessionFeedbackReminders(final Context context, boolean show) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        sp.edit().putBoolean(BuildConfig.PREF_SESSION_FEEDBACK_REMINDERS_ENABLED, show).apply();
+        return sp.getBoolean(PREF_SHOW_SESSION_REMINDERS, true);
     }
 
     /**
@@ -417,7 +422,7 @@ public class SettingsUtils {
      */
     public static boolean shouldShowSessionFeedbackReminders(final Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(BuildConfig.PREF_SESSION_FEEDBACK_REMINDERS_ENABLED, false);
+        return sp.getBoolean(PREF_SHOW_SESSION_FEEDBACK_REMINDERS, true);
     }
 
     /**

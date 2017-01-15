@@ -33,16 +33,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.samples.apps.iosched.map.util.MarkerModel;
-import com.google.samples.apps.iosched.map.util.OverviewSessionLoader;
-import com.google.samples.apps.iosched.map.util.SessionLoader;
-import com.google.samples.apps.iosched.map.util.SingleSessionLoader;
-import com.google.samples.apps.iosched.model.ScheduleHelper;
-import com.google.samples.apps.iosched.provider.ScheduleContract;
-import com.google.samples.apps.iosched.util.MapUtils;
-import com.google.samples.apps.iosched.util.UIUtils;
-
-import no.java.schedule.v2.R;
+import no.javazone.R;
+import no.javazone.archframework.maps.model.MarkerModel;
+import no.javazone.util.MapUtils;
+import no.javazone.util.UIUtils;
 
 /**
  * Displays information about the map.
@@ -318,7 +312,7 @@ public abstract class MapInfoFragment extends Fragment
 
     }
 
-    interface Callback {
+    public interface Callback {
 
         public void onInfoSizeChanged(int left, int top, int right, int bottom);
 

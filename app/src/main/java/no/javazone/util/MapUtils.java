@@ -137,6 +137,40 @@ public class MapUtils {
         return markerType == MarkerModel.TYPE_SANDBOX;
     }
 
+    public static MarkerOptions createFloorMarkers(String id, int floorLevel, LatLng position) {
+        final BitmapDescriptor icon =
+                BitmapDescriptorFactory.defaultMarker(createFloorColor(floorLevel));
+        return new MarkerOptions().position(position).title(id).icon(icon).anchor(0.5f, 0.85526f)
+                .visible(
+                        false);
+    }
+
+
+    public static float createFloorColor(int floorLevel) {
+        float marker = 0;
+        switch(floorLevel) {
+            case 0:
+                marker = BitmapDescriptorFactory.HUE_AZURE;
+                break;
+            case 1:
+                marker = BitmapDescriptorFactory.HUE_YELLOW;
+                break;
+            case 2:
+                marker = BitmapDescriptorFactory.HUE_VIOLET;
+                break;
+        }
+
+        return marker;
+    }
+
+    public static MarkerOptions createCurrentLocationMarker(String id, LatLng position) {
+        final BitmapDescriptor icon =
+                BitmapDescriptorFactory.fromResource(R.drawable.ratingbar_star_on_focused);
+        return new MarkerOptions().position(position).title(id).icon(icon).anchor(0.5f, 0.85526f)
+                .visible(
+                        true);
+    }
+
     /**
      * Creates a marker for a session.
      *

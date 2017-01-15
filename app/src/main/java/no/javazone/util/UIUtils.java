@@ -83,6 +83,7 @@ import java.util.regex.Pattern;
 
 import static com.google.samples.apps.iosched.util.LogUtils.LOGE;
 import static com.google.samples.apps.iosched.util.LogUtils.makeLogTag;
+import static no.javazone.util.LogUtils.makeLogTag;
 
 /**
  * An assortment of UI helpers.
@@ -179,6 +180,10 @@ public class UIUtils {
         } else {
             return roomName;
         }
+    }
+
+    public static long getCurrentTime(final Context context) {
+        return System.currentTimeMillis();
     }
 
     /**

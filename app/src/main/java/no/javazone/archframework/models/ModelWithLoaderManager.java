@@ -12,7 +12,7 @@
  * the License.
  */
 
-package no.javazone.archframework;
+package no.javazone.archframework.models;
 
 import android.app.LoaderManager;
 import android.content.Loader;
@@ -24,6 +24,10 @@ import android.support.annotation.Nullable;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.util.HashMap;
+
+import no.javazone.archframework.database.QueryEnum;
+import no.javazone.archframework.database.QueryEnumHelper;
+import no.javazone.archframework.database.UserActionEnum;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static no.javazone.util.LogUtils.LOGE;

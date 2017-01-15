@@ -44,7 +44,7 @@ public class SessionsHelper {
                 starred + " title=" + title);
         String sessionId = ScheduleContract.Sessions.getSessionId(sessionUri);
         Uri myScheduleUri = ScheduleContract.MySchedule.buildMyScheduleUri(
-                "no.java.myschedule";
+                "no.java.myschedule");
 
         AsyncQueryHandler handler =
                 new AsyncQueryHandler(mActivity.getContentResolver()) {

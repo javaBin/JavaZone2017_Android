@@ -13,7 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package no.javazone.archframework;
+package no.javazone.archframework.presenters;
+
+import no.javazone.archframework.database.QueryEnum;
+import no.javazone.archframework.database.UpdatableView;
+import no.javazone.archframework.database.UserActionEnum;
+import no.javazone.archframework.models.Model;
 
 /**
  * A Presenter acts as a controller for both the {@link UpdatableView} (typically a fragment) and

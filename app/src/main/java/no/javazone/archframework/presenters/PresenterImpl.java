@@ -1,7 +1,13 @@
-package no.javazone.archframework;
+package no.javazone.archframework.presenters;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+
+import no.javazone.archframework.database.QueryEnum;
+import no.javazone.archframework.database.UpdatableView;
+import no.javazone.archframework.database.UserActionEnum;
+import no.javazone.archframework.models.Model;
+import no.javazone.archframework.models.ModelWithLoaderManager;
 
 import static no.javazone.util.LogUtils.LOGE;
 import static no.javazone.util.LogUtils.makeLogTag;

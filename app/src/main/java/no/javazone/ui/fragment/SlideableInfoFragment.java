@@ -26,7 +26,7 @@ import android.view.ViewGroup;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import no.java.schedule.v2.R;
+import no.javazone.R;
 
 /**
  * Map info fragment that uses a {@link com.sothree.slidinguppanel.SlidingUpPanelLayout} to display

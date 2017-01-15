@@ -39,19 +39,12 @@ import static no.javazone.util.LogUtils.LOGD;
 import static no.javazone.util.LogUtils.LOGW;
 import static no.javazone.util.LogUtils.makeLogTag;
 
-/**
- * A base activity that handles common functionality in the app. This includes the navigation
- * drawer, login and authentication, Action Bar tweaks, amongst others.
- */
 public abstract class BaseActivity extends AppCompatActivity implements
         SharedPreferences.OnSharedPreferenceChangeListener,
         MultiSwipeRefreshLayout.CanChildScrollUpCallback,
         AppNavigationViewAsDrawerImpl.NavigationDrawerStateListener {
 
     private static final String TAG = makeLogTag(BaseActivity.class);
-
-    public static final int SWITCH_USER_RESULT = 9998;
-    private static final int SELECT_GOOGLE_ACCOUNT_RESULT = 9999;
 
     // Navigation drawer
     private AppNavigationViewAsDrawerImpl mAppNavigationViewAsDrawer;

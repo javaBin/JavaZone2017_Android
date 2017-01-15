@@ -18,7 +18,7 @@ package no.javazone.archframework.maps.util;
 
 import android.content.Context;
 
-import com.google.samples.apps.iosched.provider.ScheduleContract;
+import no.javazone.archframework.database.provider.ScheduleContract;
 
 /**
  * Loads the title and abstract for the very first session scheduled in a room.

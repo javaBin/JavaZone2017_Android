@@ -36,7 +36,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import static com.google.samples.apps.iosched.util.LogUtils.makeLogTag;
+import static no.javazone.util.LogUtils.makeLogTag;
 
 public class SVGTileProvider implements TileProvider {
     private static final String TAG = makeLogTag(SVGTileProvider.class);

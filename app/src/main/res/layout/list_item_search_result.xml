@@ -14,19 +14,18 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-
-<LinearLayout
+<no.javazone.ui.widget.SearchSnippet
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search_result"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.activity.SessionFeedbackActivity">
-
-    <fragment
-        android:name="no.javazone.ui.fragment.SessionFeedbackFragment"
-        android:id="@+id/session_feedback_frag"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</LinearLayout>
+    android:layout_height="wrap_content"
+    android:minHeight="?android:listPreferredItemHeightSmall"
+    android:gravity="start|center_vertical"
+    android:paddingTop="@dimen/spacing_normal"
+    android:paddingBottom="@dimen/spacing_normal"
+    android:paddingLeft="@dimen/keyline_2"
+    android:paddingStart="@dimen/keyline_2"
+    android:paddingRight="@dimen/padding_normal"
+    android:paddingEnd="@dimen/padding_normal"
+    android:textAlignment="viewStart"
+    style="@style/Body1Text" />

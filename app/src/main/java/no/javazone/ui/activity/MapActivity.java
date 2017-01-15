@@ -16,11 +16,14 @@
 
 package no.javazone.ui.activity;
 
-import no.java.schedule.v2.R;
-import com.google.samples.apps.iosched.provider.ScheduleContract;
-import com.google.samples.apps.iosched.session.SessionDetailConstants;
-import com.google.samples.apps.iosched.ui.BaseActivity;
-import com.google.samples.apps.iosched.util.AnalyticsHelper;
+import no.javazone.R;
+import no.javazone.archframework.database.provider.ScheduleContract;
+import no.javazone.ui.activity.base.BaseActivity;
+import no.javazone.ui.fragment.InlineInfoFragment;
+import no.javazone.ui.fragment.MapFragment;
+import no.javazone.ui.fragment.MapInfoFragment;
+import no.javazone.ui.fragment.SlideableInfoFragment;
+import no.javazone.util.AnalyticsHelper;
 
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -32,6 +35,7 @@ import android.view.View;
 import android.widget.Button;
 
 import static com.google.samples.apps.iosched.util.LogUtils.makeLogTag;
+import static no.javazone.util.LogUtils.makeLogTag;
 
 /**
  * Activity that displays a {@link com.google.samples.apps.iosched.map.MapFragment} and a {@link

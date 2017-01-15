@@ -14,10 +14,14 @@
  * limitations under the License.
  */
 
-package no.javazone.archframework;
+package no.javazone.archframework.models;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+
+import no.javazone.archframework.presenters.Presenter;
+import no.javazone.archframework.database.QueryEnum;
+import no.javazone.archframework.database.UserActionEnum;
 
 /**
  * A Model is a class used to manipulate stored data, as well as provide getters for the data. It

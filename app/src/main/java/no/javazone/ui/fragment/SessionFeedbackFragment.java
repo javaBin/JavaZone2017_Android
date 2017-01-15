@@ -37,11 +37,9 @@ import java.util.regex.Pattern;
 
 import no.javazone.BuildConfig;
 import no.javazone.R;
-import no.javazone.archframework.QueryEnum;
-import no.javazone.archframework.UpdatableView;
-import no.javazone.archframework.UserActionEnum;
-import no.javazone.feedback.JZFeedback;
-import no.javazone.feedback.SessionFeedbackModel;
+import no.javazone.archframework.database.UpdatableView;
+import no.javazone.archframework.feedback.JZFeedback;
+import no.javazone.archframework.feedback.SessionFeedbackModel;
 import no.javazone.ui.activity.SessionFeedbackActivity;
 import no.javazone.ui.widget.NumberRatingBar;
 import no.javazone.util.AnalyticsHelper;

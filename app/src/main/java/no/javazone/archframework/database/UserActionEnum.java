@@ -13,25 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package no.javazone.archframework;
+package no.javazone.archframework.database;
 
 /**
- * Represents a data query which typically is carried out using the content provider {@link
- * com.google.samples.apps.iosched.provider.ScheduleProvider}.
+ * Represents an action in the {@link UpdatableView} performed by the user, for example when the
+ * user clicks a specific button.
  */
-public interface QueryEnum {
+public interface UserActionEnum {
 
-    /**
-     * @return the id of the query
-     */
     public int getId();
-
-    /**
-     * @return the projection for the query. The fields in the projection are defined in the {@link
-     * com.google.samples.apps.iosched.provider.ScheduleContract}. This field may be null if the
-     * query is not to be carried on the {@link com.google.samples.apps.iosched.provider
-     * .ScheduleProvider}
-     */
-    public String[] getProjection();
 
 }

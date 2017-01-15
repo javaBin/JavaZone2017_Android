@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package no.javazone.feedback;
+package no.javazone.archframework.feedback;
 
 
 import android.app.LoaderManager;
@@ -28,10 +28,9 @@ import android.support.annotation.Nullable;
 
 import com.google.common.annotations.VisibleForTesting;
 
-import no.javazone.archframework.Model;
-import no.javazone.archframework.ModelWithLoaderManager;
-import no.javazone.archframework.QueryEnum;
-import no.javazone.archframework.UserActionEnum;
+import no.javazone.archframework.models.ModelWithLoaderManager;
+import no.javazone.archframework.database.QueryEnum;
+import no.javazone.archframework.database.UserActionEnum;
 import no.javazone.util.AnalyticsHelper;
 
 public class SessionFeedbackModel extends ModelWithLoaderManager<SessionFeedbackModel.SessionFeedbackQueryEnum, SessionFeedbackModel.SessionFeedbackUserActionEnum> {

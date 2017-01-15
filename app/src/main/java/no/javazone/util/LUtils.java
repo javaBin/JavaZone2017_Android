@@ -17,9 +17,13 @@
 package no.javazone.util;
 
 import android.annotation.TargetApi;
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.TextView;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -51,5 +55,16 @@ public class LUtils {
         } else {
             textView.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
         }
+    }
+
+    public void startActivityWithTransition(Intent intent, final View clickedView,
+                                            final String transitionName) {
+        ActivityOptions options = null;
+        if (hasL() && clickedView != null && !TextUtils.isEmpty(transitionName)) {
+//            options = ActivityOptions.makeSceneTransitionAnimation(
+//                    mActivity, clickedView, transitionName);
+        }
+
+        mActivity.startActivity(intent, (options != null) ? options.toBundle() : null);
     }
 }
