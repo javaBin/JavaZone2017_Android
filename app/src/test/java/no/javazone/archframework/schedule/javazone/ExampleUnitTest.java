@@ -1,4 +1,4 @@
-package no.javazone.schedule.javazone;
+package no.javazone.archframework.schedule.javazone;
 
 import org.junit.Test;
 

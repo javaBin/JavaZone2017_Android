@@ -35,6 +35,12 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import no.javazone.R;
+import no.javazone.archframework.maps.model.MarkerModel;
+
+import static no.javazone.util.LogUtils.LOGD;
+import static no.javazone.util.LogUtils.LOGE;
+
 public class MapUtils {
 
     public static final String ICON_RESOURCE_PREFIX = "map_marker_";
@@ -50,8 +56,8 @@ public class MapUtils {
         if (TextUtils.isEmpty(markerType)) {
             return MarkerModel.TYPE_INACTIVE;
         }
-        String tags = markerType.toUpperCase(Locale.US);
-        if (tags.contains("SESSION")) {
+        String tags = markerType.toLowerCase(Locale.US);
+        if (tags.contains("session")) {
             return MarkerModel.TYPE_SESSION;
         } else if (tags.contains("PLAIN")) {
             return MarkerModel.TYPE_PLAIN;
@@ -61,24 +67,27 @@ public class MapUtils {
             return MarkerModel.TYPE_CODELAB;
         } else if (tags.contains("SANDBOX")) {
             return MarkerModel.TYPE_SANDBOX;
-        } else if (tags.startsWith(TYPE_ICON_PREFIX)) {
-            return MarkerModel.TYPE_ICON;
         } else if (tags.contains("OFFICEHOURS")) {
             return MarkerModel.TYPE_OFFICEHOURS;
         } else if (tags.contains("MISC")) {
             return MarkerModel.TYPE_MISC;
-        } else if (tags.contains("MOSCONE")) {
-            return MarkerModel.TYPE_VENUE;
+        } else if (tags.contains("OSLO")) {
+            return MarkerModel.TYPE_OSLOSPEKTRUM;
         } else if (tags.contains("INACTIVE")) {
             return MarkerModel.TYPE_INACTIVE;
+        } else if(tags.contains("booth")) {
+            return MarkerModel.TYPE_BOOTH;
         }
+
+
         return MarkerModel.TYPE_INACTIVE; // default
     }
 
     /**
      * Returns the drawable Id of icon to use for a room type.
      */
-    public static @DrawableRes
+    public static
+    @DrawableRes
     int getRoomIcon(int markerType) {
         switch (markerType) {
             case MarkerModel.TYPE_SESSION:
@@ -93,8 +102,8 @@ public class MapUtils {
                 return R.drawable.ic_map_officehours;
             case MarkerModel.TYPE_MISC:
                 return R.drawable.ic_map_misc;
-            case MarkerModel.TYPE_VENUE:
-                return R.drawable.ic_map_venue;
+            case MarkerModel.TYPE_OSLOSPEKTRUM:
+                return R.drawable.ic_map_moscone;
             default:
                 return R.drawable.ic_map_pin;
         }
@@ -113,7 +122,7 @@ public class MapUtils {
      */
     public static boolean hasInfoSessionList(int markerType) {
         return markerType != MarkerModel.TYPE_INACTIVE && markerType != MarkerModel.TYPE_LABEL
-                && markerType != MarkerModel.TYPE_CODELAB && markerType != MarkerModel.TYPE_ICON;
+                && markerType != MarkerModel.TYPE_CODELAB && markerType != MarkerModel.TYPE_BOOTH;
     }
 
     /**

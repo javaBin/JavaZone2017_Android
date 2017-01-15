@@ -71,6 +71,8 @@ android {
 
         buildConfigField("String", "PREF_DATA_BOOTSTRAP_DONE", "\"pref_bootstrap_done_${conf_version}\"")
 
+        buildConfigField("String", "SESSION_FEEDBACK_WEB_URI_TEST", "\"${session_feedback_web_uri_test}\"")
+        buildConfigField("String", "SESSION_FEEDBACK_WEB_URI", "\"${session_feedback_web_uri}\"")
 
     }
 
