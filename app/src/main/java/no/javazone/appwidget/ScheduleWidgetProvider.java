@@ -88,7 +88,7 @@ public class ScheduleWidgetProvider extends AppWidgetProvider {
             // view of the collection view.
             rv.setEmptyView(R.id.widget_schedule_list, android.R.id.empty);
             LOGD(TAG, "setting widget empty view");
-            rv.setTextViewText(android.R.id.empty, context.getResources().getString(R.string.empty_widget_text);
+            rv.setTextViewText(android.R.id.empty, context.getResources().getString(R.string.empty_widget_text));
 
             final PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, 0,
                     getRefreshBroadcastIntent(context, true), PendingIntent.FLAG_UPDATE_CURRENT);
