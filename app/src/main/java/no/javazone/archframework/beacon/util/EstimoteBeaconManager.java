@@ -10,8 +10,6 @@ import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Nearable;
 import com.estimote.sdk.Region;
 import com.estimote.sdk.repackaged.gson_v2_3_1.com.google.gson.Gson;
-import com.google.samples.apps.iosched.map.MapFragment;
-import com.google.samples.apps.iosched.provider.ScheduleContract;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,9 +24,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import no.java.schedule.io.model.BeaconQueue;
-import no.java.schedule.io.model.JzBeaconRegion;
-import no.java.schedule.io.model.JzRegionList;
+import no.javazone.archframework.beacon.model.BeaconQueue;
+import no.javazone.archframework.beacon.model.JzBeaconRegion;
+import no.javazone.archframework.beacon.model.JzRegionList;
+import no.javazone.archframework.database.provider.ScheduleContract;
+import no.javazone.ui.fragment.MapFragment;
 
 public class EstimoteBeaconManager {
     private BeaconManager mBeaconManager;

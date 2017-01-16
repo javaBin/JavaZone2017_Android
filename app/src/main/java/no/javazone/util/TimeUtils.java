@@ -20,11 +20,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
-import com.google.samples.apps.iosched.BuildConfig;
-import com.google.samples.apps.iosched.Config;
-import com.google.samples.apps.iosched.R;
-import com.google.samples.apps.iosched.settings.SettingsUtils;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,8 +28,12 @@ import java.util.Formatter;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import static com.google.samples.apps.iosched.util.LogUtils.LOGW;
-import static com.google.samples.apps.iosched.util.LogUtils.makeLogTag;
+import no.javazone.BuildConfig;
+import no.javazone.Config;
+import no.javazone.R;
+
+import static no.javazone.util.LogUtils.LOGW;
+import static no.javazone.util.LogUtils.makeLogTag;
 
 public class TimeUtils {
     public static final int SECOND = 1000;

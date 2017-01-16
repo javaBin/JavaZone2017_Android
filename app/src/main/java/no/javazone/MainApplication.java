@@ -8,8 +8,8 @@ import android.support.multidex.MultiDexApplication;
 import com.firebase.client.Firebase;
 import com.google.android.gms.security.ProviderInstaller;
 
-import no.javazone.settings.SettingsUtils;
 import no.javazone.util.AnalyticsHelper;
+import no.javazone.util.SettingsUtils;
 import no.javazone.util.TimeUtils;
 
 import static no.javazone.util.LogUtils.LOGE;

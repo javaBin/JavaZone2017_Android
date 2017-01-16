@@ -55,8 +55,6 @@ public enum ScheduleUriEnum {
     HASHTAGS(1200, "hashtags", ScheduleContract.Hashtags.CONTENT_TYPE_ID, false, ScheduleDatabase.Tables.HASHTAGS),
     HASHTAGS_NAME(1201, "hashtags/*", ScheduleContract.Hashtags.CONTENT_TYPE_ID, true, null),
 
-    VIDEOS(1300, "videos", ScheduleContract.Videos.CONTENT_TYPE_ID, false, ScheduleDatabase.Tables.VIDEOS),
-    VIDEOS_ID(1301, "videos/*", ScheduleContract.Videos.CONTENT_TYPE_ID, true, null),
     SEARCH_TOPICS_SESSIONS(1400, "search_topics_sessions",
                            ScheduleContract.SearchTopicsSessions.CONTENT_TYPE_ID, false, null /*virtual table*/),
     CARDS(1500, "cards", ScheduleContract.Cards.CONTENT_TYPE_ID, false, ScheduleDatabase.Tables.CARDS);

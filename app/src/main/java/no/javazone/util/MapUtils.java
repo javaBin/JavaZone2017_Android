@@ -185,6 +185,19 @@ public class MapUtils {
     }
 
     /**
+     * Creates a marker for Oslo Spektrum Center.
+     */
+    public static MarkerOptions createOsloSpektrumMarker(LatLng position) {
+        final String title = "OSLO SPEKTRUM";
+
+        final BitmapDescriptor icon =
+                BitmapDescriptorFactory.fromResource(R.drawable.map_marker_moscone);
+
+        return new MarkerOptions().position(position).title(title).icon(icon)
+                .visible(false);
+    }
+
+    /**
      * Creates a new IconGenerator for labels on the map.
      */
     public static IconGenerator getLabelIconGenerator(Context c) {

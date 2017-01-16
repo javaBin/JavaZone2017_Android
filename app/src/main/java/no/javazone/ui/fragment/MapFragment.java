@@ -56,10 +56,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import no.javazone.R;
+import no.javazone.archframework.beacon.model.Coordinates;
 import no.javazone.archframework.beacon.util.EstimoteBeaconManager;
 import no.javazone.archframework.beacon.util.NetworkUtil;
+import no.javazone.archframework.database.provider.ScheduleContract;
+import no.javazone.archframework.maps.model.MarkerModel;
+import no.javazone.archframework.maps.util.MarkerLoadingTask;
+import no.javazone.ui.activity.MapActivity;
 import no.javazone.util.AnalyticsHelper;
 import no.javazone.util.MapUtils;
+
+import static no.javazone.util.LogUtils.LOGD;
 
 
 /**
@@ -127,6 +135,7 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
     private static final int TOKEN_LOADER_MARKERS = 0x1;
     //For Analytics tracking
     public static final String SCREEN_LABEL = "Map";
+
 
     public interface Callbacks {
 

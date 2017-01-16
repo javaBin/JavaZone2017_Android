@@ -25,27 +25,21 @@ import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import com.google.samples.apps.iosched.R;
-import com.google.samples.apps.iosched.model.ScheduleHelper;
-import com.google.samples.apps.iosched.model.ScheduleItem;
-import com.google.samples.apps.iosched.myschedule.MyScheduleActivity;
-import com.google.samples.apps.iosched.provider.ScheduleContract;
-import com.google.samples.apps.iosched.settings.SettingsUtils;
-import com.google.samples.apps.iosched.ui.SimpleSectionedListAdapter;
-import com.google.samples.apps.iosched.ui.TaskStackBuilderProxyActivity;
-import com.google.samples.apps.iosched.util.AccountUtils;
-import com.google.samples.apps.iosched.util.TimeUtils;
-import com.google.samples.apps.iosched.util.UIUtils;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Formatter;
 import java.util.List;
 import java.util.Locale;
 
-import static com.google.samples.apps.iosched.util.LogUtils.*;
-import static com.google.samples.apps.iosched.util.LogUtils.LOGE;
-import static com.google.samples.apps.iosched.util.LogUtils.makeLogTag;
+import no.javazone.R;
+import no.javazone.ui.activity.SimpleSectionedListAdapter;
+import no.javazone.util.AccountUtils;
+import no.javazone.util.SettingsUtils;
+import no.javazone.util.TimeUtils;
+import no.javazone.util.UIUtils;
+
+import static no.javazone.util.LogUtils.LOGE;
+import static no.javazone.util.LogUtils.makeLogTag;
 
 /**
  * This is the service that provides the factory to be bound to the collection service.
