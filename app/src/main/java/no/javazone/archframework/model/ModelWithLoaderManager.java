@@ -25,9 +25,9 @@ import com.google.common.annotations.VisibleForTesting;
 
 import java.util.HashMap;
 
-import no.javazone.archframework.database.QueryEnum;
-import no.javazone.archframework.database.QueryEnumHelper;
-import no.javazone.archframework.database.UserActionEnum;
+import no.javazone.database.QueryEnum;
+import no.javazone.database.QueryEnumHelper;
+import no.javazone.archframework.view.UserActionEnum;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static no.javazone.util.LogUtils.LOGE;

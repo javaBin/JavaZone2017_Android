@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.widget.RemoteViews;
 
 import no.javazone.R;
+import no.javazone.sync.SyncHelper;
 import no.javazone.ui.activity.TaskStackBuilderProxyActivity;
 
 import static no.javazone.util.LogUtils.LOGD;

@@ -24,7 +24,7 @@ import android.net.Uri;
 import java.util.Date;
 
 import no.javazone.appwidget.ScheduleWidgetProvider;
-import no.javazone.archframework.database.provider.ScheduleContract;
+import no.javazone.database.ScheduleContract;
 
 import static no.javazone.util.LogUtils.LOGD;
 import static no.javazone.util.LogUtils.makeLogTag;

@@ -17,7 +17,7 @@
 package no.javazone.ui.activity;
 
 import no.javazone.R;
-import no.javazone.archframework.database.provider.ScheduleContract;
+import no.javazone.database.ScheduleContract;
 import no.javazone.ui.activity.base.BaseActivity;
 import no.javazone.ui.fragment.InlineInfoFragment;
 import no.javazone.ui.fragment.MapFragment;

@@ -14,6 +14,8 @@ import com.google.android.gms.common.Scopes;
 import java.io.IOException;
 import java.util.UUID;
 
+import static android.provider.SyncStateContract.Columns.ACCOUNT_NAME;
+import static android.provider.SyncStateContract.Columns.ACCOUNT_TYPE;
 import static no.javazone.util.LogUtils.LOGD;
 import static no.javazone.util.LogUtils.LOGE;
 import static no.javazone.util.LogUtils.LOGI;
@@ -33,6 +35,7 @@ public class AccountUtils {
     private static final String DUMMY_ACCOUNT_NAME = "no.java";
     private static final String DUMMY_ACCOUNT_TYPE = "no.java";
     private static final String DUMMY_AUTH_TOKEN = "authtoken";
+    private static android.accounts.Account mAccount;
 
     // these names are are prefixes; the account is appended to them
     private static final String PREFIX_PREF_AUTH_TOKEN = "auth_token_";
@@ -169,6 +172,5 @@ public class AccountUtils {
             return "........";
         }
     }
-
 }
 

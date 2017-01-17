@@ -151,7 +151,7 @@
         <!-- Data, sync and schedule editing components -->
 
         <provider
-            android:name=".archframework.database.provider.ScheduleProvider"
+            android:name=".database.ScheduleProvider"
             android:authorities="no.javazone"
             android:exported="true"
             android:label="@string/app_name"
@@ -242,7 +242,7 @@
 
         <!-- The service listening for incoming messages from the wear device -->
         <service
-            android:name="no.javazone.archframework.feedback.FeedbackWearableListenerService"
+            android:name=".feedback.FeedbackWearableListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />

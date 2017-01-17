@@ -44,7 +44,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import no.javazone.R;
-import no.javazone.archframework.database.provider.ScheduleContract;
+import no.javazone.database.ScheduleContract;
 import no.javazone.ui.activity.base.BaseActivity;
 import no.javazone.util.AnalyticsHelper;
 

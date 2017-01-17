@@ -9,8 +9,10 @@ import java.io.IOException;
 
 import no.javazone.BuildConfig;
 import no.javazone.R;
-import no.javazone.archframework.database.provider.ScheduleContract;
+import no.javazone.database.ScheduleContract;
 import no.javazone.schedule.JsonHandler;
+import no.javazone.sync.ConferenceDataHandler;
+import no.javazone.sync.SyncHelper;
 import no.javazone.util.LogUtils;
 import no.javazone.util.SettingsUtils;
 

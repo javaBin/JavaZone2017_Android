@@ -19,9 +19,9 @@ package no.javazone.archframework.model;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import no.javazone.archframework.presenters.Presenter;
-import no.javazone.archframework.database.QueryEnum;
-import no.javazone.archframework.database.UserActionEnum;
+import no.javazone.archframework.presenter.Presenter;
+import no.javazone.database.QueryEnum;
+import no.javazone.archframework.view.UserActionEnum;
 
 /**
  * A Model is a class used to manipulate stored data, as well as provide getters for the data. It

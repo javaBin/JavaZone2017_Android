@@ -57,12 +57,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import no.javazone.R;
-import no.javazone.archframework.beacon.model.Coordinates;
-import no.javazone.archframework.beacon.util.EstimoteBeaconManager;
-import no.javazone.archframework.beacon.util.NetworkUtil;
-import no.javazone.archframework.database.provider.ScheduleContract;
+import no.javazone.archframework.model.domain.Coordinates;
+import no.javazone.beacon.EstimoteBeaconManager;
+import no.javazone.beacon.util.NetworkUtil;
+import no.javazone.database.ScheduleContract;
 import no.javazone.archframework.model.domain.MarkerModel;
-import no.javazone.archframework.maps.MarkerLoadingTask;
+import no.javazone.maps.MarkerLoadingTask;
 import no.javazone.ui.activity.MapActivity;
 import no.javazone.util.AnalyticsHelper;
 import no.javazone.util.MapUtils;

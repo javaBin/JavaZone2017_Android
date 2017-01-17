@@ -21,8 +21,8 @@ import android.support.annotation.Nullable;
 import no.javazone.BuildConfig;
 import no.javazone.R;
 import no.javazone.archframework.model.Model;
-import no.javazone.archframework.database.QueryEnum;
-import no.javazone.archframework.database.UserActionEnum;
+import no.javazone.database.QueryEnum;
+import no.javazone.archframework.view.UserActionEnum;
 import no.javazone.settings.SettingsActivity;
 
 /**
