@@ -8,7 +8,7 @@ import static no.javazone.util.LogUtils.makeLogTag;
 
 public class Account {
     private static final String ACCOUNT_TYPE = "no.java";
-    public static final String ACCOUNT_NAME = "Sync Account";
+    public static final String ACCOUNT_NAME = "chosen_account";
 
 
     private static final String TAG = makeLogTag(Account.class);

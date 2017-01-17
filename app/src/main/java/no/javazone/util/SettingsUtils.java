@@ -23,6 +23,8 @@ import android.preference.PreferenceManager;
 
 import java.util.TimeZone;
 
+import no.javazone.Config;
+
 import static no.javazone.util.LogUtils.makeLogTag;
 
 /**

@@ -12,12 +12,14 @@
  * the License.
  */
 
-package no.javazone.notifications;
+package no.javazone.navigation;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import no.javazone.notifications.NavigationModel.NavigationItemEnum;
+import no.javazone.BuildConfig;
+
+import static no.javazone.navigation.NavigationModel.*;
 
 /**
  * Configuration file for items to show in the {@link AppNavigationView}. This is used by the {@link
@@ -25,12 +27,12 @@ import no.javazone.notifications.NavigationModel.NavigationItemEnum;
  */
 public class NavigationConfig {
 
-    private final static NavigationModel.NavigationItemEnum[] COMMON_ITEMS_AFTER_CUSTOM =
-            new NavigationItemEnum[]{NavigationModel.NavigationItemEnum.VIDEO_LIBRARY,
-                    NavigationModel.NavigationItemEnum.SETTINGS, NavigationModel.NavigationItemEnum.ABOUT
+    private final static NavigationItemEnum[] COMMON_ITEMS_AFTER_CUSTOM =
+            new NavigationItemEnum[]{NavigationItemEnum.VIDEO_LIBRARY,
+                    NavigationItemEnum.SETTINGS, NavigationItemEnum.ABOUT
             };
 
-    public final static NavigationModel.NavigationItemEnum[] NAVIGATION_ITEMS_LOGGEDIN_ATTENDING =
+    public final static NavigationItemEnum[] NAVIGATION_ITEMS_LOGGEDIN_ATTENDING =
             concatenateItems(new NavigationItemEnum[]{NavigationItemEnum.MY_SCHEDULE,
                             NavigationItemEnum.IO_LIVE, NavigationItemEnum.EXPLORE,
                             NavigationItemEnum.MAP},
@@ -77,28 +79,28 @@ public class NavigationConfig {
             boolean includeItem = true;
             switch (items[i]) {
                 case MY_SCHEDULE:
-                    includeItem = true;
+                    includeItem = BuildConfig.ENABLE_MYSCHEDULE_IN_NAVIGATION;
                     break;
                 case IO_LIVE:
-                    includeItem = false;
+                    includeItem = BuildConfig.ENABLE_IOLIVE_IN_NAVIGATION;
                     break;
                 case EXPLORE:
-                    includeItem = true;
+                    includeItem = BuildConfig.ENABLE_EXPLORE_IN_NAVIGATION;
                     break;
                 case MAP:
-                    includeItem = true;
+                    includeItem = BuildConfig.ENABLE_MAP_IN_NAVIGATION;
                     break;
                 case VIDEO_LIBRARY:
-                    includeItem = true;
+                    includeItem = BuildConfig.ENABLE_VIDEOLIB_IN_NAVIGATION;
+                    break;
+                case SIGN_IN:
+                    includeItem = BuildConfig.ENABLE_SIGNIN_IN_NAVIGATION;
                     break;
                 case SETTINGS:
-                    includeItem = true;
+                    includeItem = BuildConfig.ENABLE_SETTINGS_IN_NAVIGATION;
                     break;
                 case ABOUT:
-                    includeItem = true;
-                    break;
-                case DEBUG:
-                    includeItem = false;
+                    includeItem = BuildConfig.ENABLE_ABOUT_IN_NAVIGATION;
                     break;
             }
 

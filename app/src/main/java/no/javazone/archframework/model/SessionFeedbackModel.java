@@ -37,16 +37,16 @@ import no.javazone.util.AnalyticsHelper;
 
 public class SessionFeedbackModel extends ModelWithLoaderManager<SessionFeedbackModel.SessionFeedbackQueryEnum, SessionFeedbackModel.SessionFeedbackUserActionEnum> {
 
-protected final static String DATA_RATING_INT = "DATA_RATING_INT";
+public final static String DATA_RATING_INT = "DATA_RATING_INT";
 
-protected final static String DATA_SESSION_RELEVANT_ANSWER_INT =
+public final static String DATA_SESSION_RELEVANT_ANSWER_INT =
         "DATA_SESSION_RELEVANT_ANSWER_INT";
 
-protected final static String DATA_CONTENT_ANSWER_INT = "DATA_CONTENT_ANSWER_INT";
+public final static String DATA_CONTENT_ANSWER_INT = "DATA_CONTENT_ANSWER_INT";
 
-protected final static String DATA_SPEAKER_ANSWER_INT = "DATA_SPEAKER_ANSWER_INT";
+public final static String DATA_SPEAKER_ANSWER_INT = "DATA_SPEAKER_ANSWER_INT";
 
-protected final static String DATA_COMMENT_STRING = "DATA_COMMENT_STRING";
+public final static String DATA_COMMENT_STRING = "DATA_COMMENT_STRING";
 
 private final Context mContext;
 

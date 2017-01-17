@@ -189,6 +189,13 @@
     <!-- Menu item that allows the user to send feedback about the application to Google -->
     <string name="description_app_feedback_old">Feedback</string>
 
+    <!-- Accessibility announcement to confirm the feedback rating made for a session by the user. -->
+    <string name="feedback_rating_confirmation">Your rating: %1$d out of %2$d stars"</string>
+
+    <!-- Accessibility announcement for an item in the custom feedback rating view. For example, "one star".  -->
+    <string name="feedback_rating_value">%1$d star</string>
+
+
     <!-- Menu item that, when clicked, shows the captions on a video. -->
     <string name="description_captions">Captions</string>
 
@@ -359,6 +366,9 @@
 
     <!-- Text on a button that takes the user to the device's Settings screen. -->
     <string name="go_to_settings">Go to Settings</string>
+
+    <!-- Message displayed when the location permission was denied -->
+    <string name="map_permission_denied">App permission denied.</string>
 
     <!-- Error message that shows when the user tries to use the app without a Google account
     configured on their device. -->

@@ -31,7 +31,7 @@ import android.view.ViewGroup;
 
 import no.javazone.BuildConfig;
 import no.javazone.R;
-import no.javazone.notifications.NavigationModel;
+import no.javazone.navigation.NavigationModel;
 import no.javazone.ui.activity.base.BaseActivity;
 import no.javazone.ui.widget.DrawShadowFrameLayout;
 import no.javazone.util.PermissionsUtils;

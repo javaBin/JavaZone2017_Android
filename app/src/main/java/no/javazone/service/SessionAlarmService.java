@@ -35,9 +35,19 @@ import java.util.Date;
 import java.util.List;
 
 import no.javazone.R;
+import no.javazone.database.ScheduleContract;
+import no.javazone.database.ScheduleContractHelper;
+import no.javazone.feedback.FeedbackHelper;
+import no.javazone.ui.activity.ExploreActivity;
+import no.javazone.ui.activity.MapActivity;
+import no.javazone.ui.activity.MyScheduleActivity;
+import no.javazone.ui.activity.SessionFeedbackActivity;
 import no.javazone.util.SettingsUtils;
+import no.javazone.util.TimeUtils;
+import no.javazone.util.UIUtils;
 
 import static no.javazone.util.LogUtils.LOGD;
+import static no.javazone.util.LogUtils.LOGE;
 import static no.javazone.util.LogUtils.LOGW;
 import static no.javazone.util.LogUtils.makeLogTag;
 
@@ -264,7 +274,7 @@ public class SessionAlarmService extends IntentService {
         Cursor c = null;
         try {
             c = getContentResolver().query(
-                    ScheduleContract.Sessions.CONTENT_MY_SCHEDULE_URI,
+                    ScheduleContract.Sessions.CONTENT_STARRED_URI,
                     SessionsNeedingFeedbackQuery.PROJECTION,
                     SessionsNeedingFeedbackQuery.WHERE_CLAUSE, null, null);
             if (c == null) {
@@ -394,7 +404,7 @@ public class SessionAlarmService extends IntentService {
         Cursor c = null;
         try {
             c = cr.query(
-                ScheduleContract.Sessions.CONTENT_MY_SCHEDULE_URI,
+                ScheduleContract.Sessions.CONTENT_STARRED_URI,
                 SessionDetailQuery.PROJECTION,
                 ScheduleContract.Sessions.STARTING_AT_TIME_INTERVAL_SELECTION,
                 ScheduleContract.Sessions.buildAtTimeIntervalArgs(sessionStart, intervalEnd),
@@ -463,11 +473,11 @@ public class SessionAlarmService extends IntentService {
                     .setPriority(Notification.PRIORITY_MAX)
                     .setAutoCancel(true);
             if (minutesLeft > 5) {
-                notifBuilder.addAction(R.drawable.ic_stat_alarm,
+                notifBuilder.addAction(R.drawable.ic_stat_notification,
                         String.format(res.getString(R.string.snooze_x_min), 5),
                         createSnoozeIntent(sessionStart, intervalEnd, 5));
             }
-            if (starredCount == 1 && SettingsUtils.isAttendeeAtVenue(this)) {
+            if (starredCount == 1) {
                 notifBuilder.addAction(R.drawable.ic_stat_map,
                         res.getString(R.string.title_map),
                         createRoomMapIntent(singleSessionRoomId));
@@ -517,7 +527,7 @@ public class SessionAlarmService extends IntentService {
         mapIntent.putExtra(MapActivity.EXTRA_DETACHED_MODE, true);
         return TaskStackBuilder
                 .create(getApplicationContext())
-                .addNextIntent(new Intent(this, ExploreIOActivity.class))
+                .addNextIntent(new Intent(this, ExploreActivity.class))
                 .addNextIntent(mapIntent)
                 .getPendingIntent(0, PendingIntent.FLAG_CANCEL_CURRENT);
     }
@@ -526,7 +536,7 @@ public class SessionAlarmService extends IntentService {
         final ContentResolver cr = getContentResolver();
         Cursor c = null;
         try {
-            c = cr.query(ScheduleContract.Sessions.CONTENT_MY_SCHEDULE_URI,
+            c = cr.query(ScheduleContract.Sessions.CONTENT_STARRED_URI,
                     new String[]{
                             ScheduleContractHelper.formatQueryDistinctParameter(
                                     ScheduleContract.Sessions.SESSION_START),
@@ -555,7 +565,7 @@ public class SessionAlarmService extends IntentService {
         final ContentResolver cr = getContentResolver();
         Cursor c = null;
         try {
-            c = cr.query(ScheduleContract.Sessions.CONTENT_MY_SCHEDULE_URI,
+            c = cr.query(ScheduleContract.Sessions.CONTENT_STARRED_URI,
                 new String[]{
                         ScheduleContract.Sessions.SESSION_TITLE,
                         ScheduleContract.Sessions.SESSION_END,

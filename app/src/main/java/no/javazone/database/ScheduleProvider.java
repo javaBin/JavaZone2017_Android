@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -24,12 +25,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import no.javazone.Config;
 import no.javazone.appwidget.ScheduleWidgetProvider;
 import no.javazone.archframework.model.domain.Tag;
 import no.javazone.util.AccountUtils;
 import no.javazone.util.SelectionBuilder;
 import no.javazone.util.SettingsUtils;
 
+import static no.javazone.database.ScheduleContract.*;
+import static no.javazone.database.ScheduleDatabase.*;
 import static no.javazone.util.LogUtils.LOGD;
 import static no.javazone.util.LogUtils.LOGE;
 import static no.javazone.util.LogUtils.LOGV;
@@ -191,7 +195,7 @@ public class ScheduleProvider extends ContentProvider {
 
                 // Adjust incoming query to become SQL text match.
                 selectionArgs[0] = selectionArgs[0] + "%";
-                builder.table(Tables.SEARCH_SUGGEST);
+                builder.table(DatabaseTables.SEARCH_SUGGEST);
                 builder.where(selection, selectionArgs);
                 builder.map(SearchManager.SUGGEST_COLUMN_QUERY,
                         SearchManager.SUGGEST_COLUMN_TEXT_1);
@@ -219,10 +223,10 @@ public class ScheduleProvider extends ContentProvider {
                 // the given keywords.
                 Cursor search = null;
                 if (selectionArgs[0] != null) { // dont query if there was no selectionArg.
-                    search = query(ScheduleContract.Sessions.buildSearchUri(selectionArg),
+                    search = query(Sessions.buildSearchUri(selectionArg),
                             SearchTopicsSessions.SEARCH_SESSIONS_PROJECTION,
                             null, null,
-                            ScheduleContract.Sessions.SORT_BY_TYPE_THEN_TIME);
+                            Sessions.SORT_BY_TYPE_THEN_TIME);
                 }
                 // Now that we have two cursors, we merge the cursors and return a unified view
                 // of the two result sets.
@@ -230,6 +234,48 @@ public class ScheduleProvider extends ContentProvider {
             }
         }
     }
+
+    /**
+     * Create a {@link MatrixCursor} given the tags and search cursors.
+     * @param tags Cursor with the projection {@link SearchTopicsSessions#TOPIC_TAG_PROJECTION}.
+     * @param search Cursor with the projection
+     *              {@link SearchTopicsSessions#SEARCH_SESSIONS_PROJECTION}.
+     * @return Returns a MatrixCursor always with {@link SearchTopicsSessions#DEFAULT_PROJECTION}
+     */
+    private Cursor createMergedSearchCursor(Cursor tags, Cursor search) {
+        // How big should our MatrixCursor be?
+        int maxCount = (tags == null ? 0 : tags.getCount()) +
+                (search == null ? 0 : search.getCount());
+
+        MatrixCursor matrixCursor = new MatrixCursor(
+                SearchTopicsSessions.DEFAULT_PROJECTION, maxCount);
+
+        // Iterate over the tags cursor and add rows.
+        if (tags != null && tags.moveToFirst()) {
+            do {
+                matrixCursor.addRow(
+                        new Object[]{
+                                tags.getLong(0),
+                                tags.getString(1), /*tag_id*/
+                                "{" + tags.getString(2) + "}", /*search_snippet*/
+                                1}); /*is_topic_tag*/
+            } while (tags.moveToNext());
+        }
+        // Iterate over the search cursor and add rows.
+        if (search != null && search.moveToFirst()) {
+            do {
+                matrixCursor.addRow(
+                        new Object[]{
+                                search.getLong(0),
+                                search.getString(1),
+                                search.getString(2), /*search_snippet*/
+                                0}); /*is_topic_tag*/
+            } while (search.moveToNext());
+        }
+        return matrixCursor;
+    }
+
+
 
     /** {@inheritDoc} */
     @Override
@@ -289,7 +335,6 @@ public class ScheduleProvider extends ContentProvider {
         }
     }
 
-    /** {@inheritDoc} */
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         String accountName = getCurrentAccountName(uri, false);
@@ -300,15 +345,11 @@ public class ScheduleProvider extends ContentProvider {
         ScheduleUriEnum matchingUriEnum = mUriMatcher.matchUri(uri);
         if (matchingUriEnum == ScheduleUriEnum.SEARCH_INDEX) {
             // update the search index
-            ScheduleDatabase.updateSessionSearchIndex(db);
+            updateSessionSearchIndex(db);
             return 1;
         }
 
         final SelectionBuilder builder = buildSimpleSelection(uri);
-        if (matchingUriEnum == ScheduleUriEnum.MY_SCHEDULE) {
-            values.remove(MySchedule.MY_SCHEDULE_ACCOUNT_NAME);
-            builder.where(MySchedule.MY_SCHEDULE_ACCOUNT_NAME + "=?", accountName);
-        }
 
         int retVal = builder.where(selection, selectionArgs).update(db, values);
         notifyChange(uri);
@@ -320,7 +361,7 @@ public class ScheduleProvider extends ContentProvider {
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         String accountName = getCurrentAccountName(uri, false);
         LOGV(TAG, "delete(uri=" + uri + ", account=" + accountName + ")");
-        if (uri == ScheduleContract.BASE_CONTENT_URI) {
+        if (uri == BASE_CONTENT_URI) {
             // Handle whole database deletes (e.g. when signing out)
             deleteDatabase();
             notifyChange(uri);
@@ -329,9 +370,6 @@ public class ScheduleProvider extends ContentProvider {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final SelectionBuilder builder = buildSimpleSelection(uri);
         ScheduleUriEnum matchingUriEnum = mUriMatcher.matchUri(uri);
-        if (matchingUriEnum == ScheduleUriEnum.MY_SCHEDULE) {
-            builder.where(MySchedule.MY_SCHEDULE_ACCOUNT_NAME + "=?", accountName);
-        }
 
         int retVal = builder.where(selection, selectionArgs).delete(db);
         notifyChange(uri);
@@ -393,61 +431,61 @@ public class ScheduleProvider extends ContentProvider {
                 return builder.table(matchingUriEnum.table);
             case BLOCKS_ID: {
                 final String blockId = Blocks.getBlockId(uri);
-                return builder.table(Tables.BLOCKS)
+                return builder.table(DatabaseTables.BLOCKS)
                         .where(Blocks.BLOCK_ID + "=?", blockId);
             }
             case TAGS_ID: {
                 final String tagId = Tags.getTagId(uri);
-                return builder.table(Tables.TAGS)
+                return builder.table(DatabaseTables.TAGS)
                         .where(Tags.TAG_ID + "=?", tagId);
             }
             case ROOMS_ID: {
                 final String roomId = Rooms.getRoomId(uri);
-                return builder.table(Tables.ROOMS)
+                return builder.table(DatabaseTables.ROOMS)
                         .where(Rooms.ROOM_ID + "=?", roomId);
             }
             case SESSIONS_ID: {
                 final String sessionId = Sessions.getSessionId(uri);
-                return builder.table(Tables.SESSIONS)
+                return builder.table(DatabaseTables.SESSIONS)
                         .where(Sessions.SESSION_ID + "=?", sessionId);
             }
             case SESSIONS_ID_SPEAKERS: {
                 final String sessionId = Sessions.getSessionId(uri);
-                return builder.table(Tables.SESSIONS_SPEAKERS)
+                return builder.table(DatabaseTables.SESSIONS_SPEAKERS)
                         .where(Sessions.SESSION_ID + "=?", sessionId);
             }
             case SESSIONS_ID_TAGS: {
                 final String sessionId = Sessions.getSessionId(uri);
-                return builder.table(Tables.SESSIONS_TAGS)
+                return builder.table(DatabaseTables.SESSIONS_TAGS)
                         .where(Sessions.SESSION_ID + "=?", sessionId);
             }
             case SPEAKERS_ID: {
                 final String speakerId = Speakers.getSpeakerId(uri);
-                return builder.table(Tables.SPEAKERS)
+                return builder.table(DatabaseTables.SPEAKERS)
                         .where(Speakers.SPEAKER_ID + "=?", speakerId);
             }
             case MAPMARKERS_FLOOR: {
                 final String floor = MapMarkers.getMarkerFloor(uri);
-                return builder.table(Tables.MAPMARKERS)
+                return builder.table(DatabaseTables.MAPMARKERS)
                         .where(MapMarkers.MARKER_FLOOR + "=?", floor);
             }
             case MAPMARKERS_ID: {
                 final String markerId = MapMarkers.getMarkerId(uri);
-                return builder.table(Tables.MAPMARKERS)
+                return builder.table(DatabaseTables.MAPMARKERS)
                         .where(MapMarkers.MARKER_ID + "=?", markerId);
             }
             case MAPTILES_FLOOR: {
                 final String floor = MapTiles.getFloorId(uri);
-                return builder.table(Tables.MAPTILES)
+                return builder.table(DatabaseTables.MAPTILES)
                         .where(MapTiles.TILE_FLOOR + "=?", floor);
             }
             case FEEDBACK_FOR_SESSION: {
                 final String session_id = Feedback.getSessionId(uri);
-                return builder.table(Tables.FEEDBACK)
+                return builder.table(DatabaseTables.FEEDBACK)
                         .where(Feedback.SESSION_ID + "=?", session_id);
             }
             case FEEDBACK_ALL: {
-                return builder.table(Tables.FEEDBACK);
+                return builder.table(DatabaseTables.FEEDBACK);
             }
             default: {
                 throw new UnsupportedOperationException("Unknown uri for " + uri);
@@ -480,45 +518,42 @@ public class ScheduleProvider extends ContentProvider {
         }
         switch (matchingUriEnum) {
             case BLOCKS: {
-                return builder.table(Tables.BLOCKS);
+                return builder.table(DatabaseTables.BLOCKS);
             }
             case BLOCKS_BETWEEN: {
                 final List<String> segments = uri.getPathSegments();
                 final String startTime = segments.get(2);
                 final String endTime = segments.get(3);
-                return builder.table(Tables.BLOCKS)
+                return builder.table(DatabaseTables.BLOCKS)
                         .where(Blocks.BLOCK_START + ">=?", startTime)
                         .where(Blocks.BLOCK_START + "<=?", endTime);
             }
             case BLOCKS_ID: {
                 final String blockId = Blocks.getBlockId(uri);
-                return builder.table(Tables.BLOCKS)
+                return builder.table(DatabaseTables.BLOCKS)
                         .where(Blocks.BLOCK_ID + "=?", blockId);
             }
-            case CARDS: {
-                return builder.table(Tables.CARDS);
-            }
             case TAGS: {
-                return builder.table(Tables.TAGS);
+                return builder.table(DatabaseTables.TAGS);
             }
             case TAGS_ID: {
                 final String tagId = Tags.getTagId(uri);
-                return builder.table(Tables.TAGS)
+                return builder.table(DatabaseTables.TAGS)
                         .where(Tags.TAG_ID + "=?", tagId);
             }
             case ROOMS: {
-                return builder.table(Tables.ROOMS);
+                return builder.table(DatabaseTables.ROOMS);
             }
             case ROOMS_ID: {
                 final String roomId = Rooms.getRoomId(uri);
-                return builder.table(Tables.ROOMS)
+                return builder.table(DatabaseTables.ROOMS)
                         .where(Rooms.ROOM_ID + "=?", roomId);
             }
             case ROOMS_ID_SESSIONS: {
                 final String roomId = Rooms.getRoomId(uri);
-                return builder.table(Tables.SESSIONS_JOIN_ROOMS, getCurrentAccountName(uri, true))
-                        .mapToTable(Sessions._ID, Tables.SESSIONS)
-                        .mapToTable(Sessions.ROOM_ID, Tables.SESSIONS)
+                return builder.table(DatabaseTables.SESSIONS_JOIN_ROOMS, getCurrentAccountName(uri, true))
+                        .mapToTable(Sessions._ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.ROOM_ID, DatabaseTables.SESSIONS)
                         .where(Qualified.SESSIONS_ROOM_ID + "=?", roomId)
                         .groupBy(Qualified.SESSIONS_SESSION_ID);
             }
@@ -528,40 +563,31 @@ public class ScheduleProvider extends ContentProvider {
                 // The starred sessions ("my schedule") are associated with a user, so we
                 // use the current user to select them properly
                 return builder
-                        .table(Tables.SESSIONS_JOIN_ROOMS_TAGS, getCurrentAccountName(uri, true))
-                        .mapToTable(Sessions._ID, Tables.SESSIONS)
-                        .mapToTable(Sessions.ROOM_ID, Tables.SESSIONS)
-                        .mapToTable(Sessions.SESSION_ID, Tables.SESSIONS)
+                        .table(DatabaseTables.SESSIONS_JOIN_ROOMS_TAGS, getCurrentAccountName(uri, true))
+                        .mapToTable(Sessions._ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.ROOM_ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.SESSION_ID, DatabaseTables.SESSIONS)
                         .map(Sessions.SESSION_IN_MY_SCHEDULE, "IFNULL(in_schedule, 0)")
                         .groupBy(Qualified.SESSIONS_SESSION_ID);
             }
-            case SESSIONS_COUNTER: {
-                return builder
-                        .table(Tables.SESSIONS_JOIN_MYSCHEDULE, getCurrentAccountName(uri, true))
-                        .map(Sessions.SESSION_INTERVAL_COUNT, "count(1)")
-                        .map(Sessions.SESSION_IN_MY_SCHEDULE, "IFNULL(in_schedule, 0)")
-                        .groupBy(Sessions.SESSION_START + ", " + Sessions.SESSION_END);
-            }
             case SESSIONS_MY_SCHEDULE: {
-                return builder.table(Tables.SESSIONS_JOIN_ROOMS_TAGS_FEEDBACK_MYSCHEDULE,
+                return builder.table(DatabaseTables.SESSIONS_JOIN_ROOMS_TAGS_FEEDBACK_MYSCHEDULE,
                         getCurrentAccountName(uri, true))
-                        .mapToTable(Sessions._ID, Tables.SESSIONS)
-                        .mapToTable(Sessions.ROOM_ID, Tables.SESSIONS)
-                        .mapToTable(Sessions.SESSION_ID, Tables.SESSIONS)
+                        .mapToTable(Sessions._ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.ROOM_ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.SESSION_ID, DatabaseTables.SESSIONS)
                         .map(Sessions.HAS_GIVEN_FEEDBACK, Subquery.SESSION_HAS_GIVEN_FEEDBACK)
                         .map(Sessions.SESSION_IN_MY_SCHEDULE, "IFNULL(in_schedule, 0)")
-                        .where("( " + Sessions.SESSION_IN_MY_SCHEDULE + "=1 OR " +
-                                Sessions.SESSION_TAGS +
-                                " LIKE '%" + Config.Tags.SPECIAL_KEYNOTE + "%' )")
+                        .where("( " + Sessions.SESSION_IN_MY_SCHEDULE + "=1")
                         .groupBy(Qualified.SESSIONS_SESSION_ID);
             }
             case SESSIONS_UNSCHEDULED: {
                 final long[] interval = Sessions.getInterval(uri);
-                return builder.table(Tables.SESSIONS_JOIN_ROOMS_TAGS_FEEDBACK_MYSCHEDULE,
+                return builder.table(DatabaseTables.SESSIONS_JOIN_ROOMS_TAGS_FEEDBACK_MYSCHEDULE,
                         getCurrentAccountName(uri, true))
-                        .mapToTable(Sessions._ID, Tables.SESSIONS)
-                        .mapToTable(Sessions.ROOM_ID, Tables.SESSIONS)
-                        .mapToTable(Sessions.SESSION_ID, Tables.SESSIONS)
+                        .mapToTable(Sessions._ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.ROOM_ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.SESSION_ID, DatabaseTables.SESSIONS)
                         .map(Sessions.SESSION_IN_MY_SCHEDULE, "IFNULL(in_schedule, 0)")
                         .where(Sessions.SESSION_IN_MY_SCHEDULE + "=0")
                         .where(Sessions.SESSION_START + ">=?", String.valueOf(interval[0]))
@@ -570,54 +596,54 @@ public class ScheduleProvider extends ContentProvider {
             }
             case SESSIONS_SEARCH: {
                 final String query = Sessions.getSearchQuery(uri);
-                return builder.table(Tables.SESSIONS_SEARCH_JOIN_SESSIONS_ROOMS,
+                return builder.table(DatabaseTables.SESSIONS_SEARCH_JOIN_SESSIONS_ROOMS,
                         getCurrentAccountName(uri, true))
                         .map(Sessions.SEARCH_SNIPPET, Subquery.SESSIONS_SNIPPET)
-                        .mapToTable(Sessions._ID, Tables.SESSIONS)
-                        .mapToTable(Sessions.SESSION_ID, Tables.SESSIONS)
-                        .mapToTable(Sessions.ROOM_ID, Tables.SESSIONS)
+                        .mapToTable(Sessions._ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.SESSION_ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.ROOM_ID, DatabaseTables.SESSIONS)
                         .map(Sessions.SESSION_IN_MY_SCHEDULE, "IFNULL(in_schedule, 0)")
                         .where(SessionsSearchColumns.BODY + " MATCH ?", query);
             }
             case SESSIONS_AT: {
                 final List<String> segments = uri.getPathSegments();
                 final String time = segments.get(2);
-                return builder.table(Tables.SESSIONS_JOIN_ROOMS, getCurrentAccountName(uri, true))
-                        .mapToTable(Sessions._ID, Tables.SESSIONS)
-                        .mapToTable(Sessions.ROOM_ID, Tables.SESSIONS)
+                return builder.table(DatabaseTables.SESSIONS_JOIN_ROOMS, getCurrentAccountName(uri, true))
+                        .mapToTable(Sessions._ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.ROOM_ID, DatabaseTables.SESSIONS)
                         .where(Sessions.SESSION_START + "<=?", time)
                         .where(Sessions.SESSION_END + ">=?", time);
             }
             case SESSIONS_ID: {
                 final String sessionId = Sessions.getSessionId(uri);
-                return builder.table(Tables.SESSIONS_JOIN_ROOMS, getCurrentAccountName(uri, true))
-                        .mapToTable(Sessions._ID, Tables.SESSIONS)
-                        .mapToTable(Sessions.ROOM_ID, Tables.SESSIONS)
-                        .mapToTable(Sessions.SESSION_ID, Tables.SESSIONS)
+                return builder.table(DatabaseTables.SESSIONS_JOIN_ROOMS, getCurrentAccountName(uri, true))
+                        .mapToTable(Sessions._ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.ROOM_ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.SESSION_ID, DatabaseTables.SESSIONS)
                         .map(Sessions.SESSION_IN_MY_SCHEDULE, "IFNULL(in_schedule, 0)")
                         .where(Qualified.SESSIONS_SESSION_ID + "=?", sessionId);
             }
             case SESSIONS_ID_SPEAKERS: {
                 final String sessionId = Sessions.getSessionId(uri);
-                return builder.table(Tables.SESSIONS_SPEAKERS_JOIN_SPEAKERS)
-                        .mapToTable(Speakers._ID, Tables.SPEAKERS)
-                        .mapToTable(Speakers.SPEAKER_ID, Tables.SPEAKERS)
+                return builder.table(DatabaseTables.SESSIONS_SPEAKERS_JOIN_SPEAKERS)
+                        .mapToTable(Speakers._ID, DatabaseTables.SPEAKERS)
+                        .mapToTable(Speakers.SPEAKER_ID, DatabaseTables.SPEAKERS)
                         .where(Qualified.SESSIONS_SPEAKERS_SESSION_ID + "=?", sessionId);
             }
             case SESSIONS_ID_TAGS: {
                 final String sessionId = Sessions.getSessionId(uri);
-                return builder.table(Tables.SESSIONS_TAGS_JOIN_TAGS)
-                        .mapToTable(Tags._ID, Tables.TAGS)
-                        .mapToTable(Tags.TAG_ID, Tables.TAGS)
+                return builder.table(DatabaseTables.SESSIONS_TAGS_JOIN_TAGS)
+                        .mapToTable(Tags._ID, DatabaseTables.TAGS)
+                        .mapToTable(Tags.TAG_ID, DatabaseTables.TAGS)
                         .where(Qualified.SESSIONS_TAGS_SESSION_ID + "=?", sessionId);
             }
             case SESSIONS_ROOM_AFTER: {
                 final String room = Sessions.getRoom(uri);
                 final String time = Sessions.getAfterForRoom(uri);
-                return builder.table(Tables.SESSIONS_JOIN_ROOMS_TAGS, getCurrentAccountName(uri, true))
-                        .mapToTable(Sessions._ID, Tables.SESSIONS)
-                        .mapToTable(Sessions.ROOM_ID, Tables.SESSIONS)
-                        .mapToTable(Sessions.SESSION_ID, Tables.SESSIONS)
+                return builder.table(DatabaseTables.SESSIONS_JOIN_ROOMS_TAGS, getCurrentAccountName(uri, true))
+                        .mapToTable(Sessions._ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.ROOM_ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.SESSION_ID, DatabaseTables.SESSIONS)
                         .where(Qualified.SESSIONS_ROOM_ID + "=?", room)
                         .where("(" + Sessions.SESSION_START + "<= ? AND " + Sessions.SESSION_END +
                                         " >= ?) OR (" + Sessions.SESSION_START + " >= ?)", time,
@@ -628,10 +654,10 @@ public class ScheduleProvider extends ContentProvider {
             }
             case SESSIONS_AFTER: {
                 final String time = Sessions.getAfter(uri);
-                return builder.table(Tables.SESSIONS_JOIN_ROOMS_TAGS, getCurrentAccountName(uri, true))
-                        .mapToTable(Sessions._ID, Tables.SESSIONS)
-                        .mapToTable(Sessions.SESSION_ID, Tables.SESSIONS)
-                        .mapToTable(Sessions.ROOM_ID, Tables.SESSIONS)
+                return builder.table(DatabaseTables.SESSIONS_JOIN_ROOMS_TAGS, getCurrentAccountName(uri, true))
+                        .mapToTable(Sessions._ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.SESSION_ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.ROOM_ID, DatabaseTables.SESSIONS)
                         .map(Sessions.SESSION_IN_MY_SCHEDULE, "IFNULL(in_schedule, 0)")
                         .where("(" + Sessions.SESSION_START + "<= ? AND " + Sessions.SESSION_END +
                                         " >= ?) OR (" + Sessions.SESSION_START + " >= ?)", time,
@@ -639,58 +665,49 @@ public class ScheduleProvider extends ContentProvider {
                         .groupBy(Qualified.SESSIONS_SESSION_ID);
             }
             case SPEAKERS: {
-                return builder.table(Tables.SPEAKERS);
-            }
-            case MY_SCHEDULE: {
-                // force a where condition to avoid leaking schedule info to another account
-                // Note that, since SelectionBuilder always join multiple where calls using AND,
-                // even if malicious code specifying additional conditions on account_name won't
-                // be able to fetch data from a different account.
-                return builder.table(Tables.MY_SCHEDULE)
-                        .where(MySchedule.MY_SCHEDULE_ACCOUNT_NAME + "=?",
-                                getCurrentAccountName(uri, true));
+                return builder.table(DatabaseTables.SPEAKERS);
             }
             case SPEAKERS_ID: {
                 final String speakerId = Speakers.getSpeakerId(uri);
-                return builder.table(Tables.SPEAKERS)
+                return builder.table(DatabaseTables.SPEAKERS)
                         .where(Speakers.SPEAKER_ID + "=?", speakerId);
             }
             case SPEAKERS_ID_SESSIONS: {
                 final String speakerId = Speakers.getSpeakerId(uri);
-                return builder.table(Tables.SESSIONS_SPEAKERS_JOIN_SESSIONS_ROOMS)
-                        .mapToTable(Sessions._ID, Tables.SESSIONS)
-                        .mapToTable(Sessions.SESSION_ID, Tables.SESSIONS)
-                        .mapToTable(Sessions.ROOM_ID, Tables.SESSIONS)
+                return builder.table(DatabaseTables.SESSIONS_SPEAKERS_JOIN_SESSIONS_ROOMS)
+                        .mapToTable(Sessions._ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.SESSION_ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.ROOM_ID, DatabaseTables.SESSIONS)
                         .where(Qualified.SESSIONS_SPEAKERS_SPEAKER_ID + "=?", speakerId);
             }
             case MAPMARKERS: {
-                return builder.table(Tables.MAPMARKERS);
+                return builder.table(DatabaseTables.MAPMARKERS);
             }
             case MAPMARKERS_FLOOR: {
                 final String floor = MapMarkers.getMarkerFloor(uri);
-                return builder.table(Tables.MAPMARKERS)
+                return builder.table(DatabaseTables.MAPMARKERS)
                         .where(MapMarkers.MARKER_FLOOR + "=?", floor);
             }
             case MAPMARKERS_ID: {
                 final String roomId = MapMarkers.getMarkerId(uri);
-                return builder.table(Tables.MAPMARKERS)
+                return builder.table(DatabaseTables.MAPMARKERS)
                         .where(MapMarkers.MARKER_ID + "=?", roomId);
             }
             case MAPTILES: {
-                return builder.table(Tables.MAPTILES);
+                return builder.table(DatabaseTables.MAPTILES);
             }
             case MAPTILES_FLOOR: {
                 final String floor = MapTiles.getFloorId(uri);
-                return builder.table(Tables.MAPTILES)
+                return builder.table(DatabaseTables.MAPTILES)
                         .where(MapTiles.TILE_FLOOR + "=?", floor);
             }
             case FEEDBACK_FOR_SESSION: {
                 final String sessionId = Feedback.getSessionId(uri);
-                return builder.table(Tables.FEEDBACK)
+                return builder.table(DatabaseTables.FEEDBACK)
                         .where(Feedback.SESSION_ID + "=?", sessionId);
             }
             case FEEDBACK_ALL: {
-                return builder.table(Tables.FEEDBACK);
+                return builder.table(DatabaseTables.FEEDBACK);
             }
             default: {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -705,10 +722,10 @@ public class ScheduleProvider extends ContentProvider {
 
     private interface Subquery {
         String SESSION_HAS_GIVEN_FEEDBACK = "(SELECT COUNT(1) FROM "
-                + Tables.FEEDBACK + " WHERE " + Qualified.FEEDBACK_SESSION_ID + "="
+                + DatabaseTables.FEEDBACK + " WHERE " + Qualified.FEEDBACK_SESSION_ID + "="
                 + Qualified.SESSIONS_SESSION_ID + ")";
 
-        String SESSIONS_SNIPPET = "snippet(" + Tables.SESSIONS_SEARCH + ",'{','}','\u2026')";
+        String SESSIONS_SNIPPET = "snippet(" + DatabaseTables.SESSIONS_SEARCH + ",'{','}','\u2026')";
     }
 
     /**
@@ -716,17 +733,17 @@ public class ScheduleProvider extends ContentProvider {
      * parent {@link Tables}. Used when needed to work around SQL ambiguity.
      */
     private interface Qualified {
-        String SESSIONS_SESSION_ID = Tables.SESSIONS + "." + Sessions.SESSION_ID;
-        String SESSIONS_ROOM_ID = Tables.SESSIONS + "." + Sessions.ROOM_ID;
-        String SESSIONS_TAGS_SESSION_ID = Tables.SESSIONS_TAGS + "."
-                + ScheduleDatabase.SessionsTags.SESSION_ID;
+        String SESSIONS_SESSION_ID = DatabaseTables.SESSIONS + "." + Sessions.SESSION_ID;
+        String SESSIONS_ROOM_ID = DatabaseTables.SESSIONS + "." + Sessions.ROOM_ID;
+        String SESSIONS_TAGS_SESSION_ID = DatabaseTables.SESSIONS_TAGS + "."
+                + SessionsTags.SESSION_ID;
 
-        String SESSIONS_SPEAKERS_SESSION_ID = Tables.SESSIONS_SPEAKERS + "."
+        String SESSIONS_SPEAKERS_SESSION_ID = DatabaseTables.SESSIONS_SPEAKERS + "."
                 + SessionsSpeakers.SESSION_ID;
 
-        String SESSIONS_SPEAKERS_SPEAKER_ID = Tables.SESSIONS_SPEAKERS + "."
+        String SESSIONS_SPEAKERS_SPEAKER_ID = DatabaseTables.SESSIONS_SPEAKERS + "."
                 + SessionsSpeakers.SPEAKER_ID;
 
-        String FEEDBACK_SESSION_ID = Tables.FEEDBACK + "." + Feedback.SESSION_ID;
+        String FEEDBACK_SESSION_ID = DatabaseTables.FEEDBACK + "." + Feedback.SESSION_ID;
     }
 }

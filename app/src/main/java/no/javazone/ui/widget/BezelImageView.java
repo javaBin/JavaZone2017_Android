@@ -32,6 +32,8 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
+import no.javazone.R;
+
 
 /**
  * An {@link android.widget.ImageView} that draws its contents inside a mask and draws a border

@@ -24,10 +24,15 @@ import no.javazone.ui.fragment.MapFragment;
 import no.javazone.ui.fragment.MapInfoFragment;
 import no.javazone.ui.fragment.SlideableInfoFragment;
 import no.javazone.util.AnalyticsHelper;
+import no.javazone.util.PermissionsUtils;
 
+import android.Manifest;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -37,12 +42,21 @@ import android.widget.Button;
 import static no.javazone.util.LogUtils.makeLogTag;
 
 public class MapActivity extends BaseActivity
-        implements SlideableInfoFragment.Callback, MapFragment.Callbacks {
+        implements SlideableInfoFragment.Callback, MapFragment.Callbacks,
+        ActivityCompat.OnRequestPermissionsResultCallback {
 
     private static final String TAG = makeLogTag(MapActivity.class);
 
+    private static final int REQUEST_LOCATION_PERMISSION = 1;
+
+    public static final String[] PERMISSIONS =
+            new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
+
     private static final String SCREEN_LABEL = "Map";
 
+    /**
+     * When specified, will automatically point the map to the requested room.
+     */
     public static final String EXTRA_ROOM = "com.google.android.iosched.extra.ROOM";
 
     public static final String EXTRA_DETACHED_MODE
@@ -131,7 +145,6 @@ public class MapActivity extends BaseActivity
                 ResetColorButton(mFloorAllButton);
                 ResetColorButton(mFloor2Button);
                 ResetColorButton(mFloor1Button);
-
             }
         });
 
@@ -187,7 +200,7 @@ public class MapActivity extends BaseActivity
                     .commit();
         }
         if (mInfoFragment == null) {
-            mInfoFragment = MapInfoFragment.newInstace(this);
+            mInfoFragment = MapInfoFragment.newInstance(this);
             getFragmentManager().beginTransaction()
                     .add(R.id.fragment_container_map_info, mInfoFragment, "mapsheet")
                     .commit();
@@ -204,12 +217,6 @@ public class MapActivity extends BaseActivity
             super.onBackPressed();
         }
     }
-
-    @Override
-    protected int getSelfNavDrawerItem() {
-        return mDetachedMode ? NAVDRAWER_ITEM_INVALID : NAVDRAWER_ITEM_MAP;
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -319,7 +326,48 @@ public class MapActivity extends BaseActivity
         final View view = findViewById(R.id.map_detail_popup);
         if (view != null) {
             view.setVisibility(visibility);
+        }
+    }
+
+    /**
+     * Enables the 'My Location' feature on the map fragment if the location permission has been
+     * granted. If the permission is not available yet, it is requested.
+     */
+    public void attemptEnableMyLocation() {
+        // Check if the permission has already been granted.
+        if (PermissionsUtils.permissionsAlreadyGranted(this, PERMISSIONS)) {
+            // Permission has been granted.
+            if (mMapFragment != null) {
+                mMapFragment.setMyLocationEnabled(true);
+                return;
+            }
+        }
+
+        // The permissions have not been granted yet. Request them.
+        ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_LOCATION_PERMISSION);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(final int requestCode,
+                                           @NonNull final String[] permissions,
+                                           @NonNull final int[] grantResults) {
+
+        if (requestCode != REQUEST_LOCATION_PERMISSION) {
+            return;
+        }
+
+        if (permissions.length == PERMISSIONS.length &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // Permission has been granted.
+            if (mMapFragment != null) {
+                mMapFragment.setMyLocationEnabled(true);
+            }
+        } else {
+            // Permission was denied. Display error message that disappears after a short while.
+            PermissionsUtils.displayConditionalPermissionDenialSnackbar(this,
+                    R.string.map_permission_denied, PERMISSIONS, REQUEST_LOCATION_PERMISSION, false);
 
         }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

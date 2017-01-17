@@ -25,6 +25,8 @@ import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
+import no.javazone.R;
+
 /**
  * A layout that draws something in the insets passed to {@link #fitSystemWindows(Rect)}, i.e. the area above UI chrome
  * (status and navigation bars, overlay action bars).

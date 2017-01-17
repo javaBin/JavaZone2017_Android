@@ -26,6 +26,8 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 
+import no.javazone.R;
+
 /**
  * Extension of LinearLayout that adds a Foreground drawable.
  */

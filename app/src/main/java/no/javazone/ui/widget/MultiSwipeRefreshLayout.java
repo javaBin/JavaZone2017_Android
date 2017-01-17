@@ -24,6 +24,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import no.javazone.R;
+
 public class MultiSwipeRefreshLayout extends SwipeRefreshLayout {
 
     private float mStartGestureX;

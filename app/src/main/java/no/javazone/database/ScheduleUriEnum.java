@@ -13,15 +13,15 @@ package no.javazone.database;
  * segment.
  */
 public enum ScheduleUriEnum {
-    BLOCKS(100, "blocks", ScheduleContract.Blocks.CONTENT_TYPE_ID, false, ScheduleDatabase.Tables.BLOCKS),
+    BLOCKS(100, "blocks", ScheduleContract.Blocks.CONTENT_TYPE_ID, false, ScheduleDatabase.DatabaseTables.BLOCKS),
     BLOCKS_BETWEEN(101, "blocks/between/*/*", ScheduleContract.Blocks.CONTENT_TYPE_ID, false, null),
     BLOCKS_ID(102, "blocks/*", ScheduleContract.Blocks.CONTENT_TYPE_ID, true, null),
-    TAGS(200, "tags", ScheduleContract.Tags.CONTENT_TYPE_ID, false, ScheduleDatabase.Tables.TAGS),
+    TAGS(200, "tags", ScheduleContract.Tags.CONTENT_TYPE_ID, false, ScheduleDatabase.DatabaseTables.TAGS),
     TAGS_ID(201, "tags/*", ScheduleContract.Tags.CONTENT_TYPE_ID, false, null),
-    ROOMS(300, "rooms", ScheduleContract.Rooms.CONTENT_TYPE_ID, false, ScheduleDatabase.Tables.ROOMS),
+    ROOMS(300, "rooms", ScheduleContract.Rooms.CONTENT_TYPE_ID, false, ScheduleDatabase.DatabaseTables.ROOMS),
     ROOMS_ID(301, "rooms/*", ScheduleContract.Rooms.CONTENT_TYPE_ID, true, null),
     ROOMS_ID_SESSIONS(302, "rooms/*/sessions", ScheduleContract.Sessions.CONTENT_TYPE_ID, false, null),
-    SESSIONS(400, "sessions", ScheduleContract.Sessions.CONTENT_TYPE_ID, false, ScheduleDatabase.Tables.SESSIONS),
+    SESSIONS(400, "sessions", ScheduleContract.Sessions.CONTENT_TYPE_ID, false, ScheduleDatabase.DatabaseTables.SESSIONS),
     SESSIONS_MY_SCHEDULE(401, "sessions/my_schedule", ScheduleContract.Sessions.CONTENT_TYPE_ID, false, null),
     SESSIONS_SEARCH(403, "sessions/search/*", ScheduleContract.Sessions.CONTENT_TYPE_ID, false, null),
     SESSIONS_AT(404, "sessions/at/*", ScheduleContract.Sessions.CONTENT_TYPE_ID, false, null),
@@ -31,39 +31,25 @@ public enum ScheduleUriEnum {
     SESSIONS_COUNTER(410, "sessions/counter", null, true, null),
     SESSIONS_ID(405, "sessions/*", ScheduleContract.Sessions.CONTENT_TYPE_ID, true, null),
     SESSIONS_ID_SPEAKERS(406, "sessions/*/speakers", ScheduleContract.Speakers.CONTENT_TYPE_ID, false,
-            ScheduleDatabase.Tables.SESSIONS_SPEAKERS),
-    SESSIONS_ID_TAGS(407, "sessions/*/tags", ScheduleContract.Tags.CONTENT_TYPE_ID, false, ScheduleDatabase.Tables.SESSIONS_TAGS),
-    SPEAKERS(500, "speakers", ScheduleContract.Speakers.CONTENT_TYPE_ID, false, ScheduleDatabase.Tables.SPEAKERS),
+            ScheduleDatabase.DatabaseTables.SESSIONS_SPEAKERS),
+    SESSIONS_ID_TAGS(407, "sessions/*/tags", ScheduleContract.Tags.CONTENT_TYPE_ID, false, ScheduleDatabase.DatabaseTables.SESSIONS_TAGS),
+    SPEAKERS(500, "speakers", ScheduleContract.Speakers.CONTENT_TYPE_ID, false, ScheduleDatabase.DatabaseTables.SPEAKERS),
     SPEAKERS_ID(501, "speakers/*", ScheduleContract.Speakers.CONTENT_TYPE_ID, true, null),
     SPEAKERS_ID_SESSIONS(502, "speakers/*/sessions", ScheduleContract.Sessions.CONTENT_TYPE_ID, false, null),
-    MY_SCHEDULE(600, "my_schedule", ScheduleContract.MySchedule.CONTENT_TYPE_ID, false, null),
-    MY_VIEWED_VIDEOS(601, "my_viewed_videos", ScheduleContract.MyViewedVideos.CONTENT_TYPE_ID, false, null),
-    MY_FEEDBACK_SUBMITTED(602, "my_feedback_submitted", ScheduleContract.MyFeedbackSubmitted.CONTENT_TYPE_ID, false, null),
-
-    ANNOUNCEMENTS(700, "announcements", ScheduleContract.Announcements.CONTENT_TYPE_ID, false,
-            ScheduleDatabase.Tables.ANNOUNCEMENTS),
-    ANNOUNCEMENTS_ID(701, "announcements/*", ScheduleContract.Announcements.CONTENT_TYPE_ID, true, null),
-    SEARCH_SUGGEST(800, "search_suggest_query", null, false, ScheduleDatabase.Tables.SEARCH_SUGGEST),
+    SEARCH_SUGGEST(800, "search_suggest_query", null, false, ScheduleDatabase.DatabaseTables.SEARCH_SUGGEST),
     SEARCH_INDEX(801, "search_index", null, false, null),// update only
-    MAPMARKERS(900, "mapmarkers", ScheduleContract.MapMarkers.CONTENT_TYPE_ID, false, ScheduleDatabase.Tables.MAPMARKERS),
+    MAPMARKERS(900, "mapmarkers", ScheduleContract.MapMarkers.CONTENT_TYPE_ID, false, ScheduleDatabase.DatabaseTables.MAPMARKERS),
     MAPMARKERS_FLOOR(901, "mapmarkers/floor/*", ScheduleContract.MapMarkers.CONTENT_TYPE_ID, false, null),
     MAPMARKERS_ID(902, "mapmarkers/*", ScheduleContract.MapMarkers.CONTENT_TYPE_ID, true, null),
-    MAPTILES(1000, "maptiles", ScheduleContract.MapTiles.CONTENT_TYPE_ID, false, ScheduleDatabase.Tables.MAPTILES),
+    MAPTILES(1000, "maptiles", ScheduleContract.MapTiles.CONTENT_TYPE_ID, false, ScheduleDatabase.DatabaseTables.MAPTILES),
     MAPTILES_FLOOR(1001, "maptiles/*", ScheduleContract.MapTiles.CONTENT_TYPE_ID, true, null),
     FEEDBACK_ALL(1002, "feedback", ScheduleContract.Feedback.CONTENT_TYPE_ID, false, null),
-    FEEDBACK_FOR_SESSION(1003, "feedback/*", ScheduleContract.Feedback.CONTENT_TYPE_ID, true, ScheduleDatabase.Tables.FEEDBACK),
-    HASHTAGS(1200, "hashtags", ScheduleContract.Hashtags.CONTENT_TYPE_ID, false, ScheduleDatabase.Tables.HASHTAGS),
-    HASHTAGS_NAME(1201, "hashtags/*", ScheduleContract.Hashtags.CONTENT_TYPE_ID, true, null),
+    FEEDBACK_FOR_SESSION(1003, "feedback/*", ScheduleContract.Feedback.CONTENT_TYPE_ID, true, ScheduleDatabase.DatabaseTables.FEEDBACK),
 
     SEARCH_TOPICS_SESSIONS(1400, "search_topics_sessions",
-                           ScheduleContract.SearchTopicsSessions.CONTENT_TYPE_ID, false, null /*virtual table*/),
-    CARDS(1500, "cards", ScheduleContract.Cards.CONTENT_TYPE_ID, false, ScheduleDatabase.Tables.CARDS);
+                           ScheduleContract.SearchTopicsSessions.CONTENT_TYPE_ID, false, null /*virtual table*/);
     public int code;
 
-    /**
-     * The path to the {@link android.content.UriMatcher} will use to match. * may be used as a
-     * wild card for any text, and # may be used as a wild card for numbers.
-     */
     public String path;
 
     public String contentType;

@@ -27,14 +27,14 @@ import android.view.WindowManager;
 import no.javazone.BuildConfig;
 import no.javazone.R;
 import no.javazone.messaging.MessagingRegistration;
-import no.javazone.notifications.AppNavigationViewAsDrawerImpl;
-import no.javazone.notifications.NavigationModel;
-import no.javazone.notifications.NavigationModel.NavigationItemEnum;
+import no.javazone.navigation.AppNavigationViewAsDrawerImpl;
+import no.javazone.navigation.NavigationModel;
 import no.javazone.ui.widget.MultiSwipeRefreshLayout;
 import no.javazone.util.ImageLoader;
 import no.javazone.util.LUtils;
 import no.javazone.util.RecentTasksStyler;
 
+import static no.javazone.navigation.NavigationModel.*;
 import static no.javazone.util.LogUtils.LOGD;
 import static no.javazone.util.LogUtils.LOGW;
 import static no.javazone.util.LogUtils.makeLogTag;

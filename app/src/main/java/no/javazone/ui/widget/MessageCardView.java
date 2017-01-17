@@ -27,6 +27,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import no.javazone.R;
+
+import static no.javazone.util.LogUtils.LOGW;
 import static no.javazone.util.LogUtils.makeLogTag;
 
 

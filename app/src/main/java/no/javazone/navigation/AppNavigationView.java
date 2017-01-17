@@ -12,12 +12,11 @@
  * the License.
  */
 
-package no.javazone.notifications;
+package no.javazone.navigation;
 
 import android.app.Activity;
 
-import no.javazone.notifications.NavigationModel.NavigationItemEnum;
-
+import static no.javazone.navigation.NavigationModel.*;
 
 /**
  * This represents a general navigation view, independent of UI implementation details.

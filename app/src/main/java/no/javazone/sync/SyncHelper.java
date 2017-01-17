@@ -81,7 +81,7 @@ public class SyncHelper {
 
     public static void requestManualSync(boolean userDataSyncOnly) {
         LOGD(TAG, "Requesting manual sync for account. userDataSyncOnly=" + userDataSyncOnly);
-        android.accounts.Account account = AccountUtils.getAccount();
+        android.accounts.Account account = Account.getAccount();
         Bundle b = new Bundle();
         b.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         b.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
@@ -114,12 +114,6 @@ public class SyncHelper {
      * Attempts to perform data synchronization. There are 3 types of data: conference, user
      * schedule and user feedback.
      * <p />
-     * The conference data sync is handled by {@link RemoteConferenceDataFetcher}. For more details
-     * about conference data, refer to the documentation at
-     * https://github.com/google/iosched/blob/master/doc/SYNC.md. The user schedule data sync is
-     * handled by {@link AbstractUserDataSyncHelper}. The user feedback sync is handled by
-     * {@link FeedbackSyncHelper}.
-     *
      *
      * @param syncResult The sync result object to update with statistics.
      * @param extras Specifies additional information about the sync. This must contain key
@@ -148,42 +142,6 @@ public class SyncHelper {
         long syncDuration, choresDuration;
 
         opStart = System.currentTimeMillis();
-
-        // Sync consists of 1 or more of these operations. We try them one by one and tolerate
-        // individual failures on each.
-        final int OP_CONFERENCE_DATA_SYNC = 0;
-        final int OP_USER_SCHEDULE_DATA_SYNC = 1;
-        final int OP_USER_FEEDBACK_DATA_SYNC = 2;
-
-        int[] opsToPerform = userDataScheduleOnly ?
-                new int[]{OP_USER_SCHEDULE_DATA_SYNC} :
-                new int[]{OP_CONFERENCE_DATA_SYNC, OP_USER_SCHEDULE_DATA_SYNC,
-                        OP_USER_FEEDBACK_DATA_SYNC};
-
-        for (int op : opsToPerform) {
-            try {
-                switch (op) {
-                    case OP_CONFERENCE_DATA_SYNC:
-                        dataChanged |= doConferenceDataSync();
-                        break;
-                    case OP_USER_SCHEDULE_DATA_SYNC:
-                        dataChanged |= doUserDataSync(syncResult, account.name);
-                        break;
-                    case OP_USER_FEEDBACK_DATA_SYNC:
-                        // User feedback data sync is an outgoing sync only so not affecting
-                        // {@code dataChanged} value.
-                        doUserFeedbackDataSync();
-                        break;
-                }
-            } catch (AuthException ex) {
-                syncResult.stats.numAuthExceptions++;
-
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-                LOGE(TAG, "Error performing remote sync.");
-                increaseIoExceptions(syncResult);
-            }
-        }
         syncDuration = System.currentTimeMillis() - opStart;
 
         // If data has changed, there are a few chores we have to do.

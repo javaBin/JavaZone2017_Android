@@ -35,6 +35,11 @@ import android.widget.TextView;
 
 import no.javazone.R;
 import no.javazone.archframework.model.domain.MarkerModel;
+import no.javazone.archframework.model.domain.ScheduleHelper;
+import no.javazone.database.ScheduleContract;
+import no.javazone.maps.OverviewSessionLoader;
+import no.javazone.maps.SessionLoader;
+import no.javazone.maps.SingleSessionLoader;
 import no.javazone.util.MapUtils;
 import no.javazone.util.UIUtils;
 
@@ -158,14 +163,7 @@ public abstract class MapInfoFragment extends Fragment
         }
     }
 
-    /**
-     * Creates a new instance depending of the form factor of the device.
-     * For tablets, creates an {@link com.google.samples.apps.iosched.map.InlineInfoFragment},
-     * for other form factors a {@link com.google.samples.apps.iosched.map.SlideableInfoFragment}.
-     *
-     * @see com.google.samples.apps.iosched.util.UIUtils#isTablet(android.content.Context)
-     */
-    public static MapInfoFragment newInstace(Context c) {
+    public static MapInfoFragment newInstance(Context c) {
         if (UIUtils.isTablet(c)) {
             return InlineInfoFragment.newInstance();
         } else {

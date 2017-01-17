@@ -12,7 +12,7 @@
  * the License.
  */
 
-package no.javazone.notifications;
+package no.javazone.navigation;
 
 import android.accounts.Account;
 import android.content.Intent;
@@ -33,11 +33,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import no.javazone.R;
-import no.javazone.notifications.NavigationModel.NavigationItemEnum;
 import no.javazone.util.ImageLoader;
 import no.javazone.util.SettingsUtils;
 import no.javazone.util.UIUtils;
 
+import static no.javazone.navigation.NavigationModel.*;
 import static no.javazone.util.LogUtils.LOGE;
 import static no.javazone.util.LogUtils.makeLogTag;
 
@@ -75,12 +75,6 @@ public class AppNavigationViewAsDrawerImpl extends AppNavigationViewAbstractImpl
 
     private boolean mAccountSpinnerDropDownViewVisible;
 
-    /**
-     * True if the {@link #mAccountSpinner} should be shown in drop down mode when this view is
-     * first loaded.
-     */
-    private boolean mSetAccountSpinnerInDropViewModeWhenFirstShown;
-
     private Handler mHandler;
 
     private ImageLoader mImageLoader;
@@ -97,6 +91,7 @@ public class AppNavigationViewAsDrawerImpl extends AppNavigationViewAbstractImpl
     public void displayNavigationItems(final NavigationItemEnum[] items) {
         createNavDrawerItems(items);
         setSelectedNavDrawerItem(mSelfItem);
+        setupAccountBox();
     }
 
     @Override
@@ -166,6 +161,7 @@ public class AppNavigationViewAsDrawerImpl extends AppNavigationViewAbstractImpl
             mDrawerLayout.openDrawer(GravityCompat.START);
         }
 
+        setupAccountBox();
     }
 
     @Override
@@ -201,6 +197,27 @@ public class AppNavigationViewAsDrawerImpl extends AppNavigationViewAbstractImpl
         if (mNavigationView != null && item != NavigationItemEnum.INVALID) {
             mNavigationView.getMenu().findItem(item.getId()).setChecked(true);
         }
+    }
+
+    /**
+     * Sets up the account box. The account box is the area at the top of the nav drawer that shows
+     * which account the user is logged in as, and lets them switch accounts. It also shows the
+     * user's Google+ cover photo as background.
+     */
+    private void setupAccountBox() {
+
+        final View chosenAccountView = mActivity.findViewById(R.id.chosen_account_view);
+
+        if (chosenAccountView == null) {
+            //This activity does not have an account box
+            return;
+        }
+
+        ImageView coverImageView = (ImageView) chosenAccountView
+                .findViewById(R.id.profile_cover_image);
+        ImageView profileImageView = (ImageView) chosenAccountView.findViewById(R.id.profile_image);
+            mActivity.findViewById(R.id.profile_cover_image_placeholder)
+                     .setVisibility(View.VISIBLE);
     }
 
     public boolean isNavDrawerOpen() {
@@ -264,8 +281,6 @@ public class AppNavigationViewAsDrawerImpl extends AppNavigationViewAbstractImpl
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         if (savedInstanceState != null &&
                 savedInstanceState.containsKey(ACCOUNT_SPINNER_DROP_DOWN_VISIBLE)) {
-            mSetAccountSpinnerInDropViewModeWhenFirstShown =
-                    savedInstanceState.getBoolean(ACCOUNT_SPINNER_DROP_DOWN_VISIBLE);
 
         }
     }

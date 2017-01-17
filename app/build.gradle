@@ -90,13 +90,19 @@ android {
             storePassword "android"
             keyAlias "javazonedebugkey"
             keyPassword "android"
+
         }
     }
 
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            resValue("string", "website_host_name", "${production_website_host_name}")
+        }
+        release {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue("string", "website_host_name", "${production_website_host_name}")
         }
     }
 

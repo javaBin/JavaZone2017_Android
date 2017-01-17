@@ -15,11 +15,12 @@
 package no.javazone.util;
 
 public class ExtendedSessionHelper {
+    /*
     public static String getExtendedSessionUrl(SessionDetailModel data) {
         return null;
     }
 
     public static boolean shouldShowExtendedSessionLink() {
         return true;
-    }
+    } */
 }

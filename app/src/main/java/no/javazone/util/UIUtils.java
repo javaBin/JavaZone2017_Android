@@ -76,6 +76,8 @@ import java.util.regex.Pattern;
 
 import no.javazone.Config;
 import no.javazone.R;
+import no.javazone.archframework.model.domain.ScheduleItem;
+import no.javazone.database.ScheduleContract;
 
 import static no.javazone.util.LogUtils.LOGE;
 import static no.javazone.util.LogUtils.makeLogTag;

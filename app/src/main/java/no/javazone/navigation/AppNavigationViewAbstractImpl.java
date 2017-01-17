@@ -12,7 +12,7 @@
  * the License.
  */
 
-package no.javazone.notifications;
+package no.javazone.navigation;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,11 +21,9 @@ import android.net.Uri;
 
 import no.javazone.archframework.presenter.PresenterImpl;
 import no.javazone.archframework.view.UpdatableView;
-import no.javazone.notifications.NavigationModel.NavigationUserActionEnum;
 import no.javazone.util.ActivityUtils;
 
-import static no.javazone.notifications.NavigationModel.*;
-
+import static no.javazone.navigation.NavigationModel.*;
 
 /**
  * This abstract class implements both {@link UpdatableView} and {@link AppNavigationView}, without
@@ -34,10 +32,10 @@ import static no.javazone.notifications.NavigationModel.*;
  * specific are left abstract. Extend this class for full navigation functionality.
  */
 public abstract class AppNavigationViewAbstractImpl implements
-        UpdatableView<NavigationModel, NavigationModel.NavigationQueryEnum, NavigationUserActionEnum>,
+        UpdatableView<NavigationModel, NavigationQueryEnum, NavigationUserActionEnum>,
         AppNavigationView {
 
-    private UpdatableView.UserActionListener mUserActionListener;
+    private UserActionListener mUserActionListener;
 
     protected Activity mActivity;
 

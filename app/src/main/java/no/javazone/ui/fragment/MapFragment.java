@@ -59,15 +59,16 @@ import java.util.List;
 import no.javazone.R;
 import no.javazone.archframework.model.domain.Coordinates;
 import no.javazone.beacon.EstimoteBeaconManager;
-import no.javazone.beacon.util.NetworkUtil;
 import no.javazone.database.ScheduleContract;
 import no.javazone.archframework.model.domain.MarkerModel;
 import no.javazone.maps.MarkerLoadingTask;
 import no.javazone.ui.activity.MapActivity;
 import no.javazone.util.AnalyticsHelper;
 import no.javazone.util.MapUtils;
+import no.javazone.util.NetworkUtils;
 
 import static no.javazone.util.LogUtils.LOGD;
+import static no.javazone.util.LogUtils.makeLogTag;
 
 
 /**
@@ -90,14 +91,10 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
     private static final float DETAILED_MAP_ZOOM_THRESHOLD = 17;
     private static final float CAMERA_BEARING = -27;
     private static Marker mCurrentLocationMarker = null;
-
     private static final int INVALID_FLOOR = Integer.MIN_VALUE;
-
-    // Estimated number of floors used to initialise data structures with appropriate capacity
     private static final int INITIAL_FLOOR_COUNT = 3;
-
-    // Default level (index of level in IndoorBuilding object for Oslo Spektrum)
     private static final int OSLOSPEKTRUM_DEFAULT_LEVEL_INDEX = 1;
+    private boolean mMyLocationEnabled = false;
 
     private static final String TAG = makeLogTag(MapFragment.class);
 
@@ -217,23 +214,6 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(getActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(getActivity(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]
-                                {Manifest.permission.
-                                        ACCESS_FINE_LOCATION,
-                                        Manifest.permission.ACCESS_COARSE_LOCATION},
-                        REQUEST_LOCATION);
-            }
-        }
-
-
         // ANALYTICS SCREEN: View the Map screen
         // Contains: Nothing (Page name is a constant)
         AnalyticsHelper.sendScreenView(SCREEN_LABEL);
@@ -276,10 +256,10 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
     public void onResume() {
         super.onResume();
 
-        if (!NetworkUtil.isGpsOn(getActivity())) {
+        if (!NetworkUtils.isGpsOn(getActivity())) {
             createGpsDialog().show();
         }
-        if (!NetworkUtil.isBluetoothOn(getActivity())) {
+        if (!NetworkUtils.isBluetoothOn(getActivity())) {
             createBluetoothDialog().show();
         } else {
             mEstimoteBeaconManager.startMonitorEstimoteBeacons(getActivity());
@@ -313,7 +293,7 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
         buildAlertDialog.setPositiveButton("Enable", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                NetworkUtil.enableBluetooth(getActivity());
+                NetworkUtils.enableBluetooth(getActivity());
                 mEstimoteBeaconManager.startMonitorEstimoteBeacons(getActivity());
             }
         });
@@ -335,7 +315,7 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
         buildAlertDialog.setPositiveButton("Enable", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                NetworkUtil.enableGPS(getActivity());
+                NetworkUtils.enableGPS(getActivity());
                 mEstimoteBeaconManager.startMonitorEstimoteBeacons(getActivity());
             }
         });
@@ -362,17 +342,21 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
         mEstimoteBeaconManager.destroyEstimoteBeaconManager();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                           int[] grantResults) {
-        if (requestCode == REQUEST_LOCATION) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
-                    grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                mMap.setMyLocationEnabled(true);
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+    /**
+     * Toggles the 'my location' button. Note that the location permission <b>must</b> have already
+     * been granted when this call is made.
+     *
+     * @param setEnabled
+     */
+    public void setMyLocationEnabled(final boolean setEnabled) {
+        mMyLocationEnabled = setEnabled;
+
+        if (mMap == null) {
+            return;
         }
+        //noinspection MissingPermission
+        mMap.setMyLocationEnabled(mMyLocationEnabled);
     }
 
 
@@ -420,7 +404,6 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setIndoorEnabled(true);
-        mMap.setMyLocationEnabled(false);
         mMap.setOnMarkerClickListener(this);
         mMap.setOnIndoorStateChangeListener(this);
         mMap.setOnMapClickListener(this);
@@ -441,6 +424,8 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
         UiSettings mapUiSettings = mMap.getUiSettings();
         mapUiSettings.setZoomControlsEnabled(false);
         mapUiSettings.setMapToolbarEnabled(false);
+
+        mMap.setMyLocationEnabled(mMyLocationEnabled);
 
         // load all markers
         LoaderManager lm = getLoaderManager();

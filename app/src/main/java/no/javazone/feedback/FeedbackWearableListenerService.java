@@ -36,6 +36,7 @@ import com.google.android.gms.wearable.WearableListenerService;
 import java.util.concurrent.TimeUnit;
 
 import no.javazone.archframework.model.SessionFeedbackModel;
+import no.javazone.archframework.model.domain.SessionFeedbackData;
 import no.javazone.service.SessionAlarmService;
 
 import static no.javazone.util.LogUtils.LOGD;
@@ -161,7 +162,7 @@ public class FeedbackWearableListenerService extends WearableListenerService
      * @return true if successfully persisted
      */
     private boolean saveFeedback(DataMap data) {
-        SessionFeedbackModel.SessionFeedbackData feedback =
+        SessionFeedbackData feedback =
                 FeedbackHelper.convertDataMapToFeedbackData(data);
         if (feedback != null) {
             LOGD(TAG, "Feedback answers received from wear: " + feedback.toString());

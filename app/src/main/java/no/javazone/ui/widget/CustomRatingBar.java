@@ -28,6 +28,9 @@ import android.view.accessibility.AccessibilityManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import no.javazone.R;
+import no.javazone.util.AccessibilityUtils;
+
 /**
  * Replacement for a {@link android.widget.RatingBar} widget for providing ratings for sessions.
  * Provides ease of use for accessibility for use with Talkback and other assistive technologies.

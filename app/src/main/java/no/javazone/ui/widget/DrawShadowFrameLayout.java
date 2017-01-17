@@ -27,6 +27,8 @@ import android.util.AttributeSet;
 import android.util.Property;
 import android.widget.FrameLayout;
 
+import no.javazone.R;
+
 public class DrawShadowFrameLayout extends FrameLayout {
     private Drawable mShadowDrawable;
     private NinePatchDrawable mShadowNinePatchDrawable;

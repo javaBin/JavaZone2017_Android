@@ -32,7 +32,12 @@ import java.util.List;
 import java.util.Locale;
 
 import no.javazone.R;
+import no.javazone.archframework.model.domain.ScheduleHelper;
+import no.javazone.archframework.model.domain.ScheduleItem;
+import no.javazone.database.ScheduleContract;
+import no.javazone.ui.activity.MyScheduleActivity;
 import no.javazone.ui.activity.SimpleSectionedListAdapter;
+import no.javazone.ui.activity.TaskStackBuilderProxyActivity;
 import no.javazone.util.AccountUtils;
 import no.javazone.util.SettingsUtils;
 import no.javazone.util.TimeUtils;

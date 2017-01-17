@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/grp1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/signin_nav_item"
+            android:checkable="true"
+            android:title=""
+            android:visible="false" />
+        <item
+            android:id="@+id/myschedule_nav_item"
+            android:checkable="true"
+            android:title=""
+            android:visible="false" />
+        <item
+            android:id="@+id/iolive_nav_item"
+            android:checkable="true"
+            android:title=""
+            android:visible="false" />
+        <item
+            android:id="@+id/explore_nav_item"
+            android:checkable="true"
+            android:title=""
+            android:visible="false" />
+        <item
+            android:id="@+id/map_nav_item"
+            android:checkable="true"
+            android:title=""
+            android:visible="false" />
+        <item
+            android:id="@+id/social_nav_item"
+            android:checkable="true"
+            android:title=""
+            android:visible="false" />
+        <item
+            android:id="@+id/videos_nav_item"
+            android:checkable="true"
+            android:title=""
+            android:visible="false" />
+    </group>
+    <group
+        android:id="@+id/grp2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/settings_nav_item"
+            android:checkable="true"
+            android:title=""
+            android:visible="false" />
+        <item
+            android:id="@+id/about_nav_item"
+            android:checkable="true"
+            android:title=""
+            android:visible="false" />
+        <item
+            android:id="@+id/debug_nav_item"
+            android:checkable="true"
+            android:title=""
+            android:visible="false" />
+    </group>
+
+</menu>

@@ -12,7 +12,7 @@
  * the License.
  */
 
-package no.javazone.notifications;
+package no.javazone.navigation;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -21,9 +21,16 @@ import android.support.annotation.Nullable;
 import no.javazone.BuildConfig;
 import no.javazone.R;
 import no.javazone.archframework.model.Model;
-import no.javazone.database.QueryEnum;
 import no.javazone.archframework.view.UserActionEnum;
+import no.javazone.database.QueryEnum;
 import no.javazone.settings.SettingsActivity;
+import no.javazone.ui.activity.AboutActivity;
+import no.javazone.ui.activity.ExploreActivity;
+import no.javazone.ui.activity.JzVideoLibraryActivity;
+import no.javazone.ui.activity.MapActivity;
+import no.javazone.ui.activity.MyScheduleActivity;
+import no.javazone.util.AccountUtils;
+import no.javazone.util.SettingsUtils;
 
 /**
  * Determines which items to show in the {@link AppNavigationView}.
@@ -66,7 +73,7 @@ public class NavigationModel implements Model<NavigationModel.NavigationQueryEnu
 
     @Override
     public void requestData(final NavigationQueryEnum query,
-                            final DataQueryCallback callback) {
+            final DataQueryCallback callback) {
         switch (query) {
             case LOAD_ITEMS:
                 if (mItems != null) {
@@ -80,14 +87,24 @@ public class NavigationModel implements Model<NavigationModel.NavigationQueryEnu
     }
 
     private void populateNavigationItems() {
+        boolean attendeeAtVenue = SettingsUtils.isAttendeeAtVenue(mContext);
+        boolean loggedIn = AccountUtils.hasActiveAccount(mContext);
         boolean debug = BuildConfig.DEBUG;
 
         NavigationItemEnum[] items = null;
 
-        items = NavigationConfig.NAVIGATION_ITEMS_LOGGEDOUT_ATTENDING;
-
-        if (debug) {
-           // items = NavigationConfig.appendItem(items, NavigationItemEnum.DEBUG);
+        if (loggedIn) {
+            if (attendeeAtVenue) {
+                items = NavigationConfig.NAVIGATION_ITEMS_LOGGEDIN_ATTENDING;
+            } else {
+                items = NavigationConfig.NAVIGATION_ITEMS_LOGGEDIN_REMOTE;
+            }
+        } else {
+            if (attendeeAtVenue) {
+                items = NavigationConfig.NAVIGATION_ITEMS_LOGGEDOUT_ATTENDING;
+            } else {
+                items = NavigationConfig.NAVIGATION_ITEMS_LOGGEDOUT_REMOTE;
+            }
         }
 
         mItems = NavigationConfig.filterOutItemsDisabledInBuildConfig(items);
@@ -102,23 +119,20 @@ public class NavigationModel implements Model<NavigationModel.NavigationQueryEnu
      * List of all possible navigation items.
      */
     public enum NavigationItemEnum {
-
         MY_SCHEDULE(R.id.myschedule_nav_item, R.string.navdrawer_item_my_schedule,
                 R.drawable.ic_navview_schedule, MyScheduleActivity.class),
         IO_LIVE(R.id.iolive_nav_item, R.string.navdrawer_item_io_live, R.drawable.ic_navview_live,
                 null),
         EXPLORE(R.id.explore_nav_item, R.string.navdrawer_item_explore,
-                R.drawable.ic_navview_explore, ExploreIOActivity.class, true),
+                R.drawable.ic_navview_explore, ExploreActivity.class, true),
         MAP(R.id.map_nav_item, R.string.navdrawer_item_map, R.drawable.ic_navview_map, MapActivity.class),
         VIDEO_LIBRARY(R.id.videos_nav_item, R.string.navdrawer_item_video_library,
-                R.drawable.ic_navview_video_library, VideoLibraryActivity.class),
+                R.drawable.ic_navview_video_library, JzVideoLibraryActivity.class),
         SIGN_IN(R.id.signin_nav_item, R.string.navdrawer_item_sign_in, 0, null),
         SETTINGS(R.id.settings_nav_item, R.string.navdrawer_item_settings, R.drawable.ic_navview_settings,
                 SettingsActivity.class),
         ABOUT(R.id.about_nav_item, R.string.description_about, R.drawable.ic_about,
                 AboutActivity.class),
-        DEBUG(R.id.debug_nav_item, R.string.navdrawer_item_debug, R.drawable.ic_navview_settings,
-                DebugActivity.class),
         INVALID(12, 0, 0, null);
 
         private int id;
@@ -136,7 +150,7 @@ public class NavigationModel implements Model<NavigationModel.NavigationQueryEnu
         }
 
         NavigationItemEnum(int id, int titleResource, int iconResource, Class classToLaunch,
-                           boolean finishCurrentActivity) {
+                boolean finishCurrentActivity) {
             this.id = id;
             this.titleResource = titleResource;
             this.iconResource = iconResource;
@@ -168,7 +182,7 @@ public class NavigationModel implements Model<NavigationModel.NavigationQueryEnu
             NavigationItemEnum[] values = NavigationItemEnum.values();
             for (int i = 0; i < values.length; i++) {
                 if (values[i].getId() == id) {
-                    return values[i];
+                return values[i];
                 }
             }
             return INVALID;

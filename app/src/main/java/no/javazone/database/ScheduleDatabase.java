@@ -1,8 +1,6 @@
 package no.javazone.database;
 
-import android.accounts.Account;
 import android.app.SearchManager;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -28,7 +26,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
 
     private final Context mContext;
 
-    interface Tables {
+    interface DatabaseTables {
         String BLOCKS = "blocks";
         String TAGS = "tags";
         String ROOMS = "rooms";
@@ -104,32 +102,32 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
      * Fully-qualified field names.
      */
     private interface Qualified {
-        String SESSIONS_SEARCH = Tables.SESSIONS_SEARCH + "(" + SessionsSearchColumns.SESSION_ID
+        String SESSIONS_SEARCH = DatabaseTables.SESSIONS_SEARCH + "(" + SessionsSearchColumns.SESSION_ID
                 + "," + SessionsSearchColumns.BODY + ")";
 
-        String SESSIONS_TAGS_SESSION_ID = Tables.SESSIONS_TAGS + "."
+        String SESSIONS_TAGS_SESSION_ID = DatabaseTables.SESSIONS_TAGS + "."
                 + SessionsTags.SESSION_ID;
 
-        String SESSIONS_SPEAKERS_SESSION_ID = Tables.SESSIONS_SPEAKERS + "."
+        String SESSIONS_SPEAKERS_SESSION_ID = DatabaseTables.SESSIONS_SPEAKERS + "."
                 + SessionsSpeakers.SESSION_ID;
 
-        String SESSIONS_SPEAKERS_SPEAKER_ID = Tables.SESSIONS_SPEAKERS + "."
+        String SESSIONS_SPEAKERS_SPEAKER_ID = DatabaseTables.SESSIONS_SPEAKERS + "."
                 + SessionsSpeakers.SPEAKER_ID;
 
-        String SPEAKERS_SPEAKER_ID = Tables.SPEAKERS + "." + Speakers.SPEAKER_ID;
+        String SPEAKERS_SPEAKER_ID = DatabaseTables.SPEAKERS + "." + Speakers.SPEAKER_ID;
 
-        String FEEDBACK_SESSION_ID = Tables.FEEDBACK + "." + FeedbackColumns.SESSION_ID;
+        String FEEDBACK_SESSION_ID = DatabaseTables.FEEDBACK + "." + FeedbackColumns.SESSION_ID;
     }
 
     /**
      * {@code REFERENCES} clauses.
      */
     private interface References {
-        String BLOCK_ID = "REFERENCES " + Tables.BLOCKS + "(" + Blocks.BLOCK_ID + ")";
-        String TAG_ID = "REFERENCES " + Tables.TAGS + "(" + Tags.TAG_ID + ")";
-        String ROOM_ID = "REFERENCES " + Tables.ROOMS + "(" + Rooms.ROOM_ID + ")";
-        String SESSION_ID = "REFERENCES " + Tables.SESSIONS + "(" + Sessions.SESSION_ID + ")";
-        String SPEAKER_ID = "REFERENCES " + Tables.SPEAKERS + "(" + Speakers.SPEAKER_ID + ")";
+        String BLOCK_ID = "REFERENCES " + DatabaseTables.BLOCKS + "(" + Blocks.BLOCK_ID + ")";
+        String TAG_ID = "REFERENCES " + DatabaseTables.TAGS + "(" + Tags.TAG_ID + ")";
+        String ROOM_ID = "REFERENCES " + DatabaseTables.ROOMS + "(" + Rooms.ROOM_ID + ")";
+        String SESSION_ID = "REFERENCES " + DatabaseTables.SESSIONS + "(" + Sessions.SESSION_ID + ")";
+        String SPEAKER_ID = "REFERENCES " + DatabaseTables.SPEAKERS + "(" + Speakers.SPEAKER_ID + ")";
     }
 
     public ScheduleDatabase(Context context) {
@@ -139,7 +137,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + Tables.BLOCKS + " ("
+        db.execSQL("CREATE TABLE " + DatabaseTables.BLOCKS + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + BlocksColumns.BLOCK_ID + " TEXT NOT NULL,"
                 + BlocksColumns.BLOCK_TITLE + " TEXT NOT NULL,"
@@ -149,7 +147,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
                 + BlocksColumns.BLOCK_SUBTITLE + " TEXT,"
                 + "UNIQUE (" + BlocksColumns.BLOCK_ID + ") ON CONFLICT REPLACE)");
 
-        db.execSQL("CREATE TABLE " + Tables.TAGS + " ("
+        db.execSQL("CREATE TABLE " + DatabaseTables.TAGS + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + TagsColumns.TAG_ID + " TEXT NOT NULL,"
                 + TagsColumns.TAG_CATEGORY + " TEXT NOT NULL,"
@@ -159,14 +157,14 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
                 + TagsColumns.TAG_ABSTRACT + " TEXT NOT NULL,"
                 + "UNIQUE (" + TagsColumns.TAG_ID + ") ON CONFLICT REPLACE)");
 
-        db.execSQL("CREATE TABLE " + Tables.ROOMS + " ("
+        db.execSQL("CREATE TABLE " + DatabaseTables.ROOMS + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + RoomsColumns.ROOM_ID + " TEXT NOT NULL,"
                 + RoomsColumns.ROOM_NAME + " TEXT,"
                 + RoomsColumns.ROOM_FLOOR + " TEXT,"
                 + "UNIQUE (" + RoomsColumns.ROOM_ID + ") ON CONFLICT REPLACE)");
 
-        db.execSQL("CREATE TABLE " + Tables.SESSIONS + " ("
+        db.execSQL("CREATE TABLE " + DatabaseTables.SESSIONS + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + SyncColumns.UPDATED + " INTEGER NOT NULL,"
                 + SessionsColumns.SESSION_ID + " TEXT NOT NULL,"
@@ -185,7 +183,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
                 + SessionsColumns.SESSION_IN_MY_SCHEDULE + " INTEGER,"
                 + "UNIQUE (" + SessionsColumns.SESSION_ID + ") ON CONFLICT REPLACE)");
 
-        db.execSQL("CREATE TABLE " + Tables.SPEAKERS + " ("
+        db.execSQL("CREATE TABLE " + DatabaseTables.SPEAKERS + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + SyncColumns.UPDATED + " INTEGER NOT NULL,"
                 + SpeakersColumns.SPEAKER_ID + " TEXT NOT NULL,"
@@ -196,28 +194,28 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
                 + SpeakersColumns.SPEAKER_URL + " TEXT,"
                 + "UNIQUE (" + SpeakersColumns.SPEAKER_ID + ") ON CONFLICT REPLACE)");
 
-        db.execSQL("CREATE TABLE " + Tables.SESSIONS_SPEAKERS + " ("
+        db.execSQL("CREATE TABLE " + DatabaseTables.SESSIONS_SPEAKERS + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + SessionsSpeakers.SESSION_ID + " TEXT NOT NULL " + References.SESSION_ID + ","
                 + SessionsSpeakers.SPEAKER_ID + " TEXT NOT NULL " + References.SPEAKER_ID + ","
                 + "UNIQUE (" + SessionsSpeakers.SESSION_ID + ","
                 + SessionsSpeakers.SPEAKER_ID + ") ON CONFLICT REPLACE)");
 
-        db.execSQL("CREATE TABLE " + Tables.SESSIONS_TAGS + " ("
+        db.execSQL("CREATE TABLE " + DatabaseTables.SESSIONS_TAGS + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + SessionsTags.SESSION_ID + " TEXT NOT NULL " + References.SESSION_ID + ","
                 + SessionsTags.TAG_ID + " TEXT NOT NULL " + References.TAG_ID + ","
                 + "UNIQUE (" + SessionsTags.SESSION_ID + ","
                 + SessionsTags.TAG_ID + ") ON CONFLICT REPLACE)");
 
-        db.execSQL("CREATE TABLE " + Tables.MAPTILES + " ("
+        db.execSQL("CREATE TABLE " + DatabaseTables.MAPTILES + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + MapTileColumns.TILE_FLOOR + " INTEGER NOT NULL,"
                 + MapTileColumns.TILE_FILE + " TEXT NOT NULL,"
                 + MapTileColumns.TILE_URL + " TEXT NOT NULL,"
                 + "UNIQUE (" + MapTileColumns.TILE_FLOOR + ") ON CONFLICT REPLACE)");
 
-        db.execSQL("CREATE TABLE " + Tables.FEEDBACK + " ("
+        db.execSQL("CREATE TABLE " + DatabaseTables.FEEDBACK + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + SyncColumns.UPDATED + " INTEGER NOT NULL,"
                 + Sessions.SESSION_ID + " TEXT " + References.SESSION_ID + ","
@@ -229,11 +227,11 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
                 + FeedbackColumns.SYNCED + " INTEGER NOT NULL DEFAULT 0)");
 
         db.execSQL("CREATE TRIGGER " + Triggers.SESSIONS_FEEDBACK_DELETE + " AFTER DELETE ON "
-                + Tables.SESSIONS + " BEGIN DELETE FROM " + Tables.FEEDBACK + " "
+                + DatabaseTables.SESSIONS + " BEGIN DELETE FROM " + DatabaseTables.FEEDBACK + " "
                 + " WHERE " + Qualified.FEEDBACK_SESSION_ID + "=old." + Sessions.SESSION_ID
                 + ";" + " END;");
 
-        db.execSQL("CREATE TABLE " + Tables.MAPMARKERS + " ("
+        db.execSQL("CREATE TABLE " + DatabaseTables.MAPMARKERS + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + MapMarkerColumns.MARKER_ID + " TEXT NOT NULL,"
                 + MapMarkerColumns.MARKER_TYPE + " TEXT NOT NULL,"
@@ -245,7 +243,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
 
         // Full-text search index. Update using updateSessionSearchIndex method.
         // Use the porter tokenizer for simple stemming, so that "frustration" matches "frustrated."
-        db.execSQL("CREATE VIRTUAL TABLE " + Tables.SESSIONS_SEARCH + " USING fts3("
+        db.execSQL("CREATE VIRTUAL TABLE " + DatabaseTables.SESSIONS_SEARCH + " USING fts3("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + SessionsSearchColumns.BODY + " TEXT NOT NULL,"
                 + SessionsSearchColumns.SESSION_ID
@@ -254,18 +252,18 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
                 + "tokenize=porter)");
 
         // Search suggestions
-        db.execSQL("CREATE TABLE " + Tables.SEARCH_SUGGEST + " ("
+        db.execSQL("CREATE TABLE " + DatabaseTables.SEARCH_SUGGEST + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + SearchManager.SUGGEST_COLUMN_TEXT_1 + " TEXT NOT NULL)");
 
         // Session deletion triggers
         db.execSQL("CREATE TRIGGER " + Triggers.SESSIONS_TAGS_DELETE + " AFTER DELETE ON "
-                + Tables.SESSIONS + " BEGIN DELETE FROM " + Tables.SESSIONS_TAGS + " "
+                + DatabaseTables.SESSIONS + " BEGIN DELETE FROM " + DatabaseTables.SESSIONS_TAGS + " "
                 + " WHERE " + Qualified.SESSIONS_TAGS_SESSION_ID + "=old." + Sessions.SESSION_ID
                 + ";" + " END;");
 
         db.execSQL("CREATE TRIGGER " + Triggers.SESSIONS_SPEAKERS_DELETE + " AFTER DELETE ON "
-                + Tables.SESSIONS + " BEGIN DELETE FROM " + Tables.SESSIONS_SPEAKERS + " "
+                + DatabaseTables.SESSIONS + " BEGIN DELETE FROM " + DatabaseTables.SESSIONS_SPEAKERS + " "
                 + " WHERE " + Qualified.SESSIONS_SPEAKERS_SESSION_ID + "=old." + Sessions.SESSION_ID
                 + ";" + " END;");
     }
@@ -275,7 +273,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
      * complex.
      */
     static void updateSessionSearchIndex(SQLiteDatabase db) {
-        db.execSQL("DELETE FROM " + Tables.SESSIONS_SEARCH);
+        db.execSQL("DELETE FROM " + DatabaseTables.SESSIONS_SEARCH);
 
         db.execSQL("INSERT INTO " + Qualified.SESSIONS_SEARCH
                 + " SELECT s." + Sessions.SESSION_ID + ",("
@@ -286,14 +284,14 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
                 + "IFNULL(GROUP_CONCAT(t." + Speakers.SPEAKER_NAME + ",' '),'')||'; '||"
                 + "'')"
 
-                + " FROM " + Tables.SESSIONS + " s "
+                + " FROM " + DatabaseTables.SESSIONS + " s "
                 + " LEFT OUTER JOIN"
 
                 // Subquery resulting in session_id, speaker_id, speaker_name
                 + "(SELECT " + Sessions.SESSION_ID + "," + Qualified.SPEAKERS_SPEAKER_ID
                 + "," + Speakers.SPEAKER_NAME
-                + " FROM " + Tables.SESSIONS_SPEAKERS
-                + " INNER JOIN " + Tables.SPEAKERS
+                + " FROM " + DatabaseTables.SESSIONS_SPEAKERS
+                + " INNER JOIN " + DatabaseTables.SPEAKERS
                 + " ON " + Qualified.SESSIONS_SPEAKERS_SPEAKER_ID + "="
                 + Qualified.SPEAKERS_SPEAKER_ID
                 + ") t"
@@ -328,20 +326,19 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
             db.execSQL("DROP TRIGGER IF EXISTS " + Triggers.SESSIONS_SPEAKERS_DELETE);
             db.execSQL("DROP TRIGGER IF EXISTS " + Triggers.SESSIONS_FEEDBACK_DELETE);
             db.execSQL("DROP TRIGGER IF EXISTS " + Triggers.SESSIONS_MY_SCHEDULE_DELETE);
-            db.execSQL("DROP TRIGGER IF EXISTS " + Triggers.DeprecatedTriggers.SESSIONS_TRACKS_DELETE);
 
-            db.execSQL("DROP TABLE IF EXISTS " + Tables.BLOCKS);
-            db.execSQL("DROP TABLE IF EXISTS " + Tables.ROOMS);
-            db.execSQL("DROP TABLE IF EXISTS " + Tables.TAGS);
-            db.execSQL("DROP TABLE IF EXISTS " + Tables.SESSIONS);
-            db.execSQL("DROP TABLE IF EXISTS " + Tables.SPEAKERS);
-            db.execSQL("DROP TABLE IF EXISTS " + Tables.SESSIONS_SPEAKERS);
-            db.execSQL("DROP TABLE IF EXISTS " + Tables.SESSIONS_TAGS);
-            db.execSQL("DROP TABLE IF EXISTS " + Tables.FEEDBACK);
-            db.execSQL("DROP TABLE IF EXISTS " + Tables.SESSIONS_SEARCH);
-            db.execSQL("DROP TABLE IF EXISTS " + Tables.SEARCH_SUGGEST);
-            db.execSQL("DROP TABLE IF EXISTS " + Tables.MAPMARKERS);
-            db.execSQL("DROP TABLE IF EXISTS " + Tables.MAPTILES);
+            db.execSQL("DROP TABLE IF EXISTS " + DatabaseTables.BLOCKS);
+            db.execSQL("DROP TABLE IF EXISTS " + DatabaseTables.ROOMS);
+            db.execSQL("DROP TABLE IF EXISTS " + DatabaseTables.TAGS);
+            db.execSQL("DROP TABLE IF EXISTS " + DatabaseTables.SESSIONS);
+            db.execSQL("DROP TABLE IF EXISTS " + DatabaseTables.SPEAKERS);
+            db.execSQL("DROP TABLE IF EXISTS " + DatabaseTables.SESSIONS_SPEAKERS);
+            db.execSQL("DROP TABLE IF EXISTS " + DatabaseTables.SESSIONS_TAGS);
+            db.execSQL("DROP TABLE IF EXISTS " + DatabaseTables.FEEDBACK);
+            db.execSQL("DROP TABLE IF EXISTS " + DatabaseTables.SESSIONS_SEARCH);
+            db.execSQL("DROP TABLE IF EXISTS " + DatabaseTables.SEARCH_SUGGEST);
+            db.execSQL("DROP TABLE IF EXISTS " + DatabaseTables.MAPMARKERS);
+            db.execSQL("DROP TABLE IF EXISTS " + DatabaseTables.MAPTILES);
 
             onCreate(db);
             version = CUR_DATABASE_VERSION;
@@ -349,7 +346,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
 
         if (dataInvalidated) {
             LOGD(TAG, "Data invalidated; resetting our data timestamp.");
-            ConferenceDataHandler.resetDataTimestamp(mContext);
+            //ConferenceDataHandler.resetDataTimestamp(mContext);
             LOGI(TAG, "DB upgrade complete. Requesting resync.");
             SyncHelper.requestManualSync();
         }

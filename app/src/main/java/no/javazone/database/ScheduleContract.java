@@ -119,6 +119,8 @@ public class ScheduleContract {
 
     private static final String PATH_SESSIONS = "sessions";
 
+    private static final String PATH_STARRED = "starred";
+
     private static final String PATH_FEEDBACK = "feedback";
 
     private static final String PATH_SESSIONS_COUNTER = "counter";
@@ -270,6 +272,9 @@ public class ScheduleContract {
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_SESSIONS).build();
+
+        public static final Uri CONTENT_STARRED_URI =
+                CONTENT_URI.buildUpon().appendPath(PATH_STARRED).build();
 
         public static final String CONTENT_TYPE_ID = "session";
 
