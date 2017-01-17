@@ -2,7 +2,7 @@ package no.javazone.util;
 
 import com.google.gson.JsonElement;
 
-import no.javazone.archframework.feedback.JZFeedback;
+import no.javazone.archframework.model.dto.JZFeedback;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.http.Body;

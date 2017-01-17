@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import no.javazone.R;
-import no.javazone.archframework.maps.model.MarkerModel;
+import no.javazone.archframework.model.domain.MarkerModel;
 
 import static no.javazone.util.LogUtils.LOGD;
 import static no.javazone.util.LogUtils.LOGE;

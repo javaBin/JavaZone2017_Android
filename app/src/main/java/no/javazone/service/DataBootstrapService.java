@@ -10,7 +10,7 @@ import java.io.IOException;
 import no.javazone.BuildConfig;
 import no.javazone.R;
 import no.javazone.archframework.database.provider.ScheduleContract;
-import no.javazone.archframework.schedule.JsonHandler;
+import no.javazone.schedule.JsonHandler;
 import no.javazone.util.LogUtils;
 import no.javazone.util.SettingsUtils;
 

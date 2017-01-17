@@ -26,11 +26,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
-import com.google.samples.apps.iosched.BuildConfig;
-import com.google.samples.apps.iosched.R;
+import no.javazone.BuildConfig;
+import no.javazone.R;
 
-import static com.google.samples.apps.iosched.util.LogUtils.LOGI;
-import static com.google.samples.apps.iosched.util.LogUtils.makeLogTag;
+import static no.javazone.util.LogUtils.LOGI;
+import static no.javazone.util.LogUtils.makeLogTag;
 
 /**
  * Set of runtime permission utility methods.

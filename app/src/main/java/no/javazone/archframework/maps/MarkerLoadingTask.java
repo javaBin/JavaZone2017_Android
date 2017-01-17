@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package no.javazone.archframework.maps.util;
+package no.javazone.archframework.maps;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import no.javazone.archframework.database.provider.ScheduleContract;
-import no.javazone.archframework.maps.model.MarkerModel;
+import no.javazone.archframework.model.domain.MarkerModel;
 import no.javazone.util.MapUtils;
 
 /**

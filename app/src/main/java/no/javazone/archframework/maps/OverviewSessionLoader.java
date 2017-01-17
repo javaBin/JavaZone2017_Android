@@ -14,43 +14,44 @@
  * limitations under the License.
  */
 
-package no.javazone.archframework.maps.util;
+package no.javazone.archframework.maps;
 
 import android.content.Context;
 
 import no.javazone.archframework.database.provider.ScheduleContract;
 
 /**
- * Loads the title and abstract for the very first session scheduled in a room.
+ * Loads session information for all sessions scheduled in a particular room after a timestamp.
  */
-public class SingleSessionLoader extends SessionLoader {
+public class OverviewSessionLoader extends SessionLoader {
 
 
-    public SingleSessionLoader(Context context, String roomId, String roomTitle, int roomType) {
+    public OverviewSessionLoader(Context context, String roomId, String roomTitle,
+                                 int roomType, long time) {
         super(context, roomId, roomTitle, roomType,
-                ScheduleContract.Rooms.buildSessionsDirUri(roomId),
-                Query.PROJECTION, null, null, Query.ORDER_LIMIT);
+                ScheduleContract.Sessions.buildSessionsInRoomAfterUri(roomId, time),
+                Query.PROJECTION,
+                null, null, Query.ORDER);
 
     }
 
-
-    /**
-     * Query Paramters for the "Sessions in room after" query that returns a list of sessions
-     * that are following a given time in a particular room. Results are limited to the first
-     * session only.
-     */
     public static interface Query {
 
-        final String ORDER_LIMIT = ScheduleContract.Sessions.SESSION_START + " ASC LIMIT 1";
-
+        final String ORDER = ScheduleContract.Sessions.SESSION_START + " ASC";
 
         final String[] PROJECTION = {
                 ScheduleContract.Sessions._ID,
+                ScheduleContract.Sessions.SESSION_ID,
                 ScheduleContract.Sessions.SESSION_TITLE,
-                ScheduleContract.Sessions.SESSION_ABSTRACT
+                ScheduleContract.Sessions.SESSION_START,
+                ScheduleContract.Sessions.SESSION_END,
+                ScheduleContract.Sessions.SESSION_TAGS
         };
 
-        int SESSION_TITLE = 1;
-        int SESSION_ABSTRACT = 2;
+        int SESSION_ID = 1;
+        int SESSION_TITLE = 2;
+        int SESSION_START = 3;
+        int SESSION_END = 4;
+        int SESSION_TAGS = 5;
     }
 }

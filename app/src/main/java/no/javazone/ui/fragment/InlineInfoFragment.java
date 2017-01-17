@@ -23,7 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import no.java.schedule.v2.R;
+import no.javazone.R;
 
 /**
  * Map info fragment that displays its content within in.

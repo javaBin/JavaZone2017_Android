@@ -28,7 +28,8 @@ import android.support.annotation.Nullable;
 
 import com.google.common.annotations.VisibleForTesting;
 
-import no.javazone.archframework.models.ModelWithLoaderManager;
+import no.javazone.archframework.database.provider.ScheduleContract;
+import no.javazone.archframework.model.ModelWithLoaderManager;
 import no.javazone.archframework.database.QueryEnum;
 import no.javazone.archframework.database.UserActionEnum;
 import no.javazone.util.AnalyticsHelper;

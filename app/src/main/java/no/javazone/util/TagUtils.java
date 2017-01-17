@@ -14,7 +14,7 @@
 
 package no.javazone.util;
 
-import com.google.samples.apps.iosched.Config;
+import no.javazone.Config;
 
 /**
  * Utility methods for parsing sessions tags.

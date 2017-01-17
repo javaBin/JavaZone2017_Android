@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
 import no.javazone.BuildConfig;
 import no.javazone.R;
 import no.javazone.archframework.database.UpdatableView;
-import no.javazone.archframework.feedback.JZFeedback;
+import no.javazone.archframework.model.dto.JZFeedback;
 import no.javazone.archframework.feedback.SessionFeedbackModel;
 import no.javazone.ui.activity.SessionFeedbackActivity;
 import no.javazone.ui.widget.NumberRatingBar;

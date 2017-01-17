@@ -66,8 +66,8 @@
     <color name="cyan_a700_plus">#ff006574</color>
 
     <!-- App Primary View Colors (might be deprecated). -->
-    <color name="app_primary_accent">#FF26C6DA</color>
-    <color name="app_secondary_accent">#1A000000</color>
+    <color name="app_primary_accent">#2B2B2B</color>
+    <color name="app_secondary_accent">@android:color/black</color>
     <color name="app_primary_text">#444444</color>
     <color name="app_secondary_text">#444444</color>
     <color name="app_white">#FFFEFEFE</color>

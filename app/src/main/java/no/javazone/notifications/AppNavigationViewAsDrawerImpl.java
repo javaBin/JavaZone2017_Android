@@ -34,8 +34,8 @@ import java.util.List;
 
 import no.javazone.R;
 import no.javazone.notifications.NavigationModel.NavigationItemEnum;
-import no.javazone.settings.SettingsUtils;
 import no.javazone.util.ImageLoader;
+import no.javazone.util.SettingsUtils;
 import no.javazone.util.UIUtils;
 
 import static no.javazone.util.LogUtils.LOGE;

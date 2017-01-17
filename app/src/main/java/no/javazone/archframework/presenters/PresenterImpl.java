@@ -6,8 +6,8 @@ import android.support.annotation.Nullable;
 import no.javazone.archframework.database.QueryEnum;
 import no.javazone.archframework.database.UpdatableView;
 import no.javazone.archframework.database.UserActionEnum;
-import no.javazone.archframework.models.Model;
-import no.javazone.archframework.models.ModelWithLoaderManager;
+import no.javazone.archframework.model.Model;
+import no.javazone.archframework.model.ModelWithLoaderManager;
 
 import static no.javazone.util.LogUtils.LOGE;
 import static no.javazone.util.LogUtils.makeLogTag;

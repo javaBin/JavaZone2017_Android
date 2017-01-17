@@ -1,4 +1,4 @@
-package no.javazone.archframework.schedule;
+package no.javazone.schedule;
 
 import android.content.ContentProviderOperation;
 import android.content.Context;

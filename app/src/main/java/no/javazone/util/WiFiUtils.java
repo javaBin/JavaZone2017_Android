@@ -38,16 +38,14 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.samples.apps.iosched.BuildConfig;
-import com.google.samples.apps.iosched.Config;
-import com.google.samples.apps.iosched.R;
-import com.google.samples.apps.iosched.settings.SettingsUtils;
-
 import java.util.List;
 
-import static com.google.samples.apps.iosched.util.LogUtils.LOGI;
-import static com.google.samples.apps.iosched.util.LogUtils.LOGW;
-import static com.google.samples.apps.iosched.util.LogUtils.makeLogTag;
+import no.javazone.BuildConfig;
+import no.javazone.Config;
+import no.javazone.R;
+
+import static no.javazone.util.LogUtils.LOGI;
+import static no.javazone.util.LogUtils.LOGW;
 import static no.javazone.util.LogUtils.makeLogTag;
 
 public class WiFiUtils {

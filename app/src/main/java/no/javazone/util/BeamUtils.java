@@ -24,7 +24,7 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Parcelable;
 
-import com.google.samples.apps.iosched.provider.ScheduleContract;
+import no.javazone.archframework.database.provider.ScheduleContract;
 
 /**
  * Android Beam helper methods.

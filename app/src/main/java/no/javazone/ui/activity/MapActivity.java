@@ -34,19 +34,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import static com.google.samples.apps.iosched.util.LogUtils.makeLogTag;
 import static no.javazone.util.LogUtils.makeLogTag;
 
-/**
- * Activity that displays a {@link com.google.samples.apps.iosched.map.MapFragment} and a {@link
- * com.google.samples.apps.iosched.map.MapInfoFragment}.
- * Supports 'detached' mode, where the toolbar contains an up navigation option that finishes this
- * Activity. (see {@link #EXTRA_DETACHED_MODE}
- * Optionally a room can be specified via {@link #EXTRA_ROOM} that pans the map to its indicated
- * marker.
- *
- * @see com.google.samples.apps.iosched.map.MapInfoFragment#newInstace(android.content.Context)
- */
 public class MapActivity extends BaseActivity
         implements SlideableInfoFragment.Callback, MapFragment.Callbacks {
 
@@ -54,9 +43,6 @@ public class MapActivity extends BaseActivity
 
     private static final String SCREEN_LABEL = "Map";
 
-    /**
-     * When specified, will automatically point the map to the requested room.
-     */
     public static final String EXTRA_ROOM = "com.google.android.iosched.extra.ROOM";
 
     public static final String EXTRA_DETACHED_MODE
@@ -269,7 +255,6 @@ public class MapActivity extends BaseActivity
                         Math.round(bottom * SlideableInfoFragment.MAX_PANEL_PADDING_FACTOR));
                 mMapFragment.setMapInsets(0, 0, 0, bottomPadding);
             }
-            // F
         }
     }
 

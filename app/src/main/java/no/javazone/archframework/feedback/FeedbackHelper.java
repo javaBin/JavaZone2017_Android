@@ -18,17 +18,22 @@ package no.javazone.archframework.feedback;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 
+import com.google.android.gms.wearable.DataMap;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import no.javazone.archframework.database.provider.ScheduleContract;
 import no.javazone.archframework.feedback.SessionFeedbackModel.SessionFeedbackData;
+import no.javazone.service.SessionAlarmService;
 
 import static no.javazone.util.LogUtils.LOGD;
 import static no.javazone.util.LogUtils.LOGE;
@@ -73,6 +78,17 @@ public class FeedbackHelper {
                 .insert(ScheduleContract.Feedback.buildFeedbackUri(data.sessionId), values);
         LOGD(TAG, null == uri ? "No feedback was saved" : uri.toString());
         dismissFeedbackNotification(data.sessionId);
+    }
+
+    /**
+     * Invokes the {@link FeedbackWearableListenerService} to dismiss the notification on both the device
+     * and wear.
+     */
+    private void dismissFeedbackNotification(String sessionId) {
+        Intent dismissalIntent = new Intent(mContext, FeedbackWearableListenerService.class);
+        dismissalIntent.setAction(SessionAlarmService.ACTION_NOTIFICATION_DISMISSAL);
+        dismissalIntent.putExtra(SessionAlarmService.KEY_SESSION_ID, sessionId);
+        mContext.startService(dismissalIntent);
     }
 
     /**

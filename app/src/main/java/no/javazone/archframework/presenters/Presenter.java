@@ -18,7 +18,7 @@ package no.javazone.archframework.presenters;
 import no.javazone.archframework.database.QueryEnum;
 import no.javazone.archframework.database.UpdatableView;
 import no.javazone.archframework.database.UserActionEnum;
-import no.javazone.archframework.models.Model;
+import no.javazone.archframework.model.Model;
 
 /**
  * A Presenter acts as a controller for both the {@link UpdatableView} (typically a fragment) and

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package no.javazone.archframework.maps.util;
+package no.javazone.archframework.maps;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

@@ -14,9 +14,6 @@
 
 package no.javazone.util;
 
-import com.google.samples.apps.iosched.session.SessionDetailModel;
-
-
 public class ExtendedSessionHelper {
     public static String getExtendedSessionUrl(SessionDetailModel data) {
         return null;

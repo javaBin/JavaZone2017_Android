@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package no.javazone.archframework.models;
+package no.javazone.archframework.model;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

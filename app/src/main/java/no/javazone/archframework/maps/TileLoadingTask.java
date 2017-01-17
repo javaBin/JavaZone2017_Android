@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package no.javazone.archframework.maps.util;
+package no.javazone.archframework.maps;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;

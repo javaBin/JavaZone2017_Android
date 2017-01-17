@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.widget.Toast;
 
 import no.javazone.BuildConfig;
-import no.javazone.archframework.feedback.JZFeedback;
+import no.javazone.archframework.model.dto.JZFeedback;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

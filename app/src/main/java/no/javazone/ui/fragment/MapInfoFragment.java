@@ -34,7 +34,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import no.javazone.R;
-import no.javazone.archframework.maps.model.MarkerModel;
+import no.javazone.archframework.model.domain.MarkerModel;
 import no.javazone.util.MapUtils;
 import no.javazone.util.UIUtils;
 

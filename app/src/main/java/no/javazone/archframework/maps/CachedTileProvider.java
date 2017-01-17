@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package no.javazone.archframework.maps.util;
+package no.javazone.archframework.maps;
 
 import com.google.android.gms.maps.model.Tile;
 import com.google.android.gms.maps.model.TileProvider;
@@ -26,8 +26,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import static com.google.samples.apps.iosched.util.LogUtils.LOGD;
-import static com.google.samples.apps.iosched.util.LogUtils.makeLogTag;
+import static no.javazone.util.LogUtils.LOGD;
+import static no.javazone.util.LogUtils.makeLogTag;
 
 /**
  * Wrapper that provides a disk-based LRU cache for a TileProvider.

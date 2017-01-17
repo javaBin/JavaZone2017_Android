@@ -26,8 +26,6 @@ import com.google.android.gms.analytics.Tracker;
 
 import no.javazone.BuildConfig;
 import no.javazone.R;
-import no.javazone.settings.SettingsUtils;
-
 import static no.javazone.util.LogUtils.LOGD;
 
 /**

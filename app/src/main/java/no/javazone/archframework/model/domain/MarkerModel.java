@@ -1,4 +1,4 @@
-package no.javazone.archframework.maps.model;
+package no.javazone.archframework.model.domain;
 
 import com.google.android.gms.maps.model.Marker;
 

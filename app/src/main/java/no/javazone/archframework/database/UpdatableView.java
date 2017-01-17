@@ -20,7 +20,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import no.javazone.archframework.models.Model;
+import no.javazone.archframework.model.Model;
 import no.javazone.archframework.presenters.Presenter;
 
 /**

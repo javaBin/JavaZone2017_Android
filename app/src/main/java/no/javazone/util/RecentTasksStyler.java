@@ -22,7 +22,7 @@ import android.app.ActivityManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 
-import com.google.samples.apps.iosched.R;
+import no.javazone.R;
 
 /**
  * Helper class that applies the proper icon, title and background color to recent tasks list.

@@ -1,4 +1,4 @@
-package no.javazone.archframework.feedback;
+package no.javazone.archframework.model.dto;
 
 import java.io.Serializable;
 
