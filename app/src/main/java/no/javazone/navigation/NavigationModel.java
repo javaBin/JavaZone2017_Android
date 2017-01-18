@@ -32,6 +32,8 @@ import no.javazone.ui.activity.MyScheduleActivity;
 import no.javazone.util.AccountUtils;
 import no.javazone.util.SettingsUtils;
 
+import static no.javazone.navigation.NavigationConfig.NAVIGATION_ATTENDING;
+
 /**
  * Determines which items to show in the {@link AppNavigationView}.
  */
@@ -87,25 +89,7 @@ public class NavigationModel implements Model<NavigationModel.NavigationQueryEnu
     }
 
     private void populateNavigationItems() {
-        boolean attendeeAtVenue = SettingsUtils.isAttendeeAtVenue(mContext);
-        boolean loggedIn = AccountUtils.hasActiveAccount(mContext);
-        boolean debug = BuildConfig.DEBUG;
-
-        NavigationItemEnum[] items = null;
-
-        if (loggedIn) {
-            if (attendeeAtVenue) {
-                items = NavigationConfig.NAVIGATION_ITEMS_LOGGEDIN_ATTENDING;
-            } else {
-                items = NavigationConfig.NAVIGATION_ITEMS_LOGGEDIN_REMOTE;
-            }
-        } else {
-            if (attendeeAtVenue) {
-                items = NavigationConfig.NAVIGATION_ITEMS_LOGGEDOUT_ATTENDING;
-            } else {
-                items = NavigationConfig.NAVIGATION_ITEMS_LOGGEDOUT_REMOTE;
-            }
-        }
+        NavigationItemEnum[] items =  NAVIGATION_ATTENDING;
 
         mItems = NavigationConfig.filterOutItemsDisabledInBuildConfig(items);
     }
@@ -121,14 +105,11 @@ public class NavigationModel implements Model<NavigationModel.NavigationQueryEnu
     public enum NavigationItemEnum {
         MY_SCHEDULE(R.id.myschedule_nav_item, R.string.navdrawer_item_my_schedule,
                 R.drawable.ic_navview_schedule, MyScheduleActivity.class),
-        IO_LIVE(R.id.iolive_nav_item, R.string.navdrawer_item_io_live, R.drawable.ic_navview_live,
-                null),
         EXPLORE(R.id.explore_nav_item, R.string.navdrawer_item_explore,
                 R.drawable.ic_navview_explore, ExploreActivity.class, true),
         MAP(R.id.map_nav_item, R.string.navdrawer_item_map, R.drawable.ic_navview_map, MapActivity.class),
         VIDEO_LIBRARY(R.id.videos_nav_item, R.string.navdrawer_item_video_library,
                 R.drawable.ic_navview_video_library, JzVideoLibraryActivity.class),
-        SIGN_IN(R.id.signin_nav_item, R.string.navdrawer_item_sign_in, 0, null),
         SETTINGS(R.id.settings_nav_item, R.string.navdrawer_item_settings, R.drawable.ic_navview_settings,
                 SettingsActivity.class),
         ABOUT(R.id.about_nav_item, R.string.description_about, R.drawable.ic_about,

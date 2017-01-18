@@ -5,17 +5,7 @@
         android:id="@+id/grp1"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/signin_nav_item"
-            android:checkable="true"
-            android:title=""
-            android:visible="false" />
-        <item
             android:id="@+id/myschedule_nav_item"
-            android:checkable="true"
-            android:title=""
-            android:visible="false" />
-        <item
-            android:id="@+id/iolive_nav_item"
             android:checkable="true"
             android:title=""
             android:visible="false" />
@@ -26,11 +16,6 @@
             android:visible="false" />
         <item
             android:id="@+id/map_nav_item"
-            android:checkable="true"
-            android:title=""
-            android:visible="false" />
-        <item
-            android:id="@+id/social_nav_item"
             android:checkable="true"
             android:title=""
             android:visible="false" />
@@ -50,11 +35,6 @@
             android:visible="false" />
         <item
             android:id="@+id/about_nav_item"
-            android:checkable="true"
-            android:title=""
-            android:visible="false" />
-        <item
-            android:id="@+id/debug_nav_item"
             android:checkable="true"
             android:title=""
             android:visible="false" />

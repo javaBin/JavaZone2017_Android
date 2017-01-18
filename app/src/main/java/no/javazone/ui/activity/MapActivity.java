@@ -25,6 +25,7 @@ import no.javazone.ui.fragment.MapInfoFragment;
 import no.javazone.ui.fragment.SlideableInfoFragment;
 import no.javazone.util.AnalyticsHelper;
 import no.javazone.util.PermissionsUtils;
+import no.javazone.util.SessionDetailConstants;
 
 import android.Manifest;
 import android.app.FragmentManager;
@@ -271,12 +272,8 @@ public class MapActivity extends BaseActivity
         // Contains: The session ID.
         AnalyticsHelper.sendEvent(SCREEN_LABEL, "selectsession", sessionId);
 
-        getLUtils().startActivityWithTransition(
-                new Intent(Intent.ACTION_VIEW,
-                        ScheduleContract.Sessions.buildSessionUri(sessionId)),
-                null,
-                SessionDetailConstants.TRANSITION_NAME_PHOTO
-        );
+        startActivity(new Intent(Intent.ACTION_VIEW,
+                ScheduleContract.Sessions.buildSessionUri(sessionId)));
     }
 
     @Override

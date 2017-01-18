@@ -59,7 +59,6 @@ public class ConferenceDataHandler {
     private static final String DATA_KEY_TAGS = "tags";
     private static final String DATA_KEY_SPEAKERS = "speakers";
     private static final String DATA_KEY_SESSIONS = "sessions";
-    private static final String DATA_KEY_SEARCH_SUGGESTIONS = "search_suggestions";
     private static final String DATA_KEY_MAP = "map";
 
     private static final String[] DATA_KEYS_IN_ORDER = {
@@ -67,9 +66,7 @@ public class ConferenceDataHandler {
             DATA_KEY_BLOCKS,
             DATA_KEY_TAGS,
             DATA_KEY_SPEAKERS,
-            DATA_KEY_SESSIONS,
-            DATA_KEY_SEARCH_SUGGESTIONS,
-            DATA_KEY_MAP
+            DATA_KEY_SESSIONS
     };
 
     Context mContext = null;

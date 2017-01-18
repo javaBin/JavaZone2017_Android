@@ -49,12 +49,13 @@
         android:paddingRight="@dimen/keyline_1"
         android:paddingTop="@dimen/keyline_1">
 
-        <com.google.samples.apps.iosched.ui.widget.BezelImageView
+        <no.javazone.ui.widget.BezelImageView
             android:id="@+id/profile_image"
             android:layout_width="@dimen/navdrawer_profile_image_size"
             android:layout_height="@dimen/navdrawer_profile_image_size"
             android:layout_marginBottom="@dimen/keyline_1"
             android:layout_marginTop="@dimen/navdrawer_header_icon_margin_top"
+
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/ic_duke_viking_o_512x512"
             app:maskDrawable="@drawable/circle_mask" />

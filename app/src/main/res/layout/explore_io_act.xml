@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context=".explore.ExploreIOActivity">
+        tools:context=".ui.activity.ExploreActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinator_layout"
@@ -43,7 +43,7 @@
 
         <fragment
             android:id="@+id/explore_library_frag"
-            android:name="com.google.samples.apps.iosched.explore.ExploreIOFragment"
+            android:name="no.javazone.ui.fragment.TestFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />

@@ -94,7 +94,7 @@
             android:paddingTop="@dimen/spacing_normal"
             android:text="@string/session_rating_label_text" />
 
-        <com.google.samples.apps.iosched.ui.widget.CustomRatingBar
+        <no.javazone.ui.widget.CustomRatingBar
             android:id="@+id/rating_bar_0"
             style="@style/FeedbackRatingBar"
             android:layout_width="wrap_content"
@@ -150,7 +150,7 @@
             android:paddingTop="@dimen/spacing_normal"
             android:text="@string/session_feedback_relevance" />
 
-        <com.google.samples.apps.iosched.ui.widget.CustomRatingBar
+        <no.javazone.ui.widget.CustomRatingBar
             android:id="@+id/session_relevant_feedback_bar"
             style="@style/FeedbackNumberRatingBar"
             android:layout_width="wrap_content"
@@ -205,7 +205,7 @@
             android:paddingTop="@dimen/spacing_normal"
             android:text="@string/session_feedback_content_label_text" />
 
-        <com.google.samples.apps.iosched.ui.widget.CustomRatingBar
+        <no.javazone.ui.widget.CustomRatingBar
             android:id="@+id/content_feedback_bar"
             style="@style/FeedbackNumberRatingBar"
             android:layout_width="wrap_content"
@@ -260,7 +260,7 @@
             android:paddingTop="@dimen/spacing_normal"
             android:text="@string/session_feedback_speaker_quality" />
 
-        <com.google.samples.apps.iosched.ui.widget.CustomRatingBar
+        <no.javazone.ui.widget.CustomRatingBar
             android:id="@+id/speaker_feedback_bar"
             style="@style/FeedbackNumberRatingBar"
             android:layout_width="wrap_content"
@@ -299,6 +299,14 @@
                 android:text="@string/session_feedback_outstanding" />
 
         </FrameLayout>
+
+        <EditText
+            android:id="@+id/feedback_comment_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/page_margin_width"
+            style="@style/Body2Text"
+            android:hint="@string/feedback_comment_text"/>
 
         <!-- we need this space to anchor the button at the bottom on tall devices -->
         <android.support.v4.widget.Space

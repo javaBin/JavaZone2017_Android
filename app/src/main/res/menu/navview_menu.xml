@@ -25,11 +25,6 @@
         android:id="@+id/navigation_view_menu_group_2"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_view_menu_item_social"
-            android:icon="@drawable/ic_navview_social"
-            android:title="@string/navview_menu_item_social"
-            android:titleCondensed="@string/navview_menu_item_social" />
-        <item
             android:id="@+id/nav_view_menu_item_videos"
             android:icon="@drawable/ic_navview_video_library"
             android:title="@string/navview_menu_item_videos"
@@ -44,16 +39,4 @@
             android:title="@string/navview_menu_item_settings"
             android:titleCondensed="@string/navview_menu_item_settings" />
     </group>
-    <group
-        android:id="@+id/navigation_view_menu_group_4"
-        android:checkableBehavior="single"
-        android:visible="false">
-        <item
-            android:id="@+id/nav_view_menu_item_debug"
-            android:icon="@drawable/ic_navview_settings"
-            android:title="@string/navview_menu_item_debug"
-            android:titleCondensed="@string/navview_menu_item_debug" />
-    </group>
-
-
 </menu>

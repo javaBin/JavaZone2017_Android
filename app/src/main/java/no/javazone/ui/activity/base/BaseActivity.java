@@ -27,10 +27,14 @@ import android.view.WindowManager;
 import no.javazone.BuildConfig;
 import no.javazone.R;
 import no.javazone.archframework.model.domain.Account;
+import no.javazone.database.ScheduleContract;
 import no.javazone.messaging.MessagingRegistration;
 import no.javazone.navigation.AppNavigationViewAsDrawerImpl;
 import no.javazone.navigation.NavigationModel;
+import no.javazone.service.DataBootstrapService;
+import no.javazone.sync.SyncHelper;
 import no.javazone.ui.widget.MultiSwipeRefreshLayout;
+import no.javazone.util.AccountUtils;
 import no.javazone.util.ImageLoader;
 import no.javazone.util.LUtils;
 import no.javazone.util.RecentTasksStyler;
@@ -46,40 +50,18 @@ public abstract class BaseActivity extends AppCompatActivity implements
         AppNavigationViewAsDrawerImpl.NavigationDrawerStateListener {
 
     private static final String TAG = makeLogTag(BaseActivity.class);
-
-    // Navigation drawer
     private AppNavigationViewAsDrawerImpl mAppNavigationViewAsDrawer;
-
-    // Toolbar
     private Toolbar mToolbar;
-
-    // Helper methods for L APIs
     private LUtils mLUtils;
 
     private static final int MAIN_CONTENT_FADEIN_DURATION = 250;
-
-    // SwipeRefreshLayout allows the user to swipe the screen down to trigger a manual refresh
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
-    // Registration with GCM for notifications
-    private MessagingRegistration mMessagingRegistration;
-
-    // handle to our sync observer (that notifies us about changes in our sync state)
     private Object mSyncObserverHandle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         RecentTasksStyler.styleRecentTasksEntry(this);
-/*
-
-        mMessagingRegistration = MessagingRegistrationProvider.provideMessagingRegistration(this);
-
-
-        if (savedInstanceState == null) {
-            mMessagingRegistration.registerDevice();
-        } */
-
         Account.createSyncAccount(this);
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
@@ -112,11 +94,6 @@ public abstract class BaseActivity extends AppCompatActivity implements
         }
     }
 
-    /**
-     * Returns the navigation drawer item that corresponds to this Activity. Subclasses of
-     * BaseActivity override this to indicate what nav drawer item corresponds to them Return
-     * NAVDRAWER_ITEM_INVALID to mean that this Activity should not have a Nav Drawer.
-     */
     protected NavigationItemEnum getSelfNavDrawerItem() {
         return NavigationItemEnum.INVALID;
     }
@@ -147,8 +124,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key != null && key.equals(BuildConfig.PREF_ATTENDEE_AT_VENUE)) {
-            LOGD(TAG, "Attendee at venue preference changed, repopulating nav drawer and menu.");
+        if (key != null) {
             if (mAppNavigationViewAsDrawer != null) {
                 mAppNavigationViewAsDrawer.updateNavigationItems();
             }
@@ -189,11 +165,16 @@ public abstract class BaseActivity extends AppCompatActivity implements
     }
 
     protected void requestDataRefresh() {
+        android.accounts.Account activeAccount = AccountUtils.getActiveAccount(this);
         ContentResolver contentResolver = getContentResolver();
+        if (contentResolver.isSyncActive(activeAccount, ScheduleContract.CONTENT_AUTHORITY)) {
+            LOGD(TAG, "Ignoring manual sync request because a sync is already in progress.");
+            return;
+        }
 
         LOGD(TAG, "Requesting manual data refresh.");
         // get data here
-       // SyncHelper.requestManualSync();
+       SyncHelper.requestManualSync();
     }
 
     /**
@@ -254,17 +235,17 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
         // Perform one-time bootstrap setup, if needed
 
-        /*DataBootstrapService.startDataBootstrapIfNecessary(this);
+        DataBootstrapService.startDataBootstrapIfNecessary(this);
 
         // Check to ensure a Google Account is active for the app. Placing the check here ensures
         // it is run again in the case where a Google Account wasn't present on the device and a
         // picker had to be started.
 
         // Watch for sync state changes
-        //mSyncStatusObserver.onStatusChanged(0);
+        mSyncStatusObserver.onStatusChanged(0);
         final int mask = ContentResolver.SYNC_OBSERVER_TYPE_PENDING |
                 ContentResolver.SYNC_OBSERVER_TYPE_ACTIVE;
-        mSyncObserverHandle = ContentResolver.addStatusChangeListener(mask, mSyncStatusObserver); */
+        mSyncObserverHandle = ContentResolver.addStatusChangeListener(mask, mSyncStatusObserver);
     }
 
     @Override
@@ -347,6 +328,29 @@ public abstract class BaseActivity extends AppCompatActivity implements
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         sp.unregisterOnSharedPreferenceChangeListener(this);
     }
+
+
+    private SyncStatusObserver mSyncStatusObserver = new SyncStatusObserver() {
+        @Override
+        public void onStatusChanged(int which) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    String accountName = AccountUtils.getActiveAccountName(BaseActivity.this);
+                    if (TextUtils.isEmpty(accountName)) {
+                        onRefreshingStateChanged(false);
+                        return;
+                    }
+
+                    android.accounts.Account account = new android.accounts.Account(
+                            accountName, Account.ACCOUNT_TYPE);
+                    boolean syncActive = ContentResolver.isSyncActive(
+                            account, ScheduleContract.CONTENT_AUTHORITY);
+                    onRefreshingStateChanged(syncActive);
+                }
+            });
+        }
+    };
 
     protected void onRefreshingStateChanged(boolean refreshing) {
         if (mSwipeRefreshLayout != null) {

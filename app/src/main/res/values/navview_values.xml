@@ -17,7 +17,6 @@
 <!-- Resource values related to implementing the NavigationEnabledActivity. -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Text displayed in the Navigation Drawer for each respective menu item. -->
-    <string name="navview_menu_item_iolive">I/O Live</string>
     <!-- Text displayed in the Navigation Drawer for each respective menu item. -->
     <string name="navview_menu_item_myschedule">My Schedule</string>
     <!-- Text displayed in the Navigation Drawer for each respective menu item. -->
@@ -30,8 +29,6 @@
     <string name="navview_menu_item_videos">Videos</string>
     <!-- Text displayed in the Navigation Drawer for each respective menu item. -->
     <string name="navview_menu_item_settings">Settings</string>
-    <!-- Text displayed in the Navigation Drawer for each respective menu item. -->
-    <string name="navview_menu_item_debug">Debug</string>
 
     <!-- Description of the default image in the navigation drawer for the accessibility text. -->
     <string name="navview_header_default_image_content_description">Cyan background image with

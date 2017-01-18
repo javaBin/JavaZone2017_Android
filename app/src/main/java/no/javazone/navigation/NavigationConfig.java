@@ -32,31 +32,15 @@ public class NavigationConfig {
                     NavigationItemEnum.SETTINGS, NavigationItemEnum.ABOUT
             };
 
-    public final static NavigationItemEnum[] NAVIGATION_ITEMS_LOGGEDIN_ATTENDING =
+    public final static NavigationItemEnum[] NAVIGATION_ATTENDING =
             concatenateItems(new NavigationItemEnum[]{NavigationItemEnum.MY_SCHEDULE,
-                            NavigationItemEnum.IO_LIVE, NavigationItemEnum.EXPLORE,
+                            NavigationItemEnum.EXPLORE,
                             NavigationItemEnum.MAP},
                     COMMON_ITEMS_AFTER_CUSTOM);
 
-    public final static NavigationItemEnum[] NAVIGATION_ITEMS_LOGGEDIN_REMOTE =
-            concatenateItems(new NavigationItemEnum[]{NavigationItemEnum.MY_SCHEDULE,
-                            NavigationItemEnum.IO_LIVE, NavigationItemEnum.EXPLORE},
-                    COMMON_ITEMS_AFTER_CUSTOM);
-
-
-    public final static NavigationItemEnum[] NAVIGATION_ITEMS_LOGGEDOUT_ATTENDING =
-            concatenateItems(new NavigationItemEnum[]{NavigationItemEnum.SIGN_IN,
-                    NavigationItemEnum.IO_LIVE, NavigationItemEnum.EXPLORE,
-                    NavigationItemEnum.MAP}, COMMON_ITEMS_AFTER_CUSTOM);
-
-
-    public final static NavigationItemEnum[] NAVIGATION_ITEMS_LOGGEDOUT_REMOTE =
-            concatenateItems(new NavigationItemEnum[]{NavigationItemEnum.SIGN_IN,
-                            NavigationItemEnum.IO_LIVE, NavigationItemEnum.EXPLORE},
-                    COMMON_ITEMS_AFTER_CUSTOM);
 
     private static NavigationItemEnum[] concatenateItems(NavigationItemEnum[] first,
-            NavigationItemEnum[] second) {
+                                                         NavigationItemEnum[] second) {
         NavigationItemEnum[] items = new NavigationItemEnum[first.length + second.length];
         for (int i = 0; i < first.length; i++) {
             items[i] = first[i];
@@ -68,7 +52,7 @@ public class NavigationConfig {
     }
 
     public static NavigationItemEnum[] appendItem(NavigationItemEnum[] first,
-            NavigationItemEnum second) {
+                                                  NavigationItemEnum second) {
         return concatenateItems(first, new NavigationItemEnum[]{second});
     }
 
@@ -78,12 +62,6 @@ public class NavigationConfig {
         for (int i = 0; i < items.length; i++) {
             boolean includeItem = true;
             switch (items[i]) {
-                case MY_SCHEDULE:
-                    includeItem = BuildConfig.ENABLE_MYSCHEDULE_IN_NAVIGATION;
-                    break;
-                case IO_LIVE:
-                    includeItem = BuildConfig.ENABLE_IOLIVE_IN_NAVIGATION;
-                    break;
                 case EXPLORE:
                     includeItem = BuildConfig.ENABLE_EXPLORE_IN_NAVIGATION;
                     break;
@@ -92,9 +70,6 @@ public class NavigationConfig {
                     break;
                 case VIDEO_LIBRARY:
                     includeItem = BuildConfig.ENABLE_VIDEOLIB_IN_NAVIGATION;
-                    break;
-                case SIGN_IN:
-                    includeItem = BuildConfig.ENABLE_SIGNIN_IN_NAVIGATION;
                     break;
                 case SETTINGS:
                     includeItem = BuildConfig.ENABLE_SETTINGS_IN_NAVIGATION;

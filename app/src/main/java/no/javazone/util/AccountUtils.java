@@ -31,9 +31,9 @@ import static no.javazone.util.LogUtils.makeLogTag;
 public class AccountUtils {
     private static final String TAG = makeLogTag(AccountUtils.class);
 
-    private static final String PREF_ACTIVE_ACCOUNT = "chosen_account";
-    private static final String DUMMY_ACCOUNT_NAME = "no.java";
-    private static final String DUMMY_ACCOUNT_TYPE = "no.java";
+    private static final String PREF_ACTIVE_ACCOUNT = "no.javazone";
+    private static final String DUMMY_ACCOUNT_NAME = "no.javazone";
+    private static final String DUMMY_ACCOUNT_TYPE = "no.javazone";
     private static final String DUMMY_AUTH_TOKEN = "authtoken";
     private static android.accounts.Account mAccount;
 
@@ -80,6 +80,15 @@ public class AccountUtils {
     public static String getActiveAccountName(final Context context) {
         SharedPreferences sp = getSharedPreferences(context);
         return sp.getString(PREF_ACTIVE_ACCOUNT, null);
+    }
+
+    public static Account getActiveAccount(final Context context) {
+        String account = getActiveAccountName(context);
+        if (account != null) {
+            return new Account(account, PREF_ACTIVE_ACCOUNT);
+        } else {
+            return null;
+        }
     }
 
 
