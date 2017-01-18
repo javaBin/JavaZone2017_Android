@@ -22,18 +22,19 @@ import android.net.Uri;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.samples.apps.iosched.io.model.Block;
-import com.google.samples.apps.iosched.provider.ScheduleContract;
-import com.google.samples.apps.iosched.provider.ScheduleContractHelper;
-import com.google.samples.apps.iosched.util.ParserUtils;
 
 import java.util.ArrayList;
 
-import static com.google.samples.apps.iosched.util.LogUtils.LOGW;
-import static com.google.samples.apps.iosched.util.LogUtils.makeLogTag;
+import no.javazone.archframework.model.domain.Block;
+import no.javazone.database.ScheduleContract;
+import no.javazone.database.ScheduleContractHelper;
+import no.javazone.schedule.JsonHandler;
+import no.javazone.util.ParserUtils;
 
+import static no.javazone.util.LogUtils.LOGW;
+import static no.javazone.util.LogUtils.makeLogTag;
 
-public class BlocksHandler extends JSONHandler {
+public class BlocksHandler extends JsonHandler {
     private static final String TAG = makeLogTag(BlocksHandler.class);
     private ArrayList<Block> mBlocks = new ArrayList<Block>();
 

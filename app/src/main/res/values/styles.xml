@@ -233,6 +233,13 @@
         <item name="android:textAlignment">viewStart</item>
     </style>
 
+    <style name="MoreButton">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Button</item>
+        <item name="android:textSize">@dimen/app_text_size_small</item>
+        <item name="android:background">@drawable/more_button_background</item>
+        <item name="android:letterSpacing">0.1</item>
+    </style>
+
     <style name="TextHeaderSub">
         <item name="android:textSize">@dimen/text_size_medium</item>
         <item name="android:textStyle">normal</item>
@@ -272,8 +279,9 @@
         <item name="android:textColor">@color/video_title</item>
     </style>
 
-    <style name="TextAppearance.VideoDuration" parent="TextAppearance.AppCompat.Caption">
-        <item name="android:textColor">@color/body_text_2</item>
+    <style name="SessionTitle">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Subhead</item>
+        <item name="android:lineSpacingMultiplier">@dimen/h3_spacing</item>
     </style>
 
     <style name="TextAppearance.Title" parent="TextAppearance.AppCompat.Title">
@@ -295,6 +303,12 @@
         <item name="android:textSize">@dimen/text_size_medium</item>
         <item name="android:maxLines">2</item>
         <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="SessionExtendedLink">
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textColor">@color/session_extended_color</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
     </style>
 
     <style name="ExploreItem.Title.Hero">
@@ -384,7 +398,7 @@
 
     <style name="FeedbackQuestionGuideText">
         <item name="android:textSize">@dimen/text_size_small</item>
-        <item name="android:textColor">@color/flat_button_text</item>
+        <item name="android:textColor">@color/accent</item>
     </style>
 
     <style name="FeedbackRatingBar">
@@ -479,8 +493,6 @@
         <item name="colorPrimaryDark">@color/primaryDark</item>
         <item name="colorAccent">@color/accent</item>
     </style>
-
-
 
 
     <style name="TextInputLayout" parent="FontCondensed">

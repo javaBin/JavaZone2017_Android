@@ -3,6 +3,7 @@ package no.javazone.database;
 import android.app.SearchManager;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
@@ -67,6 +68,7 @@ public class ScheduleContract {
         String SESSION_COLOR = "session_color";
         String SESSION_INTERVAL_COUNT = "session_interval_count";
         String SESSION_RELATED_CONTENT = "session_related_content";
+        String SESSION_IMPORT_HASHCODE = "session_import_hashcode";
     }
 
     interface SpeakersColumns {
@@ -78,6 +80,8 @@ public class ScheduleContract {
         String SPEAKER_URL = "speaker_url";
         String SPEAKER_PLUSONE_URL = "plusone_url";
         String SPEAKER_TWITTER_URL = "twitter_url";
+        String SPEAKER_IMPORT_HASHCODE = "speaker_import_hashcode";
+
     }
 
     interface MapMarkerColumns {
@@ -556,6 +560,11 @@ public class ScheduleContract {
     }
 
     private ScheduleContract() {
+    }
+
+    public static Uri addCallerIsSyncAdapterParameter(Uri uri) {
+        return uri.buildUpon().appendQueryParameter(
+                ContactsContract.CALLER_IS_SYNCADAPTER, "true").build();
     }
 
 }

@@ -25,6 +25,7 @@ import java.util.Date;
 
 import no.javazone.appwidget.ScheduleWidgetProvider;
 import no.javazone.database.ScheduleContract;
+import no.javazone.sync.SyncHelper;
 
 import static no.javazone.util.LogUtils.LOGD;
 import static no.javazone.util.LogUtils.makeLogTag;
@@ -45,19 +46,15 @@ public class SessionsHelper {
     public void setSessionStarred(Uri sessionUri, boolean starred, String title) {
         LOGD(TAG, "setSessionStarred uri=" + sessionUri + " starred=" +
                 starred + " title=" + title);
+        sessionUri = ScheduleContract.addCallerIsSyncAdapterParameter(sessionUri);
         String sessionId = ScheduleContract.Sessions.getSessionId(sessionUri);
-        Uri myScheduleUri = ScheduleContract.MySchedule.buildMyScheduleUri(
-                "no.java.myschedule");
-
+        final ContentValues values = new ContentValues();
+        values.put(ScheduleContract.Sessions.SESSION_IN_MY_SCHEDULE, starred?1:0);
         AsyncQueryHandler handler =
                 new AsyncQueryHandler(mActivity.getContentResolver()) {
                 };
-        final ContentValues values = new ContentValues();
-        values.put(ScheduleContract.MySchedule.SESSION_ID, sessionId);
-        values.put(ScheduleContract.MySchedule.MY_SCHEDULE_IN_SCHEDULE, starred ? 1 : 0);
-        values.put(ScheduleContract.MySchedule.MY_SCHEDULE_TIMESTAMP, new Date().getTime());
+        handler.startUpdate(-1, null, sessionUri, values,null, null);
 
-        handler.startInsert(-1, null, myScheduleUri, values);
 
         // ANALYTICS EVENT: Add or remove a session from the schedule
         // Contains: Session title, whether it was added or removed (starred or unstarred)
@@ -69,6 +66,6 @@ public class SessionsHelper {
         mActivity.sendBroadcast(ScheduleWidgetProvider.getRefreshBroadcastIntent(mActivity, false));
 
         // Request an immediate user data sync to reflect the starred user sessions in the cloud
-        //SyncHelper.requestManualSync(true);
+        SyncHelper.requestManualSync(AccountUtils.getActiveAccount(mActivity), true);
     }
 }

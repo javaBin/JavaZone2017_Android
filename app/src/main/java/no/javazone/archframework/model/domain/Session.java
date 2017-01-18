@@ -1,5 +1,7 @@
 package no.javazone.archframework.model.domain;
 
+import java.util.Random;
+
 public class Session {
     public String id;
     public String description;
@@ -32,5 +34,9 @@ public class Session {
             }
         }
         return false;
+    }
+
+    public String getImportHashCode() {
+        return (new Random()).nextLong()+"";
     }
 }

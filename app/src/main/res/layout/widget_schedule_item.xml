@@ -34,7 +34,7 @@
         android:layout_marginTop="@dimen/spacing_normal"
         android:contentDescription="@null"
         android:layout_alignParentLeft="true"
-        android:src="@drawable/ic_navview_my_schedule" />
+        android:src="@drawable/ic_navview_schedule" />
 
     <TextView
         android:id="@+id/slot_title"
@@ -65,5 +65,15 @@
         android:layout_below="@id/start_end_time"
         android:layout_toRightOf="@id/icon"
         android:textSize="@dimen/text_size_small" />
+
+    <!-- "LIVE NOW" indicator -->
+    <include
+        layout="@layout/include_live_now_badge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_micro"
+        android:layout_below="@id/slot_room"
+        android:layout_toRightOf="@id/icon"
+        android:visibility="gone" />
 
 </RelativeLayout>

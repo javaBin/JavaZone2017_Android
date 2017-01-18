@@ -26,6 +26,7 @@ import android.view.WindowManager;
 
 import no.javazone.BuildConfig;
 import no.javazone.R;
+import no.javazone.archframework.model.domain.Account;
 import no.javazone.messaging.MessagingRegistration;
 import no.javazone.navigation.AppNavigationViewAsDrawerImpl;
 import no.javazone.navigation.NavigationModel;
@@ -78,6 +79,8 @@ public abstract class BaseActivity extends AppCompatActivity implements
         if (savedInstanceState == null) {
             mMessagingRegistration.registerDevice();
         } */
+
+        Account.createSyncAccount(this);
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         sp.registerOnSharedPreferenceChangeListener(this);

@@ -176,6 +176,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
                 + SessionsColumns.SESSION_ABSTRACT + " TEXT,"
                 + SessionsColumns.SESSION_KEYWORDS + " TEXT,"
                 + SessionsColumns.SESSION_VIDEO_URL + " TEXT,"
+                + SessionsColumns.SESSION_IMPORT_HASHCODE + " TEXT NOT NULL DEFAULT '',"
                 + SessionsColumns.SESSION_TAGS + " TEXT,"
                 + SessionsColumns.SESSION_GROUPING_ORDER + " INTEGER,"
                 + SessionsColumns.SESSION_SPEAKER_NAMES + " TEXT,"
@@ -191,6 +192,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
                 + SpeakersColumns.SPEAKER_IMAGE_URL + " TEXT,"
                 + SpeakersColumns.SPEAKER_COMPANY + " TEXT,"
                 + SpeakersColumns.SPEAKER_ABSTRACT + " TEXT,"
+                + SpeakersColumns.SPEAKER_IMPORT_HASHCODE + " TEXT NOT NULL DEFAULT '',"
                 + SpeakersColumns.SPEAKER_URL + " TEXT,"
                 + "UNIQUE (" + SpeakersColumns.SPEAKER_ID + ") ON CONFLICT REPLACE)");
 

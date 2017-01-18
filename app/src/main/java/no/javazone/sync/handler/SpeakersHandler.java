@@ -24,20 +24,22 @@ import android.provider.BaseColumns;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.samples.apps.iosched.io.model.Speaker;
-import com.google.samples.apps.iosched.provider.ScheduleContract;
-import com.google.samples.apps.iosched.provider.ScheduleContractHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import static com.google.samples.apps.iosched.util.LogUtils.*;
-import static com.google.samples.apps.iosched.util.LogUtils.LOGD;
-import static com.google.samples.apps.iosched.util.LogUtils.LOGE;
-import static com.google.samples.apps.iosched.util.LogUtils.makeLogTag;
+import no.javazone.archframework.model.domain.Speaker;
+import no.javazone.database.ScheduleContract;
+import no.javazone.database.ScheduleContractHelper;
+import no.javazone.schedule.JsonHandler;
 
-public class SpeakersHandler extends JSONHandler {
+import static no.javazone.util.LogUtils.LOGD;
+import static no.javazone.util.LogUtils.LOGE;
+import static no.javazone.util.LogUtils.makeLogTag;
+
+
+public class SpeakersHandler extends JsonHandler {
     private static final String TAG = makeLogTag(SpeakersHandler.class);
     private HashMap<String, Speaker> mSpeakers = new HashMap<String, Speaker>();
 

@@ -23,16 +23,17 @@ import android.net.Uri;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.samples.apps.iosched.io.model.Tag;
-import com.google.samples.apps.iosched.provider.ScheduleContract;
-import com.google.samples.apps.iosched.provider.ScheduleContractHelper;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.google.samples.apps.iosched.util.LogUtils.makeLogTag;
+import no.javazone.archframework.model.domain.Tag;
+import no.javazone.database.ScheduleContract;
+import no.javazone.database.ScheduleContractHelper;
+import no.javazone.schedule.JsonHandler;
 
-public class TagsHandler extends JSONHandler {
+import static no.javazone.util.LogUtils.makeLogTag;
+
+public class TagsHandler extends JsonHandler {
     private static final String TAG = makeLogTag(TagsHandler.class);
 
     private HashMap<String, Tag> mTags = new HashMap<String, Tag>();

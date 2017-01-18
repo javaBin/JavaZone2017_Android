@@ -27,28 +27,29 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.samples.apps.iosched.Config;
-import com.google.samples.apps.iosched.R;
-import com.google.samples.apps.iosched.io.model.Session;
-import com.google.samples.apps.iosched.io.model.Speaker;
-import com.google.samples.apps.iosched.io.model.Tag;
-import com.google.samples.apps.iosched.provider.ScheduleContract;
-import com.google.samples.apps.iosched.provider.ScheduleContractHelper;
-import com.google.samples.apps.iosched.provider.ScheduleDatabase;
-import com.google.samples.apps.iosched.util.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import static com.google.samples.apps.iosched.util.LogUtils.*;
-import static com.google.samples.apps.iosched.util.LogUtils.LOGD;
-import static com.google.samples.apps.iosched.util.LogUtils.LOGE;
-import static com.google.samples.apps.iosched.util.LogUtils.LOGW;
-import static com.google.samples.apps.iosched.util.LogUtils.makeLogTag;
+import no.javazone.Config;
+import no.javazone.R;
+import no.javazone.archframework.model.domain.Session;
+import no.javazone.archframework.model.domain.Speaker;
+import no.javazone.archframework.model.domain.Tag;
+import no.javazone.database.ScheduleContract;
+import no.javazone.database.ScheduleContractHelper;
+import no.javazone.database.ScheduleDatabase;
+import no.javazone.schedule.JsonHandler;
+import no.javazone.util.TimeUtils;
 
-public class SessionsHandler extends JSONHandler {
+import static no.javazone.util.LogUtils.LOGD;
+import static no.javazone.util.LogUtils.LOGE;
+import static no.javazone.util.LogUtils.LOGW;
+import static no.javazone.util.LogUtils.makeLogTag;
+
+public class SessionsHandler extends JsonHandler {
     private static final String TAG = makeLogTag(SessionsHandler.class);
     private HashMap<String, Session> mSessions = new HashMap<String, Session>();
     private HashMap<String, Tag> mTagMap = null;
@@ -213,7 +214,6 @@ public class SessionsHandler extends JSONHandler {
                 .withValue(ScheduleContract.Sessions.SESSION_LEVEL, null)            // Not available
                 .withValue(ScheduleContract.Sessions.SESSION_TITLE, session.title)
                 .withValue(ScheduleContract.Sessions.SESSION_ABSTRACT, session.description)
-                .withValue(ScheduleContract.Sessions.SESSION_HASHTAG, session.hashtag)
                 .withValue(ScheduleContract.Sessions.SESSION_START, TimeUtils.timestampToMillis(session.startTimestamp, 0))
                 .withValue(ScheduleContract.Sessions.SESSION_END, TimeUtils.timestampToMillis(session.endTimestamp, 0))
                 .withValue(ScheduleContract.Sessions.SESSION_TAGS, session.makeTagsList())
@@ -228,24 +228,11 @@ public class SessionsHandler extends JSONHandler {
                         // display it easily in lists without having to make an additional DB query
                         // (or another join) for each record.
                 .withValue(ScheduleContract.Sessions.SESSION_KEYWORDS, null)             // Not available
-                .withValue(ScheduleContract.Sessions.SESSION_URL, session.url)
-                .withValue(ScheduleContract.Sessions.SESSION_LIVESTREAM_ID,
-                        session.isLivestream ? session.youtubeUrl : null)
-                .withValue(ScheduleContract.Sessions.SESSION_MODERATOR_URL, null)    // Not available
-                .withValue(ScheduleContract.Sessions.SESSION_REQUIREMENTS, null)     // Not available
-                .withValue(ScheduleContract.Sessions.SESSION_YOUTUBE_URL,
-                        session.isLivestream ? null : session.youtubeUrl)
-                .withValue(ScheduleContract.Sessions.SESSION_PDF_URL, null)          // Not available
-                .withValue(ScheduleContract.Sessions.SESSION_NOTES_URL, null)        // Not available
+                .withValue(ScheduleContract.Sessions.SESSION_VIDEO_URL,  session.videoUrl)
                 .withValue(ScheduleContract.Sessions.ROOM_ID, session.room)
                 .withValue(ScheduleContract.Sessions.SESSION_GROUPING_ORDER, session.groupingOrder)
                 .withValue(ScheduleContract.Sessions.SESSION_IMPORT_HASHCODE,
                         session.getImportHashCode())
-                .withValue(ScheduleContract.Sessions.SESSION_MAIN_TAG, session.mainTag)
-                .withValue(ScheduleContract.Sessions.SESSION_CAPTIONS_URL, session.captionsUrl)
-                .withValue(ScheduleContract.Sessions.SESSION_PHOTO_URL, session.photoUrl)
-                // Disabled since this isn't being used by this app.
-                // .withValue(ScheduleContract.Sessions.SESSION_RELATED_CONTENT, session.relatedContent)
                 .withValue(ScheduleContract.Sessions.SESSION_COLOR, color);
         list.add(builder.build());
     }

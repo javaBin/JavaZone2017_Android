@@ -22,16 +22,18 @@ import android.net.Uri;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.samples.apps.iosched.io.model.Room;
-import com.google.samples.apps.iosched.provider.ScheduleContract;
-import com.google.samples.apps.iosched.provider.ScheduleContractHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.google.samples.apps.iosched.util.LogUtils.makeLogTag;
+import no.javazone.archframework.model.domain.Room;
+import no.javazone.database.ScheduleContract;
+import no.javazone.database.ScheduleContractHelper;
+import no.javazone.schedule.JsonHandler;
 
-public class RoomsHandler extends JSONHandler {
+import static no.javazone.util.LogUtils.makeLogTag;
+
+public class RoomsHandler extends JsonHandler {
     private static final String TAG = makeLogTag(RoomsHandler.class);
 
     // map from room ID to Room model object

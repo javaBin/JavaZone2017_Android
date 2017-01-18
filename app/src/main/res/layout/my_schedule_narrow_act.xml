@@ -21,7 +21,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.activity.MyScheduleActivity">
+    tools:context=".ui.MyScheduleActivity">
 
     <!-- Main layout -->
     <LinearLayout
@@ -35,15 +35,7 @@
             android:orientation="vertical"
             android:theme="@style/ActionBarThemeOverlay">
 
-            <android.support.v7.widget.Toolbar
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:iosched="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                iosched:contentInsetStart="?actionBarInsetStart"
-                iosched:popupTheme="@style/ActionBarPopupThemeOverlay"
-                android:theme="@style/ActionBarThemeOverlay" />
+            <include layout="@layout/toolbar_keyline_insets" />
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/sliding_tabs"

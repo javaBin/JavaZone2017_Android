@@ -31,6 +31,11 @@ import java.util.HashMap;
 
 import no.javazone.database.ScheduleContract;
 import no.javazone.schedule.JsonHandler;
+import no.javazone.sync.handler.BlocksHandler;
+import no.javazone.sync.handler.RoomsHandler;
+import no.javazone.sync.handler.SessionsHandler;
+import no.javazone.sync.handler.SpeakersHandler;
+import no.javazone.sync.handler.TagsHandler;
 
 import static no.javazone.util.LogUtils.LOGD;
 import static no.javazone.util.LogUtils.LOGE;
