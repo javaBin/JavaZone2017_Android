@@ -5,20 +5,27 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.net.Uri;
 
+import no.javazone.archframework.model.ExploreModel;
+import no.javazone.archframework.model.Model;
+import no.javazone.archframework.model.SessionDetailModel;
+import no.javazone.archframework.model.SessionFeedbackModel;
+import no.javazone.archframework.model.MyScheduleModel;
+import no.javazone.archframework.model.domain.ScheduleHelper;
+import no.javazone.feedback.FeedbackHelper;
+import no.javazone.util.SessionsHelper;
+
 /**
  * Provides a way to inject stub classes when running integration tests.
  */
 public class ModelProvider {
-/*
+
     private static SessionDetailModel stubSessionDetailModel = null;
 
     private static MyScheduleModel stubMyScheduleModel = null;
 
     private static SessionFeedbackModel stubSessionFeedbackModel = null;
 
-    private static VideoLibraryModel stubVideoLibraryModel = null;
-
-    private static ExploreIOModel stubExploreIOModel = null;
+    private static ExploreModel stubExploreIOModel = null;
 
     public static SessionDetailModel provideSessionDetailModel(Uri sessionUri, Context context,
                                                                SessionsHelper sessionsHelper, LoaderManager loaderManager) {
@@ -47,30 +54,19 @@ public class ModelProvider {
         }
     }
 
-    public static VideoLibraryModel provideVideoLibraryModel(Uri videoUri, Uri myVideosUri,
-                                                             Uri filterUri, Activity activity, LoaderManager loaderManager) {
-        if (stubVideoLibraryModel != null) {
-            return stubVideoLibraryModel;
-        } else {
-            return new VideoLibraryModel(activity, loaderManager, videoUri, myVideosUri, filterUri);
-        }
-    }
-
-    public static ExploreIOModel provideExploreIOModel(Uri sessionsUri, Context context,
+    public static ExploreModel provideExploreModel(Uri sessionsUri, Context context,
                                                        LoaderManager loaderManager) {
         if (stubExploreIOModel != null) {
             return stubExploreIOModel;
         } else {
-            return new ExploreIOModel(context, sessionsUri, loaderManager);
+            return new ExploreModel(context, sessionsUri, loaderManager);
         }
     }
 
     public static void setStubModel(Model model) {
-        if (model instanceof  ExploreIOModel) {
-            stubExploreIOModel = (ExploreIOModel) model;
-        } else if (model instanceof  VideoLibraryModel) {
-            stubVideoLibraryModel = (VideoLibraryModel) model;
-        } else if (model instanceof SessionFeedbackModel) {
+        if (model instanceof  ExploreModel) {
+            stubExploreIOModel = (ExploreModel) model;
+        }  if (model instanceof SessionFeedbackModel) {
             stubSessionFeedbackModel = (SessionFeedbackModel) model;
         } else if (model instanceof SessionDetailModel) {
             stubSessionDetailModel = (SessionDetailModel) model;
@@ -78,5 +74,5 @@ public class ModelProvider {
             stubMyScheduleModel = (MyScheduleModel) model;
         }
     }
-*/
+
 }

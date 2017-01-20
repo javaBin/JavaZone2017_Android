@@ -32,6 +32,7 @@ import java.util.HashMap;
 import no.javazone.database.ScheduleContract;
 import no.javazone.schedule.JsonHandler;
 import no.javazone.sync.handler.BlocksHandler;
+import no.javazone.sync.handler.CardHandler;
 import no.javazone.sync.handler.RoomsHandler;
 import no.javazone.sync.handler.SessionsHandler;
 import no.javazone.sync.handler.SpeakersHandler;
@@ -56,6 +57,7 @@ public class ConferenceDataHandler {
 
     private static final String DATA_KEY_ROOMS = "rooms";
     private static final String DATA_KEY_BLOCKS = "blocks";
+    private static final String DATA_KEY_CARDS = "cards";
     private static final String DATA_KEY_TAGS = "tags";
     private static final String DATA_KEY_SPEAKERS = "speakers";
     private static final String DATA_KEY_SESSIONS = "sessions";
@@ -64,6 +66,7 @@ public class ConferenceDataHandler {
     private static final String[] DATA_KEYS_IN_ORDER = {
             DATA_KEY_ROOMS,
             DATA_KEY_BLOCKS,
+            DATA_KEY_CARDS,
             DATA_KEY_TAGS,
             DATA_KEY_SPEAKERS,
             DATA_KEY_SESSIONS
@@ -74,6 +77,7 @@ public class ConferenceDataHandler {
     // Handlers for each entity type:
     RoomsHandler mRoomsHandler = null;
     BlocksHandler mBlocksHandler = null;
+    CardHandler mCardHandler = null;
     TagsHandler mTagsHandler = null;
     SpeakersHandler mSpeakersHandler = null;
     SessionsHandler mSessionsHandler = null;
@@ -110,6 +114,8 @@ public class ConferenceDataHandler {
         mHandlerForKey.put(DATA_KEY_TAGS, mTagsHandler = new TagsHandler(mContext));
         mHandlerForKey.put(DATA_KEY_SPEAKERS, mSpeakersHandler = new SpeakersHandler(mContext));
         mHandlerForKey.put(DATA_KEY_SESSIONS, mSessionsHandler = new SessionsHandler(mContext));
+        mHandlerForKey.put(DATA_KEY_CARDS, mCardHandler = new CardHandler(mContext));
+
         //mHandlerForKey.put(DATA_KEY_SEARCH_SUGGESTIONS, mSearchSuggestHandler =
         //        new SearchSuggestHandler(mContext));
        // mHandlerForKey.put(DATA_KEY_MAP, mMapPropertyHandler = new MapPropertyHandler(mContext));

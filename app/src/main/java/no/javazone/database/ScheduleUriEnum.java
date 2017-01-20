@@ -47,7 +47,10 @@ public enum ScheduleUriEnum {
     FEEDBACK_FOR_SESSION(1003, "feedback/*", ScheduleContract.Feedback.CONTENT_TYPE_ID, true, ScheduleDatabase.DatabaseTables.FEEDBACK),
 
     SEARCH_TOPICS_SESSIONS(1400, "search_topics_sessions",
-                           ScheduleContract.SearchTopicsSessions.CONTENT_TYPE_ID, false, null /*virtual table*/);
+                           ScheduleContract.SearchTopicsSessions.CONTENT_TYPE_ID, false, null /*virtual table*/),
+    CARDS(1500, "cards", ScheduleContract.Cards.CONTENT_TYPE_ID, false, ScheduleDatabase.DatabaseTables.CARDS);
+
+
     public int code;
 
     public String path;

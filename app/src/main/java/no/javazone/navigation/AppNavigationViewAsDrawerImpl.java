@@ -157,7 +157,6 @@ public class AppNavigationViewAsDrawerImpl extends AppNavigationViewAbstractImpl
         // navigation drawer open. But just the first time.
         if (!SettingsUtils.isFirstRunProcessComplete(mActivity)) {
             // first run of the app starts with the nav drawer open
-            SettingsUtils.markFirstRunProcessesDone(mActivity, true);
             mDrawerLayout.openDrawer(GravityCompat.START);
         }
 
@@ -212,12 +211,6 @@ public class AppNavigationViewAsDrawerImpl extends AppNavigationViewAbstractImpl
             //This activity does not have an account box
             return;
         }
-
-        ImageView coverImageView = (ImageView) chosenAccountView
-                .findViewById(R.id.profile_cover_image);
-        ImageView profileImageView = (ImageView) chosenAccountView.findViewById(R.id.profile_image);
-            mActivity.findViewById(R.id.profile_cover_image_placeholder)
-                     .setVisibility(View.VISIBLE);
     }
 
     public boolean isNavDrawerOpen() {

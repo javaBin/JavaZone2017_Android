@@ -28,8 +28,7 @@ import java.util.Locale;
 
 import no.javazone.BuildConfig;
 import no.javazone.R;
-import no.javazone.database.ScheduleContract;
-import no.javazone.schedule.myschedule.MyScheduleModel;
+import no.javazone.archframework.model.MyScheduleModel;
 import no.javazone.util.TimeUtils;
 import no.javazone.util.UIUtils;
 

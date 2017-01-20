@@ -533,6 +533,9 @@ public class ScheduleProvider extends ContentProvider {
                 return builder.table(DatabaseTables.BLOCKS)
                         .where(Blocks.BLOCK_ID + "=?", blockId);
             }
+            case CARDS: {
+                return builder.table(DatabaseTables.CARDS);
+            }
             case TAGS: {
                 return builder.table(DatabaseTables.TAGS);
             }

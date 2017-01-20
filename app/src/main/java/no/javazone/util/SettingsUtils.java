@@ -345,19 +345,6 @@ public class SettingsUtils {
     }
 
     /**
-     * Mark {@code newValue whether} this is the first time the first-app-run-processes have run.
-     * Managed by {@link com.google.samples.apps.iosched.ui.BaseActivity the}
-     * {@link com.google.samples.apps.iosched.core.activities.BaseActivity two} base activities.
-     *
-     * @param context  Context to be used to edit the {@link android.content.SharedPreferences}.
-     * @param newValue New value that will be set.
-     */
-    public static void markFirstRunProcessesDone(final Context context, boolean newValue) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        sp.edit().putBoolean(PREF_WELCOME_DONE, newValue).apply();
-    }
-
-    /**
      * Return a long representing the last time a sync was attempted (regardless of success).
      *
      * @param context Context to be used to lookup the {@link android.content.SharedPreferences}.

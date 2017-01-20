@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package no.javazone.schedule.myschedule;
+package no.javazone.archframework.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -26,13 +26,10 @@ import android.support.annotation.Nullable;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import no.javazone.BuildConfig;
 import no.javazone.Config;
-import no.javazone.R;
-import no.javazone.archframework.model.Model;
 import no.javazone.archframework.model.domain.ScheduleHelper;
 import no.javazone.archframework.model.domain.ScheduleItem;
 import no.javazone.archframework.view.UserActionEnum;

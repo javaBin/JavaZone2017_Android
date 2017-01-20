@@ -14,13 +14,15 @@
 
 package no.javazone.util;
 
+import no.javazone.archframework.model.SessionDetailModel;
+
 public class ExtendedSessionHelper {
-    /*
+
     public static String getExtendedSessionUrl(SessionDetailModel data) {
         return null;
     }
 
     public static boolean shouldShowExtendedSessionLink() {
         return true;
-    } */
+    }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 
 import no.javazone.R;
+import no.javazone.navigation.NavigationModel;
 import no.javazone.ui.activity.base.BaseActivity;
 import no.javazone.ui.fragment.JzVideoLibraryFragment;
 import no.javazone.util.AnalyticsHelper;
@@ -22,23 +23,14 @@ public class JzVideoLibraryActivity extends BaseActivity {
 
         setContentView(R.layout.jz_video_library_act);
 
-        if (savedInstanceState == null) {
-            mFragment = new JzVideoLibraryFragment();
-            mFragment.setArguments(intentToFragmentArguments(getIntent()));
-            getFragmentManager().beginTransaction()
-                    .add(R.id.root_container, mFragment, "single_pane")
-                    .commit();
-        } else {
-            mFragment = getFragmentManager().findFragmentByTag("single_pane");
-        }
-
         // ANALYTICS SCREEN: View the video library screen
         // Contains: Nothing (Page name is a constant)
         AnalyticsHelper.sendScreenView(SCREEN_LABEL);
     }
 
-    public Fragment getFragment() {
-        return mFragment;
+    @Override
+    protected NavigationModel.NavigationItemEnum getSelfNavDrawerItem() {
+        return NavigationModel.NavigationItemEnum.VIDEO_LIBRARY;
     }
 
     @Override

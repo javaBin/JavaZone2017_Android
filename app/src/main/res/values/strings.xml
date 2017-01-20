@@ -223,11 +223,11 @@
     group have already ended. -->
     <string name="ended_sessions">Ended sessions</string>
 
-    <!-- Message that appears as feedback when the user has indicated that they are attending I/O in person. -->
-    <string name="explore_attending_in_person_toast">Attending I/O in person (you can change this in Settings)</string>
-
-    <!-- Message that appears as feedback when the user has indicated that they are attending I/O remotely. -->
-    <string name="explore_attending_remotely_toast">Attending I/O remotely (you can change this in Settings)</string>
+    <string description="This string is presented as a header message on a user interface card
+         element. The card element has sub-cards that explain a few logistical details for
+         attendees. 'On the Ground' is slang in English indicating 'What you need to know when
+         you're in the middle of the conference.'"
+        name="explore_io_on_the_ground_title">On the Ground</string>
 
     <!-- Label for a button to answer the question "Would you like to send feedback
     about this session?" which, when clicked, allows the user to send their feedback (ratings
@@ -608,7 +608,7 @@ user updates the rating. -->
     <string name="session_link_pdf">Slides</string>
 
     <!-- Link text taking the user to the session's YouTube page -->
-    <string name="session_link_youtube">YouTube video</string>
+    <string name="session_link_video">Video</string>
 
     <!-- Text indicating additional session links -->
     <string name="session_links">More</string>

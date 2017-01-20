@@ -29,11 +29,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import no.javazone.R;
+import no.javazone.adapter.EventDataAdapter;
+import no.javazone.archframework.model.ExploreModel;
 import no.javazone.archframework.model.ModelWithLoaderManager;
+import no.javazone.archframework.model.data.EventData;
+import no.javazone.archframework.model.data.ItemGroup;
+import no.javazone.archframework.model.data.LiveData;
+import no.javazone.archframework.model.data.MessageData;
+import no.javazone.archframework.model.data.SessionData;
 import no.javazone.archframework.presenter.PresenterImpl;
 import no.javazone.archframework.view.UpdatableView;
+import no.javazone.database.ScheduleContract;
 import no.javazone.injection.ModelProvider;
 import no.javazone.settings.ConfMessageCardUtils;
+import no.javazone.ui.activity.ExploreSessionsActivity;
+import no.javazone.ui.activity.SessionDetailActivity;
 import no.javazone.ui.widget.DrawShadowFrameLayout;
 import no.javazone.ui.widget.recyclerview.ItemMarginDecoration;
 import no.javazone.ui.widget.recyclerview.UpdatableAdapter;
@@ -41,13 +51,13 @@ import no.javazone.util.AccountUtils;
 import no.javazone.util.ImageLoader;
 import no.javazone.util.SettingsUtils;
 import no.javazone.util.ThrottledContentObserver;
+import no.javazone.util.TimeUtils;
 import no.javazone.util.UIUtils;
 
+import static no.javazone.archframework.model.ExploreModel.*;
 import static no.javazone.settings.ConfMessageCardUtils.*;
 
-public class ExploreFragment extends Fragment {
-    /*
-        implements UpdatableView<ExploreIOModel, ExploreIOQueryEnum, ExploreIOUserActionEnum> {
+public class ExploreFragment extends Fragment implements UpdatableView<ExploreModel, ExploreQueryEnum, ExploreUserActionEnum> {
     private ImageLoader mImageLoader;
     private RecyclerView mCardList = null;
     private ExploreAdapter mAdapter;
@@ -99,7 +109,7 @@ public class ExploreFragment extends Fragment {
     }
 
     @Override
-    public void displayData(final ExploreIOModel model, final ExploreIOQueryEnum query) {
+    public void displayData(final ExploreModel model, final ExploreQueryEnum query) {
         // Only display data when the tag metadata is available.
         if (model.getTagMetadata() != null) {
             if (mAdapter == null) {
@@ -113,22 +123,22 @@ public class ExploreFragment extends Fragment {
     }
 
     @Override
-    public void displayErrorMessage(final ExploreIOQueryEnum query) {
+    public void displayErrorMessage(final ExploreQueryEnum query) {
         // No UI changes when error with query
     }
 
     @Override
-    public void displayUserActionResult(final ExploreIOModel model,
-                                        final ExploreIOUserActionEnum userAction, final boolean success) {
+    public void displayUserActionResult(final ExploreModel model,
+                                        final ExploreUserActionEnum userAction, final boolean success) {
         switch (userAction) {
             case RELOAD:
-                displayData(model, ExploreIOQueryEnum.SESSIONS);
+                displayData(model, ExploreQueryEnum.SESSIONS);
                 break;
         }
     }
 
     @Override
-    public Uri getDataUri(final ExploreIOQueryEnum query) {
+    public Uri getDataUri(final ExploreQueryEnum query) {
         switch (query) {
             case SESSIONS:
                 return ScheduleContract.Sessions.CONTENT_URI;
@@ -148,11 +158,11 @@ public class ExploreFragment extends Fragment {
     }
 
     private void initPresenter() {
-        ExploreIOModel model = ModelProvider.provideExploreIOModel(
-                getDataUri(ExploreIOQueryEnum.SESSIONS), getContext(),
+        ExploreModel model = ModelProvider.provideExploreModel(
+                getDataUri(ExploreQueryEnum.SESSIONS), getContext(),
                 getLoaderManager());
         PresenterImpl presenter = new PresenterImpl(model, this,
-                ExploreIOUserActionEnum.values(), ExploreIOQueryEnum.values());
+                ExploreUserActionEnum.values(), ExploreQueryEnum.values());
         presenter.loadInitialQueries();
     }
 
@@ -219,8 +229,8 @@ public class ExploreFragment extends Fragment {
         for (UserActionListener h1 : mListeners) {
             Bundle args = new Bundle();
             args.putInt(ModelWithLoaderManager.KEY_RUN_QUERY_ID,
-                    ExploreIOModel.ExploreIOQueryEnum.SESSIONS.getId());
-            h1.onUserAction(ExploreIOModel.ExploreIOUserActionEnum.RELOAD, args);
+                    ExploreQueryEnum.SESSIONS.getId());
+            h1.onUserAction(ExploreUserActionEnum.RELOAD, args);
         }
     }
 
@@ -231,13 +241,13 @@ public class ExploreFragment extends Fragment {
         for (UserActionListener h1 : mListeners) {
             Bundle args = new Bundle();
             args.putInt(ModelWithLoaderManager.KEY_RUN_QUERY_ID,
-                    ExploreIOModel.ExploreIOQueryEnum.TAGS.getId());
-            h1.onUserAction(ExploreIOModel.ExploreIOUserActionEnum.RELOAD, args);
+                    ExploreQueryEnum.TAGS.getId());
+            h1.onUserAction(ExploreUserActionEnum.RELOAD, args);
         }
     }
 
     private static class ExploreAdapter
-            extends UpdatableAdapter<ExploreIOModel, RecyclerView.ViewHolder> {
+            extends UpdatableAdapter<ExploreModel, RecyclerView.ViewHolder> {
 
         private static final int TYPE_TRACK = 0;
 
@@ -271,7 +281,7 @@ public class ExploreFragment extends Fragment {
         private SparseArrayCompat<Parcelable> mTrackSessionsState;
 
         ExploreAdapter(@NonNull Activity activity,
-                       @NonNull ExploreIOModel model,
+                       @NonNull ExploreModel model,
                        @NonNull ImageLoader imageLoader) {
             mHost = activity;
             mImageLoader = imageLoader;
@@ -281,7 +291,7 @@ public class ExploreFragment extends Fragment {
             setupSessionAdapters(model);
         }
 
-        public void update(@NonNull ExploreIOModel model) {
+        public void update(@NonNull ExploreModel model) {
             // Attempt to update our data in-place so as not to lose scroll position etc.
             final List newItems = processModel(model);
             boolean changed = false;
@@ -314,7 +324,7 @@ public class ExploreFragment extends Fragment {
         @Override
         public int getItemViewType(final int position) {
             final Object item = mItems.get(position);
-            if (item instanceof LiveStreamData) {
+            if (item instanceof LiveData) {
                 return TYPE_LIVE_STREAM;
             } else if (item instanceof ItemGroup) {
                 return TYPE_TRACK;
@@ -360,7 +370,7 @@ public class ExploreFragment extends Fragment {
                     bindKeynote((KeynoteViewHolder) holder, (SessionData) mItems.get(position));
                     break;
                 case TYPE_LIVE_STREAM:
-                    bindLiveStream((TrackViewHolder) holder, (LiveStreamData) mItems.get(position));
+                    bindLiveStream((TrackViewHolder) holder, (LiveData) mItems.get(position));
                     break;
                 case TYPE_EVENT_DATA:
                     bindEventData((EventDataViewHolder) holder, (EventData) mItems.get(position));
@@ -404,7 +414,7 @@ public class ExploreFragment extends Fragment {
             holder.cards.setRecycledViewPool(mRecycledViewPool);
             ViewCompat.setImportantForAccessibility(
                     holder.cards, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
-            holder.headerImage.setImageResource(R.drawable.explore_io_ontheground_header);
+            holder.headerImage.setImageResource(R.drawable.oslospektrum_level0);
             holder.title.setText(R.string.explore_io_on_the_ground_title);
             return holder;
         }
@@ -542,15 +552,12 @@ public class ExploreFragment extends Fragment {
 
         private void bindKeynote(final KeynoteViewHolder holder, final SessionData keynote) {
             holder.title.setText(keynote.getSessionName());
-            if (!TextUtils.isEmpty(keynote.getImageUrl())) {
-                mImageLoader.loadImage(keynote.getImageUrl(), holder.thumbnail);
-            }
             if (!TextUtils.isEmpty(keynote.getDetails())) {
                 holder.description.setText(keynote.getDetails());
             }
         }
 
-        private void bindLiveStream(final TrackViewHolder holder, final LiveStreamData data) {
+        private void bindLiveStream(final TrackViewHolder holder, final LiveData data) {
             bindTrackOrLiveStream(holder, data, mHost.getString(R.string.live_now));
         }
 
@@ -563,6 +570,7 @@ public class ExploreFragment extends Fragment {
                 mImageLoader.loadImage(track.getPhotoUrl(), holder.headerImage);
             } else {
                 holder.headerImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                // TODO
                 holder.headerImage.setImageResource(R.drawable.ic_hash_io_16_monochrome);
 
             }
@@ -572,7 +580,7 @@ public class ExploreFragment extends Fragment {
                     mTrackSessionsState.get(trackId));
         }
 
-        private List processModel(final ExploreIOModel model) {
+        private List processModel(final ExploreModel model) {
 
             final ArrayList exploreCards = new ArrayList();
 
@@ -596,10 +604,9 @@ public class ExploreFragment extends Fragment {
                 }
             }
 
-            // Add Live Stream card.
-            final LiveStreamData liveStream = model.getLiveStreamData();
-            if (liveStream != null && liveStream.getSessions().size() > 0) {
-                exploreCards.add(liveStream);
+            final LiveData liveData = model.getLiveData();
+            if (liveData != null && liveData.getSessions().size() > 0) {
+                exploreCards.add(liveData);
             }
 
             // Add track cards, ordered alphabetically
@@ -608,17 +615,17 @@ public class ExploreFragment extends Fragment {
             return exploreCards;
         }
 
-        private void setupSessionAdapters(final ExploreIOModel model) {
+        private void setupSessionAdapters(final ExploreModel model) {
             final int trackCount = model.getOrderedTracks().size()
-                    + (model.getLiveStreamData() != null ? 1 : 0)
+                    + (model.getLiveData() != null ? 1 : 0)
                     + (model.getEventData() != null ? 1 : 0);
             mTrackSessionsAdapters = new SparseArrayCompat<>(trackCount);
             mTrackSessionsState = new SparseArrayCompat<>(trackCount);
 
-            final LiveStreamData liveStream = model.getLiveStreamData();
-            if (liveStream != null && liveStream.getSessions().size() > 0) {
-                mTrackSessionsAdapters.put(getTrackId(liveStream),
-                        new LiveStreamSessionsAdapter(mHost, liveStream.getSessions(),
+            final LiveData liveData = model.getLiveData();
+            if (liveData != null && liveData.getSessions().size() > 0) {
+                mTrackSessionsAdapters.put(getTrackId(liveData),
+                        new LiveStreamSessionsAdapter(mHost, liveData.getSessions(),
                                 mImageLoader));
             }
 
@@ -637,7 +644,7 @@ public class ExploreFragment extends Fragment {
         }
 
         private int getTrackId(Object track) {
-            if (track instanceof LiveStreamData) {
+            if (track instanceof LiveData) {
                 return LIVE_STREAM_TRACK_ID;
             } else if (track instanceof EventData) {
                 return EVENT_DATA_TRACK_ID;
@@ -714,6 +721,6 @@ public class ExploreFragment extends Fragment {
             description = (TextView) itemView.findViewById(R.id.description);
             clickableItem = (ViewGroup) itemView.findViewById(R.id.explore_io_clickable_item);
         }
-    } */
+    }
 
 }

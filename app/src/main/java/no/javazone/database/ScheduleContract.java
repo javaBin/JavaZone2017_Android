@@ -84,6 +84,21 @@ public class ScheduleContract {
 
     }
 
+    interface CardsColumns {
+        String CARD_ID = "card_id";
+        String TITLE = "title";
+        String ACTION_URL = "action_url";
+        String DISPLAY_START_DATE = "start_date";
+        String DISPLAY_END_DATE = "end_date";
+        String MESSAGE = "message";
+        String BACKGROUND_COLOR = "bg_color";
+        String TEXT_COLOR = "text_color";
+        String ACTION_COLOR = "action_color";
+        String ACTION_TEXT = "action_text";
+        String ACTION_TYPE = "action_type";
+        String ACTION_EXTRA = "action_extra";
+    }
+
     interface MapMarkerColumns {
         String MARKER_ID = "map_marker_id";
         String MARKER_TYPE = "map_marker_type";
@@ -116,6 +131,8 @@ public class ScheduleContract {
     private static final String PATH_TAGS = "tags";
 
     private static final String PATH_ROOM = "room";
+
+    private static final String PATH_CARDS = "cards";
 
     private static final String PATH_UNSCHEDULED = "unscheduled";
 
@@ -210,6 +227,29 @@ public class ScheduleContract {
             startTime /= DateUtils.SECOND_IN_MILLIS;
             endTime /= DateUtils.SECOND_IN_MILLIS;
             return ParserUtils.sanitizeId(startTime + "-" + endTime);
+        }
+    }
+
+    /**
+     * Cards are presented on the Explore I/O screen.
+     */
+    public static class Cards implements CardsColumns, BaseColumns {
+
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_CARDS).build();
+
+        public static final String CONTENT_TYPE_ID = "cards";
+
+        /**
+         * Build {@link Uri} that references any {@link Cards}.
+         */
+        public static Uri buildCardsUri() {
+            return CONTENT_URI.buildUpon().appendPath(PATH_CARDS).build();
+        }
+
+        /** Build {@link Uri} for requested {@link #CARD_ID}. */
+        public static Uri buildCardUri(String cardId) {
+            return CONTENT_URI.buildUpon().appendPath(PATH_CARDS).appendPath(cardId).build();
         }
     }
 

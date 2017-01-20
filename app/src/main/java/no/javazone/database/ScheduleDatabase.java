@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
+import com.google.common.collect.Tables;
+
 import no.javazone.sync.ConferenceDataHandler;
 import no.javazone.sync.SyncHelper;
 
@@ -30,6 +32,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         String BLOCKS = "blocks";
         String TAGS = "tags";
         String ROOMS = "rooms";
+        String CARDS = "cards";
         String SESSIONS = "sessions";
         String SPEAKERS = "speakers";
         String SESSIONS_TAGS = "sessions_tags";
@@ -148,9 +151,9 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
                 + TagsColumns.TAG_CATEGORY + " TEXT NOT NULL,"
                 + TagsColumns.TAG_NAME + " TEXT NOT NULL,"
                 + TagsColumns.TAG_ORDER_IN_CATEGORY + " INTEGER,"
-                + TagsColumns.TAG_COLOR + " TEXT NOT NULL,"
-                + TagsColumns.TAG_ABSTRACT + " TEXT NOT NULL,"
                 + TagsColumns.TAG_ABSTRACT + " TEXT,"
+                + TagsColumns.TAG_COLOR + " TEXT,"
+                + TagsColumns.TAG_PHOTO_URL + " TEXT,"
                 + "UNIQUE (" + TagsColumns.TAG_ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE " + DatabaseTables.ROOMS + " ("
@@ -190,7 +193,25 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
                 + SpeakersColumns.SPEAKER_ABSTRACT + " TEXT,"
                 + SpeakersColumns.SPEAKER_IMPORT_HASHCODE + " TEXT NOT NULL DEFAULT '',"
                 + SpeakersColumns.SPEAKER_URL + " TEXT,"
+                + SpeakersColumns.SPEAKER_PLUSONE_URL + " TEXT,"
+                + SpeakersColumns.SPEAKER_TWITTER_URL + " TEXT,"
                 + "UNIQUE (" + SpeakersColumns.SPEAKER_ID + ") ON CONFLICT REPLACE)");
+
+            db.execSQL("CREATE TABLE " + DatabaseTables.CARDS + " ("
+                    + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + Cards.ACTION_COLOR + " TEXT, "
+                    + Cards.ACTION_TEXT + " TEXT, "
+                    + Cards.ACTION_URL + " TEXT, "
+                    + Cards.BACKGROUND_COLOR + " TEXT, "
+                    + Cards.CARD_ID + " TEXT, "
+                    + Cards.DISPLAY_END_DATE + " INTEGER, "
+                    + Cards.DISPLAY_START_DATE + " INTEGER, "
+                    + Cards.MESSAGE + " TEXT, "
+                    + Cards.TEXT_COLOR + " TEXT, "
+                    + Cards.TITLE + " TEXT,  "
+                    + Cards.ACTION_TYPE + " TEXT,  "
+                    + Cards.ACTION_EXTRA + " TEXT, "
+                    + "UNIQUE (" + Cards.CARD_ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE " + DatabaseTables.SESSIONS_SPEAKERS + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"

@@ -232,8 +232,7 @@ public class SessionsHandler extends JsonHandler {
                 .withValue(ScheduleContract.Sessions.ROOM_ID, session.room)
                 .withValue(ScheduleContract.Sessions.SESSION_GROUPING_ORDER, session.groupingOrder)
                 .withValue(ScheduleContract.Sessions.SESSION_IMPORT_HASHCODE,
-                        session.getImportHashCode())
-                .withValue(ScheduleContract.Sessions.SESSION_COLOR, color);
+                        session.getImportHashCode());
         list.add(builder.build());
     }
 
