@@ -26,19 +26,19 @@ import com.google.android.gms.analytics.Tracker;
 
 import no.javazone.BuildConfig;
 import no.javazone.R;
+
 import static no.javazone.util.LogUtils.LOGD;
 
 /**
  * Centralized Analytics interface to ensure proper initialization and
  * consistent analytics application across the app.
- *
+ * <p>
  * For the purposes of this application, initialization of the Analytics tracker is broken
  * into two steps.  {@link #prepareAnalytics(Context)} is called upon app creation, which sets up
  * a listener for changes to shared settings_prefs.  When the user agrees to TOS, the listener triggers
  * the actual initialization step, setting up a Google Analytics tracker.  This ensures that
  * no data is collected or accidentally sent before the TOS step, and that campaign tracking data
  * isn't accidentally deleted by starting and immediately disabling a tracker upon app creation.
- *
  */
 public class AnalyticsHelper {
 
@@ -48,7 +48,8 @@ public class AnalyticsHelper {
 
     private static Tracker mTracker;
 
-    /** Custom dimension slot number for the "attendee at venue" preference.
+    /**
+     * Custom dimension slot number for the "attendee at venue" preference.
      * There's a finite number of custom dimensions, and they need to consistently be sent
      * in the same index in order to be tracked properly.  For each custom dimension or metric,
      * always reserve an index.
@@ -78,7 +79,7 @@ public class AnalyticsHelper {
      */
     public static void sendEvent(String category, String action, String label, long value,
                                  HitBuilders.EventBuilder eventBuilder) {
-        if(isInitialized()) {
+        if (isInitialized()) {
             mTracker.send(eventBuilder
                     .setCategory(category)
                     .setAction(action)
@@ -125,19 +126,12 @@ public class AnalyticsHelper {
      * that {@applicationContext} must be the Application level {@link Context} or this class will
      * leak the context.
      *
-     * @param applicationContext  The context that will later be used to initialize Analytics.
+     * @param applicationContext The context that will later be used to initialize Analytics.
      */
     public static void prepareAnalytics(Context applicationContext) {
         sAppContext = applicationContext;
-
-        // The listener will initialize Analytics when the TOS is signed, or enable/disable
-        // Analytics based on the "anonymous data collection" setting.
         setupPreferenceChangeListener();
-
-        // If TOS hasn't been signed yet, it's the first run.  Exit.
-        if (SettingsUtils.isTosAccepted(sAppContext)) {
-            initializeAnalyticsTracker(sAppContext);
-        }
+        initializeAnalyticsTracker(sAppContext);
     }
 
     /**
@@ -257,6 +251,7 @@ public class AnalyticsHelper {
 
     /**
      * Performs the checks to determine if Analytics should be enabled.
+     *
      * @return whether or not it's safe to enable Analytics.
      */
     private static boolean shouldEnableAnalytics() {
@@ -265,7 +260,6 @@ public class AnalyticsHelper {
         // 2) The user has accepted TOS.
         // 3) "Anonymous usage data" is enabled in settings.
         return isInitialized() // Has Analytics been initialized?
-                && SettingsUtils.isTosAccepted(sAppContext) // User has accepted TOS.
                 && SettingsUtils.isAnalyticsEnabled(sAppContext); // Analytics enabled in settings.
     }
 
@@ -277,7 +271,6 @@ public class AnalyticsHelper {
         try {
             setAnalyticsEnabled(shouldEnableAnalytics());
             LOGD(TAG, "Analytics" + (isInitialized() ? "" : " not") + " initialized"
-                    + ", TOS" + (SettingsUtils.isTosAccepted(sAppContext) ? "" : " not") + " accepted"
                     + ", Setting is" + (SettingsUtils.isAnalyticsEnabled(sAppContext) ? "" : " not")
                     + " checked");
         } catch (Exception e) {
@@ -287,10 +280,11 @@ public class AnalyticsHelper {
 
     /**
      * Enables or disables Analytics.
+     *
      * @param enableAnalytics Whether analytics should be enabled.
      */
     private static void setAnalyticsEnabled(boolean enableAnalytics) {
-        GoogleAnalytics instance  = GoogleAnalytics.getInstance(sAppContext);
+        GoogleAnalytics instance = GoogleAnalytics.getInstance(sAppContext);
         if (instance != null) {
             instance.setAppOptOut(!enableAnalytics);
             LOGD(TAG, "Analytics enabled: " + enableAnalytics);

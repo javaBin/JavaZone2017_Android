@@ -11,9 +11,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by kkho on 05.05.2016.
- */
 public class RestServiceDevNull {
     private static RestServiceDevNull instance = null;
     private RestDevApi restDevApi = null;

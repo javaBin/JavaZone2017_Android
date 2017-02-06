@@ -299,6 +299,10 @@ public class ScheduleProvider extends ContentProvider {
             case BLOCKS: {
                 return Blocks.buildBlockUri(values.getAsString(Blocks.BLOCK_ID));
             }
+            case CARDS: {
+                return ScheduleContract.Cards.buildCardUri(values.getAsString(
+                        ScheduleContract.Cards.CARD_ID));
+            }
             case TAGS: {
                 return Tags.buildTagUri(values.getAsString(Tags.TAG_ID));
             }
@@ -421,6 +425,7 @@ public class ScheduleProvider extends ContentProvider {
         // criteria so the full table is used. The others apply a selection criteria.
         switch (matchingUriEnum) {
             case BLOCKS:
+            case CARDS:
             case TAGS:
             case ROOMS:
             case SESSIONS:
@@ -570,7 +575,7 @@ public class ScheduleProvider extends ContentProvider {
                         .mapToTable(Sessions._ID, DatabaseTables.SESSIONS)
                         .mapToTable(Sessions.ROOM_ID, DatabaseTables.SESSIONS)
                         .mapToTable(Sessions.SESSION_ID, DatabaseTables.SESSIONS)
-                        .map(Sessions.SESSION_IN_MY_SCHEDULE, "IFNULL(in_schedule, 0)")
+                        .map(Sessions.SESSION_STARRED, "IFNULL(session_starred, 0)")
                         .groupBy(Qualified.SESSIONS_SESSION_ID);
             }
             case SESSIONS_MY_SCHEDULE: {
@@ -580,8 +585,8 @@ public class ScheduleProvider extends ContentProvider {
                         .mapToTable(Sessions.ROOM_ID, DatabaseTables.SESSIONS)
                         .mapToTable(Sessions.SESSION_ID, DatabaseTables.SESSIONS)
                         .map(Sessions.HAS_GIVEN_FEEDBACK, Subquery.SESSION_HAS_GIVEN_FEEDBACK)
-                        .map(Sessions.SESSION_IN_MY_SCHEDULE, "IFNULL(in_schedule, 0)")
-                        .where("( " + Sessions.SESSION_IN_MY_SCHEDULE + "=1")
+                        .map(Sessions.SESSION_STARRED, "IFNULL(session_starred, 0)")
+                        .where("( " + Sessions.SESSION_STARRED + "=1")
                         .groupBy(Qualified.SESSIONS_SESSION_ID);
             }
             case SESSIONS_UNSCHEDULED: {
@@ -591,8 +596,8 @@ public class ScheduleProvider extends ContentProvider {
                         .mapToTable(Sessions._ID, DatabaseTables.SESSIONS)
                         .mapToTable(Sessions.ROOM_ID, DatabaseTables.SESSIONS)
                         .mapToTable(Sessions.SESSION_ID, DatabaseTables.SESSIONS)
-                        .map(Sessions.SESSION_IN_MY_SCHEDULE, "IFNULL(in_schedule, 0)")
-                        .where(Sessions.SESSION_IN_MY_SCHEDULE + "=0")
+                        .map(Sessions.SESSION_STARRED, "IFNULL(session_starred, 0)")
+                        .where(Sessions.SESSION_STARRED + "=0")
                         .where(Sessions.SESSION_START + ">=?", String.valueOf(interval[0]))
                         .where(Sessions.SESSION_START + "<?", String.valueOf(interval[1]))
                         .groupBy(Qualified.SESSIONS_SESSION_ID);
@@ -605,7 +610,7 @@ public class ScheduleProvider extends ContentProvider {
                         .mapToTable(Sessions._ID, DatabaseTables.SESSIONS)
                         .mapToTable(Sessions.SESSION_ID, DatabaseTables.SESSIONS)
                         .mapToTable(Sessions.ROOM_ID, DatabaseTables.SESSIONS)
-                        .map(Sessions.SESSION_IN_MY_SCHEDULE, "IFNULL(in_schedule, 0)")
+                        .map(Sessions.SESSION_STARRED, "IFNULL(session_starred, 0)")
                         .where(SessionsSearchColumns.BODY + " MATCH ?", query);
             }
             case SESSIONS_AT: {
@@ -623,7 +628,7 @@ public class ScheduleProvider extends ContentProvider {
                         .mapToTable(Sessions._ID, DatabaseTables.SESSIONS)
                         .mapToTable(Sessions.ROOM_ID, DatabaseTables.SESSIONS)
                         .mapToTable(Sessions.SESSION_ID, DatabaseTables.SESSIONS)
-                        .map(Sessions.SESSION_IN_MY_SCHEDULE, "IFNULL(in_schedule, 0)")
+                        .map(Sessions.SESSION_STARRED, "IFNULL(session_starred, 0)")
                         .where(Qualified.SESSIONS_SESSION_ID + "=?", sessionId);
             }
             case SESSIONS_ID_SPEAKERS: {
@@ -652,7 +657,7 @@ public class ScheduleProvider extends ContentProvider {
                                         " >= ?) OR (" + Sessions.SESSION_START + " >= ?)", time,
                                 time,
                                 time)
-                        .map(Sessions.SESSION_IN_MY_SCHEDULE, "IFNULL(in_schedule, 0)")
+                        .map(Sessions.SESSION_STARRED, "IFNULL(session_starred, 0)")
                         .groupBy(Qualified.SESSIONS_SESSION_ID);
             }
             case SESSIONS_AFTER: {
@@ -661,7 +666,7 @@ public class ScheduleProvider extends ContentProvider {
                         .mapToTable(Sessions._ID, DatabaseTables.SESSIONS)
                         .mapToTable(Sessions.SESSION_ID, DatabaseTables.SESSIONS)
                         .mapToTable(Sessions.ROOM_ID, DatabaseTables.SESSIONS)
-                        .map(Sessions.SESSION_IN_MY_SCHEDULE, "IFNULL(in_schedule, 0)")
+                        .map(Sessions.SESSION_STARRED, "IFNULL(session_starred, 0)")
                         .where("(" + Sessions.SESSION_START + "<= ? AND " + Sessions.SESSION_END +
                                         " >= ?) OR (" + Sessions.SESSION_START + " >= ?)", time,
                                 time, time)

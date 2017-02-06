@@ -89,7 +89,7 @@ public class ScheduleHelper {
                 Sessions.buildCounterByIntervalUri(),
                 SessionsCounterQuery.PROJECTION,
                 Sessions.SESSION_START + ">=? AND "+Sessions.SESSION_START + "<=? AND "+
-                Sessions.SESSION_IN_MY_SCHEDULE + " = 0 ",
+                Sessions.SESSION_STARRED + " = 0 ",
                 new String[]{String.valueOf(dayStart), String.valueOf(dayEnd)},
                 null);
 
@@ -255,7 +255,7 @@ public class ScheduleHelper {
                 Sessions.SESSION_START,
                 Sessions.SESSION_END,
                 Rooms.ROOM_NAME,
-                Sessions.SESSION_IN_MY_SCHEDULE,
+                Sessions.SESSION_STARRED,
                 Sessions.SESSION_SPEAKER_NAMES,
                 Sessions.SESSION_COLOR,
                 Sessions.HAS_GIVEN_FEEDBACK,
@@ -267,9 +267,9 @@ public class ScheduleHelper {
         int SESSION_START = 2;
         int SESSION_END = 3;
         int ROOM_ROOM_NAME = 4;
-        int SESSION_SPEAKER_NAMES = 6;
-        int HAS_GIVEN_FEEDBACK = 7;
-        int SESSION_TAGS = 8;
+        int SESSION_SPEAKER_NAMES = 5;
+        int HAS_GIVEN_FEEDBACK = 6;
+        int SESSION_TAGS = 7;
     }
 
     private interface BlocksQuery {
@@ -294,7 +294,7 @@ public class ScheduleHelper {
                 Sessions.SESSION_START,
                 Sessions.SESSION_END,
                 Sessions.SESSION_INTERVAL_COUNT,
-                Sessions.SESSION_IN_MY_SCHEDULE,
+                Sessions.SESSION_STARRED,
         };
 
         int SESSION_INTERVAL_START = 0;

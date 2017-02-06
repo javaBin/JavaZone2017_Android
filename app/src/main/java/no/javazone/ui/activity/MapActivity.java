@@ -228,18 +228,6 @@ public class MapActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Adjust the padding in the map fragment when the info fragment has been resized.
-     * The size is self reported from the fragment and has to be adjusted before it can be
-     * applied to the map.
-     *
-     * For {@link com.google.samples.apps.iosched.map.InlineInfoFragment} (that is only displayed
-     * on the left of the screen), the full extend of its container layout (including padding) is
-     * passed to the map fragment.
-     * For {@link com.google.samples.apps.iosched.map.SlideableInfoFragment} (that is only
-     * displayed
-     * at the bottom of the screen), its actual height is passed through to the map.
-     */
     @Override
     public void onInfoSizeChanged(int left, int top, int right, int bottom) {
         if (mMapFragment != null) {

@@ -15,22 +15,22 @@
 
 <resources>
 
-    <style name="Theme.IOSched.Light" parent="Theme.IOSched.WithNavDrawer">
+    <style name="Theme.JZSched.Light" parent="Theme.JZSched.WithNavDrawer">
         <item name="colorPrimaryDark">@color/light_status_bar_against_toolbar</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
-    <style name="Theme.IOSched.ExploreSessions" parent="Theme.IOSched.Light">
+    <style name="Theme.JZSched.ExploreSessions" parent="Theme.JZSched.Light">
         <item name="colorPrimaryDark">@color/light_status_bar_against_header_img</item>
         <item name="android:windowEnterTransition">@transition/fade_system_chrome</item>
     </style>
 
-    <style name="Theme.IOSched.VideoLibrary.Filtered">
+    <style name="Theme.JZSched.VideoLibrary.Filtered">
         <item name="colorPrimaryDark">@color/light_status_bar_against_header_img</item>
         <item name="android:windowEnterTransition">@transition/fade_system_chrome</item>
     </style>
 
-    <style name="Theme.IOSched.SessionDetails" parent="Theme.IOSched.SessionDetails.VersionBase">
+    <style name="Theme.JZSched.SessionDetails" parent="Theme.JZSched.SessionDetails.VersionBase">
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@color/immersive_light_status_bar</item>

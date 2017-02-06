@@ -27,235 +27,90 @@ import no.javazone.Config;
 
 import static no.javazone.util.LogUtils.makeLogTag;
 
-/**
- * Utilities and constants related to app settings_prefs.
- */
 public class SettingsUtils {
 
     private static final String TAG = makeLogTag(SettingsUtils.class);
 
-    /**
-     * This is changed each year to effectively reset certain preferences that should be re-asked
-     * each year. Note, res/xml/settings_prefs.xml must be updated when this value is updated.
-     */
     public static final String CONFERENCE_YEAR_PREF_POSTFIX = "_2017";
 
-    /**
-     * Boolean preference indicating the user would like to see times in their local timezone
-     * throughout the app.
-     */
     public static final String PREF_LOCAL_TIMES = "pref_local_times";
 
-    /**
-     * Boolean preference indicating that the user will be attending the conference.
-     */
     public static final String PREF_ATTENDEE_AT_VENUE = "pref_attendee_at_venue" +
             CONFERENCE_YEAR_PREF_POSTFIX;
 
-    /**
-     * Boolean preference indicating whether the app has
-     * {@code com.google.samples.apps.iosched.ui.BaseActivity.performDataBootstrap installed} the
-     * {@code R.raw.bootstrap_data bootstrap data}.
-     */
     public static final String PREF_DATA_BOOTSTRAP_DONE = "pref_data_bootstrap_done";
 
-    /**
-     * Boolean indicating whether the app should attempt to sign in on startup (default true).
-     */
     public static final String PREF_USER_REFUSED_SIGN_IN = "pref_user_refused_sign_in" +
             CONFERENCE_YEAR_PREF_POSTFIX;
 
-    /**
-     * Boolean indicating whether the debug build warning was already shown.
-     */
     public static final String PREF_DEBUG_BUILD_WARNING_SHOWN = "pref_debug_build_warning_shown";
 
-    /**
-     * Boolean indicating whether ToS has been accepted.
-     */
     public static final String PREF_TOS_ACCEPTED = "pref_tos_accepted" +
             CONFERENCE_YEAR_PREF_POSTFIX;
 
-    /**
-     * Boolean indicating whether CoC has been accepted.
-     */
     private static final String PREF_CONDUCT_ACCEPTED = "pref_conduct_accepted" +
             CONFERENCE_YEAR_PREF_POSTFIX;
 
-    /**
-     * Boolean indicating whether ToS has been accepted.
-     */
     public static final String PREF_DECLINED_WIFI_SETUP = "pref_declined_wifi_setup" +
             CONFERENCE_YEAR_PREF_POSTFIX;
 
-    /**
-     * Boolean indicating whether user has answered if they are local or remote.
-     */
     public static final String PREF_ANSWERED_LOCAL_OR_REMOTE = "pref_answered_local_or_remote" +
             CONFERENCE_YEAR_PREF_POSTFIX;
 
-    /**
-     * Long indicating when a sync was last ATTEMPTED (not necessarily succeeded).
-     */
     public static final String PREF_LAST_SYNC_ATTEMPTED = "pref_last_sync_attempted";
 
-    /**
-     * Long indicating when a sync last SUCCEEDED.
-     */
     public static final String PREF_LAST_SYNC_SUCCEEDED = "pref_last_sync_succeeded";
 
-    /**
-     * Long storing the sync interval that's currently configured.
-     */
     public static final String PREF_CUR_SYNC_INTERVAL = "pref_cur_sync_interval";
 
-    /**
-     * Boolean indicating app should sync sessions with local calendar
-     */
     public static final String PREF_SYNC_CALENDAR = "pref_sync_calendar";
 
-    /**
-     * Boolean indicating whether the app has performed the (one-time) welcome flow.
-     */
-    public static final String PREF_WELCOME_DONE = "pref_welcome_done" +
+    public static final String PREF_FIRST_START = "pref_first_start" +
             CONFERENCE_YEAR_PREF_POSTFIX;
 
-    /**
-     * Boolean indicating if the app can collect Analytics.
-     */
     public static final String PREF_ANALYTICS_ENABLED = "pref_analytics_enabled";
 
-    /**
-     * Boolean indicating whether to show session reminder notifications.
-     */
     public static final String PREF_SHOW_SESSION_REMINDERS = "pref_show_session_reminders" +
             CONFERENCE_YEAR_PREF_POSTFIX;
 
-    /**
-     * Boolean indicating whether to show session feedback notifications.
-     */
     public static final String PREF_SHOW_SESSION_FEEDBACK_REMINDERS =
             "pref_show_session_feedback_reminders" + CONFERENCE_YEAR_PREF_POSTFIX;
 
-    /**
-     * Return the {@link TimeZone} the app is set to use (either user or conference).
-     *
-     * @param context Context to be used to lookup the {@link android.content.SharedPreferences}.
-     */
     public static TimeZone getDisplayTimeZone(Context context) {
         TimeZone defaultTz = TimeZone.getDefault();
         return (isUsingLocalTime(context) && defaultTz != null)
                 ? defaultTz : Config.CONFERENCE_TIMEZONE;
     }
 
-    /**
-     * Return true if the user has indicated they want the schedule in local times, false if they
-     * want to use the conference time zone. This preference is enabled/disabled by the user in the
-     * {@link SettingsActivity}.
-     *
-     * @param context Context to be used to lookup the {@link android.content.SharedPreferences}.
-     */
     public static boolean isUsingLocalTime(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getBoolean(PREF_LOCAL_TIMES, false);
     }
 
-    /**
-     * Return true if the user has indicated they're attending I/O in person. This preference can be
-     * enabled/disabled by the user in the
-     * {@link SettingsActivity}.
-     *
-     * @param context Context to be used to lookup the {@link android.content.SharedPreferences}.
-     */
     public static boolean isAttendeeAtVenue(final Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getBoolean(PREF_ATTENDEE_AT_VENUE, true);
     }
 
-    /**
-     * Mark that the app has finished loading the {@code R.raw.bootstrap_data bootstrap data}.
-     *
-     * @param context Context to be used to edit the {@link android.content.SharedPreferences}.
-     */
+
     public static void markDataBootstrapDone(final Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         sp.edit().putBoolean(PREF_DATA_BOOTSTRAP_DONE, true).apply();
     }
 
-    /**
-     * Return true when the {@code R.raw.bootstrap_data_json bootstrap data} has been marked loaded.
-     *
-     * @param context Context to be used to lookup the {@link android.content.SharedPreferences}.
-     */
     public static boolean isDataBootstrapDone(final Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getBoolean(PREF_DATA_BOOTSTRAP_DONE, false);
     }
 
-    /**
-     * Set the attendee preference indicating whether they'll be attending Google I/O on site.
-     *
-     * @param context  Context to be used to edit the {@link android.content.SharedPreferences}.
-     * @param newValue New value that will be set.
-     */
-    public static void setAttendeeAtVenue(final Context context, final boolean newValue) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        sp.edit().putBoolean(PREF_ATTENDEE_AT_VENUE, newValue).apply();
-    }
-
-    /**
-     * Mark that the user explicitly chose not to sign in so app doesn't ask them again.
-     *
-     * @param context Context to be used to edit the {@link android.content.SharedPreferences}.
-     */
-    public static void markUserRefusedSignIn(final Context context, final boolean refused) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        sp.edit().putBoolean(PREF_USER_REFUSED_SIGN_IN, refused).apply();
-    }
-
-    /**
-     * Return true if user refused to sign in, false if they haven't refused (yet).
-     *
-     * @param context Context to be used to lookup the {@link android.content.SharedPreferences}.
-     */
-    public static boolean hasUserRefusedSignIn(final Context context) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(PREF_USER_REFUSED_SIGN_IN, false);
-    }
-
-    /**
-     * Return true if the
-     * {@code com.google.samples.apps.iosched.welcome.WelcomeActivity.displayDogfoodWarningDialog() Dogfood Build Warning}
-     * has already been marked as shown, false if not.
-     *
-     * @param context Context to be used to lookup the {@link android.content.SharedPreferences}.
-     */
     public static boolean wasDebugWarningShown(final Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getBoolean(PREF_DEBUG_BUILD_WARNING_SHOWN, false);
     }
 
-    /**
-     * Mark the
-     * {@code com.google.samples.apps.iosched.welcome.WelcomeActivity.displayDogfoodWarningDialog() Dogfood Build Warning}
-     * shown to user.
-     *
-     * @param context Context to be used to edit the {@link android.content.SharedPreferences}.
-     */
     public static void markDebugWarningShown(final Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         sp.edit().putBoolean(PREF_DEBUG_BUILD_WARNING_SHOWN, true).apply();
-    }
-
-    /**
-     * Return true if user has accepted the
-     * {@link WelcomeActivity Tos}, false if they haven't (yet).
-     *
-     * @param context Context to be used to lookup the {@link android.content.SharedPreferences}.
-     */
-    public static boolean isTosAccepted(final Context context) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(PREF_TOS_ACCEPTED, false);
     }
 
     /**
@@ -291,44 +146,21 @@ public class SettingsUtils {
         sp.edit().putBoolean(PREF_CONDUCT_ACCEPTED, newValue).apply();
     }
 
-    /**
-     * Return true if user has already declined WiFi setup, but false if they haven't yet.
-     *
-     * @param context Context to be used to lookup the {@link android.content.SharedPreferences}.
-     */
     public static boolean hasDeclinedWifiSetup(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getBoolean(PREF_DECLINED_WIFI_SETUP, false);
     }
 
-    /**
-     * Mark that the user has explicitly declined WiFi setup assistance.
-     *
-     * @param context  Context to be used to edit the {@link android.content.SharedPreferences}.
-     * @param newValue New value that will be set.
-     */
     public static void markDeclinedWifiSetup(final Context context, boolean newValue) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         sp.edit().putBoolean(PREF_DECLINED_WIFI_SETUP, newValue).apply();
     }
 
-    /**
-     * Returns true if user has already indicated whether they're a local or remote I/O attendee,
-     * false if they haven't answered yet.
-     *
-     * @param context Context to be used to lookup the {@link android.content.SharedPreferences}.
-     */
     public static boolean hasAnsweredLocalOrRemote(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getBoolean(PREF_ANSWERED_LOCAL_OR_REMOTE, false);
     }
 
-    /**
-     * Mark that the user answered whether they're a local or remote I/O attendee.
-     *
-     * @param context  Context to be used to edit the {@link android.content.SharedPreferences}.
-     * @param newValue New value that will be set.
-     */
     public static void markAnsweredLocalOrRemote(final Context context, boolean newValue) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         sp.edit().putBoolean(PREF_ANSWERED_LOCAL_OR_REMOTE, newValue).apply();
@@ -341,7 +173,12 @@ public class SettingsUtils {
      */
     public static boolean isFirstRunProcessComplete(final Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getBoolean(PREF_WELCOME_DONE, false);
+        return sp.getBoolean(PREF_FIRST_START, false);
+    }
+
+    public static void markFirstRunProcessesDone(final Context context, boolean newValue) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        sp.edit().putBoolean(PREF_FIRST_START, newValue).apply();
     }
 
     /**

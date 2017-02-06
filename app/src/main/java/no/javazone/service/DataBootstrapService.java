@@ -4,18 +4,30 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.List;
 
 import no.javazone.BuildConfig;
 import no.javazone.R;
+import no.javazone.archframework.model.domain.Session;
+import no.javazone.archframework.model.dto.JZFeedback;
 import no.javazone.database.ScheduleContract;
 import no.javazone.schedule.JsonHandler;
 import no.javazone.sync.ConferenceDataHandler;
 import no.javazone.sync.SyncHelper;
 import no.javazone.util.LogUtils;
+import no.javazone.util.RestDevApi;
 import no.javazone.util.SettingsUtils;
+import no.javazone.util.ToStringConverterFactory;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
+import static no.javazone.BuildConfig.SLEEPINGPILL_BASE_ADDRESS_URL;
 import static no.javazone.util.LogUtils.LOGD;
 import static no.javazone.util.LogUtils.LOGE;
 import static no.javazone.util.LogUtils.LOGI;
@@ -24,6 +36,8 @@ import static no.javazone.util.LogUtils.LOGW;
 public class DataBootstrapService extends IntentService {
 
     private static final String TAG = LogUtils.makeLogTag(DataBootstrapService.class);
+    private DataBootstrapApiEndpoint dataBootstrapApiEndpoint = null;
+
 
     /**
      * Start the {@link DataBootstrapService} if the bootstrap is either not done or complete yet.
@@ -53,15 +67,35 @@ public class DataBootstrapService extends IntentService {
             LOGD(TAG, "Data bootstrap already done.");
             return;
         }
-        try {
-            LOGD(TAG, "Starting data bootstrap process.");
-            // Load data from bootstrap raw resource.
-            String bootstrapJson = JsonHandler
-                    .parseResource(appContext, R.raw.bootstrap_data);
 
-            // Apply the data we read to the database with the help of the ConferenceDataHandler.
+            /*
+            String bootstrapJson = JsonHandler
+                    .parseResource(appContext, R.raw.bootstrap_data); */
+            final Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(SLEEPINGPILL_BASE_ADDRESS_URL)
+                    .addConverterFactory(new ToStringConverterFactory())
+                    .build();
+
+            dataBootstrapApiEndpoint = retrofit.create(DataBootstrapApiEndpoint.class);
+
+
+            if (BuildConfig.DEBUG) {
+                dataBootstrapApiEndpoint.getSessionsDebug().enqueue(retrofitCallBack);
+            } else {
+                dataBootstrapApiEndpoint.getSessionsRelease().enqueue(retrofitCallBack);
+            }
+    }
+
+    public Callback<String> retrofitCallBack = new Callback<String>() {
+        @Override
+        public void onResponse(Call<String> call, Response<String> response) {
+            Context appContext = getApplicationContext();
+            try {
+                LOGD(TAG, "Starting data bootstrap process.");
+
             ConferenceDataHandler dataHandler = new ConferenceDataHandler(appContext);
-            dataHandler.applyConferenceData(new String[]{bootstrapJson},
+
+            dataHandler.applyConferenceData(new String[]{response.body()},
                     BuildConfig.BOOTSTRAP_DATA_TIMESTAMP, false);
 
             SyncHelper.performPostSyncChores(appContext);
@@ -74,18 +108,23 @@ public class DataBootstrapService extends IntentService {
                     null, false);
 
         } catch (IOException ex) {
-            // This is serious -- if this happens, the app won't work :-(
-            // This is unlikely to happen in production, but IF it does, we apply
-            // this workaround as a fallback: we pretend we managed to do the bootstrap
-            // and hope that a remote sync will work.
             LOGE(TAG, "*** ERROR DURING BOOTSTRAP! Problem in bootstrap data?", ex);
             LOGE(TAG,
                     "Applying fallback -- marking boostrap as done; sync might fix problem.");
             SettingsUtils.markDataBootstrapDone(appContext);
         } finally {
-            // Request a manual sync immediately after the bootstrapping process, in case we
-            // have an active connection. Otherwise, the scheduled sync could take a while.
             SyncHelper.requestManualSync();
         }
-    }
+        }
+
+        @Override
+        public void onFailure(Call call, Throwable t) {
+            Context appContext = getApplicationContext();
+            LOGE(TAG, "Something failed when retrieving from Sleeping pill", t.getCause());
+            LOGE(TAG,
+                    "Applying fallback -- marking boostrap as done; sync might fix problem.");
+            SettingsUtils.markDataBootstrapDone(appContext);
+            SyncHelper.requestManualSync();
+        }
+    };
 }

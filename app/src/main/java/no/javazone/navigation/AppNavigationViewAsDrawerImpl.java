@@ -40,6 +40,7 @@ import no.javazone.util.UIUtils;
 import static no.javazone.navigation.NavigationModel.*;
 import static no.javazone.util.LogUtils.LOGE;
 import static no.javazone.util.LogUtils.makeLogTag;
+import static no.javazone.util.SettingsUtils.markFirstRunProcessesDone;
 
 /**
  * This is the implementation of {@link AppNavigationView} using a {@link DrawerLayout}. This
@@ -153,11 +154,9 @@ public class AppNavigationViewAsDrawerImpl extends AppNavigationViewAbstractImpl
 
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
-        // When the user runs the app for the first time, we want to land them with the
-        // navigation drawer open. But just the first time.
         if (!SettingsUtils.isFirstRunProcessComplete(mActivity)) {
-            // first run of the app starts with the nav drawer open
             mDrawerLayout.openDrawer(GravityCompat.START);
+            SettingsUtils.markFirstRunProcessesDone(mActivity, true);
         }
 
         setupAccountBox();

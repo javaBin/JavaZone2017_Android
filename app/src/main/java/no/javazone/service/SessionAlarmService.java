@@ -541,7 +541,7 @@ public class SessionAlarmService extends IntentService {
                             ScheduleContractHelper.formatQueryDistinctParameter(
                                     ScheduleContract.Sessions.SESSION_START),
                             ScheduleContract.Sessions.SESSION_END,
-                            ScheduleContract.Sessions.SESSION_IN_MY_SCHEDULE},
+                            ScheduleContract.Sessions.SESSION_STARRED},
                     null,
                     null,
                     null
@@ -569,7 +569,7 @@ public class SessionAlarmService extends IntentService {
                 new String[]{
                         ScheduleContract.Sessions.SESSION_TITLE,
                         ScheduleContract.Sessions.SESSION_END,
-                        ScheduleContract.Sessions.SESSION_IN_MY_SCHEDULE,
+                        ScheduleContract.Sessions.SESSION_STARRED,
                 },
                 null,
                 null,
@@ -594,7 +594,7 @@ public class SessionAlarmService extends IntentService {
                 ScheduleContract.Sessions.SESSION_ID,
                 ScheduleContract.Sessions.SESSION_TITLE,
                 ScheduleContract.Sessions.ROOM_ID,
-                ScheduleContract.Sessions.SESSION_IN_MY_SCHEDULE
+                ScheduleContract.Sessions.SESSION_STARRED
         };
 
         int SESSION_ID = 0;
@@ -606,7 +606,7 @@ public class SessionAlarmService extends IntentService {
         String[] PROJECTION = {
                 ScheduleContract.Sessions.SESSION_ID,
                 ScheduleContract.Sessions.SESSION_TITLE,
-                ScheduleContract.Sessions.SESSION_IN_MY_SCHEDULE,
+                ScheduleContract.Sessions.SESSION_STARRED,
                 ScheduleContract.Sessions.HAS_GIVEN_FEEDBACK,
         };
 

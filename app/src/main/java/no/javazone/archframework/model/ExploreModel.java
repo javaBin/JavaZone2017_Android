@@ -294,7 +294,7 @@ public class ExploreModel extends ModelWithLoaderManager<ExploreModel.ExploreQue
                 cursor.getString(cursor.getColumnIndex(
                         ScheduleContract.Sessions.SESSION_TAGS)),
                 cursor.getLong(cursor.getColumnIndex(
-                        ScheduleContract.Sessions.SESSION_IN_MY_SCHEDULE)) == 1L);
+                        ScheduleContract.Sessions.SESSION_STARRED)) == 1L);
     }
 
     private void readDataFromCardsCursor(Cursor cursor) {
@@ -448,7 +448,8 @@ public class ExploreModel extends ModelWithLoaderManager<ExploreModel.ExploreQue
                 ScheduleContract.Sessions.SESSION_TAGS,
                 ScheduleContract.Sessions.SESSION_START,
                 ScheduleContract.Sessions.SESSION_END,
-                ScheduleContract.Sessions.SESSION_IN_MY_SCHEDULE,
+                ScheduleContract.Sessions.SESSION_VIDEO_URL,
+                ScheduleContract.Sessions.SESSION_STARRED,
                 ScheduleContract.Sessions.SESSION_START,
                 ScheduleContract.Sessions.SESSION_END,
         }),

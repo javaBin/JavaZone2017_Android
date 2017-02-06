@@ -180,7 +180,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
                 + SessionsColumns.SESSION_GROUPING_ORDER + " INTEGER,"
                 + SessionsColumns.SESSION_SPEAKER_NAMES + " TEXT,"
                 + SessionsColumns.SESSION_RELATED_CONTENT + " TEXT,"
-                + SessionsColumns.SESSION_IN_MY_SCHEDULE + " INTEGER,"
+                + SessionsColumns.SESSION_STARRED + " INTEGER NOT NULL DEFAULT 0,"
                 + "UNIQUE (" + SessionsColumns.SESSION_ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE " + DatabaseTables.SPEAKERS + " ("

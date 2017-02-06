@@ -49,7 +49,7 @@ public class SessionsHelper {
         sessionUri = ScheduleContract.addCallerIsSyncAdapterParameter(sessionUri);
         String sessionId = ScheduleContract.Sessions.getSessionId(sessionUri);
         final ContentValues values = new ContentValues();
-        values.put(ScheduleContract.Sessions.SESSION_IN_MY_SCHEDULE, starred?1:0);
+        values.put(ScheduleContract.Sessions.SESSION_STARRED, starred?1:0);
         AsyncQueryHandler handler =
                 new AsyncQueryHandler(mActivity.getContentResolver()) {
                 };

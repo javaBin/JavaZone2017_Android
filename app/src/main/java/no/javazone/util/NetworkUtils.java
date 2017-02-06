@@ -8,9 +8,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings;
 
-/**
- * Created by kkho on 28.05.2016.
- */
 public class NetworkUtils {
 
     public static boolean checkInternetConnection(Context context) {

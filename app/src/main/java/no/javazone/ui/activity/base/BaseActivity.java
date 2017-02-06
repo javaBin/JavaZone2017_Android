@@ -45,7 +45,6 @@ import static no.javazone.util.LogUtils.LOGW;
 import static no.javazone.util.LogUtils.makeLogTag;
 
 public abstract class BaseActivity extends AppCompatActivity implements
-        SharedPreferences.OnSharedPreferenceChangeListener,
         MultiSwipeRefreshLayout.CanChildScrollUpCallback,
         AppNavigationViewAsDrawerImpl.NavigationDrawerStateListener {
 
@@ -63,10 +62,6 @@ public abstract class BaseActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         RecentTasksStyler.styleRecentTasksEntry(this);
         Account.createSyncAccount(this);
-
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        sp.registerOnSharedPreferenceChangeListener(this);
-
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
@@ -119,16 +114,6 @@ public abstract class BaseActivity extends AppCompatActivity implements
             mAppNavigationViewAsDrawer.closeNavDrawer();
         } else {
             super.onBackPressed();
-        }
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key != null) {
-            if (mAppNavigationViewAsDrawer != null) {
-                mAppNavigationViewAsDrawer.updateNavigationItems();
-            }
-            invalidateOptionsMenu();
         }
     }
 
@@ -324,9 +309,6 @@ public abstract class BaseActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        sp.unregisterOnSharedPreferenceChangeListener(this);
     }
 
 

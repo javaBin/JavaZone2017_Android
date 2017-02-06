@@ -28,6 +28,7 @@ android {
         buildConfigField("boolean", "ENABLE_DEBUG_TOOLS", "false")
         buildConfigField("String", "GENERIC_API_KEY", "\"${oauth2_creds_api_key}\"")
         buildConfigField("String", "JAVAZONE_BASE_ADDRESS_URL", "\"${javazone_base_address_url}\"")
+        buildConfigField("String", "SLEEPINGPILL_BASE_ADDRESS_URL", "\"${sleepingpill_web_session_all_uri}\"")
         buildConfigField("String", "YOUTUBE_API_KEY", "\"${youtube_api_key}\"")
         buildConfigField("String", "FEEDBACK_API_ENDPOINT", "\"${feedback_api_endpoint}\"")
         buildConfigField("String", "TEST_YOUTUBE_LIVE_URL", "\"${test_youtube_live_url}\"")

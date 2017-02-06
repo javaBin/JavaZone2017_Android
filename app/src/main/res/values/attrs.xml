@@ -46,7 +46,7 @@
         <attr name="emphasisColor" format="color" />
     </declare-styleable>
 
-    <declare-styleable name="ThemeIOSched">
+    <declare-styleable name="ThemeJZSched">
         <attr name="isFloatingWindow" format="boolean" />
     </declare-styleable>
 

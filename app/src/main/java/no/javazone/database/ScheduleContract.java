@@ -61,7 +61,6 @@ public class ScheduleContract {
         String SESSION_ABSTRACT = "session_abstract";
         String SESSION_KEYWORDS = "session_keywords";
         String SESSION_VIDEO_URL = "session_video_url";
-        String SESSION_IN_MY_SCHEDULE = "session_in_my_schedule";
         String SESSION_TAGS = "session_tags";
         String SESSION_SPEAKER_NAMES = "session_speaker_names";
         String SESSION_GROUPING_ORDER = "session_grouping_order";
@@ -69,6 +68,7 @@ public class ScheduleContract {
         String SESSION_INTERVAL_COUNT = "session_interval_count";
         String SESSION_RELATED_CONTENT = "session_related_content";
         String SESSION_IMPORT_HASHCODE = "session_import_hashcode";
+        String SESSION_STARRED = "session_starred";
     }
 
     interface SpeakersColumns {

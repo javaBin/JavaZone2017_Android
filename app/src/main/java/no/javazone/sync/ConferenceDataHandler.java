@@ -61,7 +61,6 @@ public class ConferenceDataHandler {
     private static final String DATA_KEY_TAGS = "tags";
     private static final String DATA_KEY_SPEAKERS = "speakers";
     private static final String DATA_KEY_SESSIONS = "sessions";
-    private static final String DATA_KEY_MAP = "map";
 
     private static final String[] DATA_KEYS_IN_ORDER = {
             DATA_KEY_ROOMS,
@@ -116,10 +115,6 @@ public class ConferenceDataHandler {
         mHandlerForKey.put(DATA_KEY_SESSIONS, mSessionsHandler = new SessionsHandler(mContext));
         mHandlerForKey.put(DATA_KEY_CARDS, mCardHandler = new CardHandler(mContext));
 
-        //mHandlerForKey.put(DATA_KEY_SEARCH_SUGGESTIONS, mSearchSuggestHandler =
-        //        new SearchSuggestHandler(mContext));
-       // mHandlerForKey.put(DATA_KEY_MAP, mMapPropertyHandler = new MapPropertyHandler(mContext));
-
         // process the jsons. This will call each of the handlers when appropriate to deal
         // with the objects we see in the data.
         LOGD(TAG, "Processing " + dataBodies.length + " JSON objects.");
@@ -162,7 +157,6 @@ public class ConferenceDataHandler {
             throw new RuntimeException("Error executing content provider batch operation", ex);
         }
 
-        // notify all top-level paths
         LOGD(TAG, "Notifying changes on all top-level paths on Content Resolver.");
         ContentResolver resolver = mContext.getContentResolver();
         for (String path : ScheduleContract.TOP_LEVEL_PATHS) {
@@ -170,8 +164,6 @@ public class ConferenceDataHandler {
             resolver.notifyChange(uri, null);
         }
 
-
-        // update our data timestamp
         setDataTimestamp(dataTimestamp);
         LOGD(TAG, "Done applying conference data.");
     }
@@ -213,65 +205,6 @@ public class ConferenceDataHandler {
             reader.close();
         }
     }
-
-    /**
-     * Synchronise the map overlay files either from the local assets (if available) or from a remote url.
-     *
-     * @param collection Set of tiles containing a local filename and remote url.
-     * @throws IOException
-     *
-    private void processMapOverlayFiles(Collection<Tile> collection, boolean downloadAllowed) throws IOException, SVGParseException {
-        // clear the tile cache on disk if any tiles have been updated
-        boolean shouldClearCache = false;
-        // keep track of used files, unused files are removed
-        ArrayList<String> usedTiles = new ArrayList<>();
-        for (Tile tile : collection) {
-            final String filename = tile.filename;
-            final String url = tile.url;
-
-            usedTiles.add(filename);
-
-            if (!MapUtils.hasTile(mContext, filename)) {
-                shouldClearCache = true;
-                // copy or download the tile if it is not stored yet
-                if (MapUtils.hasTileAsset(mContext, filename)) {
-                    // file already exists as an asset, copy it
-                    MapUtils.copyTileAsset(mContext, filename);
-                } else if (downloadAllowed && !TextUtils.isEmpty(url)) {
-                    try {
-                        // download the file only if downloads are allowed and url is not empty
-                        File tileFile = MapUtils.getTileFile(mContext, filename);
-                        BasicHttpClient httpClient = new BasicHttpClient();
-                        httpClient.setRequestLogger(mQuietLogger);
-                        IOUtils.authorizeHttpClient(mContext, httpClient);
-                        HttpResponse httpResponse = httpClient.get(url, null);
-                        IOUtils.writeToFile(httpResponse.getBody(), tileFile);
-
-                        // ensure the file is valid SVG
-                        InputStream is = new FileInputStream(tileFile);
-                        SVG svg = new SVGBuilder().readFromInputStream(is).build();
-                        is.close();
-                    } catch (IOException ex) {
-                        LOGE(TAG, "FAILED downloading map overlay tile "+url+
-                                ": " + ex.getMessage(), ex);
-                    } catch (SVGParseException ex) {
-                        LOGE(TAG, "FAILED parsing map overlay tile "+url+
-                                ": " + ex.getMessage(), ex);
-                    }
-                } else {
-                    LOGD(TAG, "Skipping download of map overlay tile" +
-                            " (since downloadsAllowed=false)");
-                }
-            }
-        }
-
-        if (shouldClearCache) {
-            MapUtils.clearDiskCache(mContext);
-        }
-
-        MapUtils.removeUnusedTiles(mContext, usedTiles);
-    }
-    */
 
     // Returns the timestamp of the data we have in the content provider.
     public String getDataTimestamp() {

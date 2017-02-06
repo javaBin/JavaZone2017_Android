@@ -213,12 +213,7 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // ANALYTICS SCREEN: View the Map screen
-        // Contains: Nothing (Page name is a constant)
         AnalyticsHelper.sendScreenView(SCREEN_LABEL);
-
-        // get DPI
         mDPI = getActivity().getResources().getDisplayMetrics().densityDpi / 160f;
 
         ICON_ACTIVE = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
@@ -425,7 +420,7 @@ public class MapFragment extends com.google.android.gms.maps.MapFragment impleme
         mapUiSettings.setZoomControlsEnabled(false);
         mapUiSettings.setMapToolbarEnabled(false);
 
-        mMap.setMyLocationEnabled(mMyLocationEnabled);
+        ((MapActivity) getActivity()).attemptEnableMyLocation();
 
         // load all markers
         LoaderManager lm = getLoaderManager();

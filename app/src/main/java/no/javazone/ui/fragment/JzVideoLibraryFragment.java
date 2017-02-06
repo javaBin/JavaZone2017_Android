@@ -14,6 +14,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import no.javazone.R;
+import no.javazone.util.AnalyticsHelper;
 import no.javazone.util.NetworkUtils;
 
 /**
@@ -23,10 +24,14 @@ public class JzVideoLibraryFragment extends Fragment {
     private WebView mVimeoWebView;
     private SwipeRefreshLayout mSwipeRefeshLayout;
     private final static String VIMEO_WEB_URL = "https://vimeo.com/javazone/videos";
+    public static final String SCREEN_LABEL = "JzVideoLibrary";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AnalyticsHelper.sendScreenView(SCREEN_LABEL);
+
     }
 
     @Nullable

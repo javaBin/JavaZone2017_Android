@@ -30,6 +30,8 @@ import java.util.List;
 
 import no.javazone.R;
 import no.javazone.adapter.EventDataAdapter;
+import no.javazone.adapter.LiveStreamSessionsAdapter;
+import no.javazone.adapter.SessionsAdapter;
 import no.javazone.archframework.model.ExploreModel;
 import no.javazone.archframework.model.ModelWithLoaderManager;
 import no.javazone.archframework.model.data.EventData;
