@@ -1,20 +1,30 @@
 package no.javazone.archframework.model.domain;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Random;
 
 public class Session {
+    @SerializedName("sessionId")
     public String id;
+    @SerializedName("abstract")
     public String description;
     public String title;
+    @SerializedName("keywords")
     public String[] tags;
+
     public String startTimestamp;
     public String videoUrl;
     public String[] speakers;
     public String endTimestamp;
     public String room;
-    public boolean hasStarted;
+
+    public String format;
+    public String language;
+    public String published;
     public String color;
     public int groupingOrder;
+    public boolean starred;
 
     public String makeTagsList() {
         int i;

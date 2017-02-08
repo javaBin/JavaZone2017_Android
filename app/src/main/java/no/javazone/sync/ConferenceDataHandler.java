@@ -107,6 +107,12 @@ public class ConferenceDataHandler {
                                     boolean downloadsAllowed) throws IOException {
         LOGD(TAG, "Applying data from " + dataBodies.length + " files, timestamp " + dataTimestamp);
 
+
+
+
+
+
+
         // create handlers for each data type
         mHandlerForKey.put(DATA_KEY_ROOMS, mRoomsHandler = new RoomsHandler(mContext));
         mHandlerForKey.put(DATA_KEY_BLOCKS, mBlocksHandler = new BlocksHandler(mContext));

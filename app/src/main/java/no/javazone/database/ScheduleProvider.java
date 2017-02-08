@@ -523,20 +523,43 @@ public class ScheduleProvider extends ContentProvider {
         }
         switch (matchingUriEnum) {
             case BLOCKS: {
-                return builder.table(DatabaseTables.BLOCKS);
+                return builder.table(DatabaseTables.BLOCKS)
+                        .map(Blocks.SESSIONS_COUNT, Subquery.BLOCK_SESSIONS_COUNT)
+                        .map(Blocks.NUM_STARRED_SESSIONS, Subquery.BLOCK_NUM_STARRED_SESSIONS)
+                        .map(Blocks.STARRED_SESSION_ID, Subquery.BLOCK_STARRED_SESSION_ID)
+                        .map(Blocks.STARRED_SESSION_TITLE, Subquery.BLOCK_STARRED_SESSION_TITLE)
+                        .map(Blocks.STARRED_SESSION_ROOM_NAME,
+                                Subquery.BLOCK_STARRED_SESSION_ROOM_NAME)
+                        .map(Blocks.STARRED_SESSION_ROOM_ID, Subquery.BLOCK_STARRED_SESSION_ROOM_ID);
             }
             case BLOCKS_BETWEEN: {
                 final List<String> segments = uri.getPathSegments();
                 final String startTime = segments.get(2);
                 final String endTime = segments.get(3);
                 return builder.table(DatabaseTables.BLOCKS)
+                        .map(Blocks.SESSIONS_COUNT, Subquery.BLOCK_SESSIONS_COUNT)
+                        .map(Blocks.NUM_STARRED_SESSIONS, Subquery.BLOCK_NUM_STARRED_SESSIONS)
                         .where(Blocks.BLOCK_START + ">=?", startTime)
                         .where(Blocks.BLOCK_START + "<=?", endTime);
             }
             case BLOCKS_ID: {
                 final String blockId = Blocks.getBlockId(uri);
                 return builder.table(DatabaseTables.BLOCKS)
+                        .map(Blocks.SESSIONS_COUNT, Subquery.BLOCK_SESSIONS_COUNT)
+                        .map(Blocks.NUM_STARRED_SESSIONS, Subquery.BLOCK_NUM_STARRED_SESSIONS)
                         .where(Blocks.BLOCK_ID + "=?", blockId);
+            }
+            case BLOCKS_ID_SESSIONS_STARRED: {
+                final String blockId = Blocks.getBlockId(uri);
+                return builder.table(DatabaseTables.SESSIONS_JOIN_BLOCKS_ROOMS)
+                        .map(Blocks.SESSIONS_COUNT, Subquery.BLOCK_SESSIONS_COUNT)
+                        .map(Blocks.NUM_STARRED_SESSIONS, Subquery.BLOCK_NUM_STARRED_SESSIONS)
+                        .mapToTable(Sessions._ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.SESSION_ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.BLOCK_ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.ROOM_ID, DatabaseTables.SESSIONS)
+                        .where(Qualified.SESSIONS_BLOCK_ID + "=?", blockId)
+                        .where(Qualified.SESSIONS_STARRED + "=1");
             }
             case CARDS: {
                 return builder.table(DatabaseTables.CARDS);
@@ -645,6 +668,7 @@ public class ScheduleProvider extends ContentProvider {
                         .mapToTable(Tags.TAG_ID, DatabaseTables.TAGS)
                         .where(Qualified.SESSIONS_TAGS_SESSION_ID + "=?", sessionId);
             }
+
             case SESSIONS_ROOM_AFTER: {
                 final String room = Sessions.getRoom(uri);
                 final String time = Sessions.getAfterForRoom(uri);
@@ -733,6 +757,34 @@ public class ScheduleProvider extends ContentProvider {
                 + DatabaseTables.FEEDBACK + " WHERE " + Qualified.FEEDBACK_SESSION_ID + "="
                 + Qualified.SESSIONS_SESSION_ID + ")";
 
+        String BLOCK_SESSIONS_COUNT = "(SELECT COUNT(" + Qualified.SESSIONS_SESSION_ID + ") FROM "
+                + DatabaseTables.SESSIONS + " WHERE " + Qualified.SESSIONS_BLOCK_ID + "="
+                + Qualified.BLOCKS_BLOCK_ID + ")";
+
+        String BLOCK_NUM_STARRED_SESSIONS = "(SELECT COUNT(1) FROM "
+                + DatabaseTables.SESSIONS + " WHERE " + Qualified.SESSIONS_BLOCK_ID + "="
+                + Qualified.BLOCKS_BLOCK_ID + " AND " + Qualified.SESSIONS_STARRED + "=1)";
+
+        String BLOCK_STARRED_SESSION_ID = "(SELECT " + Qualified.SESSIONS_SESSION_ID + " FROM "
+                + DatabaseTables.SESSIONS + " WHERE " + Qualified.SESSIONS_BLOCK_ID + "="
+                + Qualified.BLOCKS_BLOCK_ID + " AND " + Qualified.SESSIONS_STARRED + "=1 "
+                + "ORDER BY " + Qualified.SESSIONS_TITLE + ")";
+
+        String BLOCK_STARRED_SESSION_TITLE = "(SELECT " + Qualified.SESSIONS_TITLE + " FROM "
+                + DatabaseTables.SESSIONS + " WHERE " + Qualified.SESSIONS_BLOCK_ID + "="
+                + Qualified.BLOCKS_BLOCK_ID + " AND " + Qualified.SESSIONS_STARRED + "=1 "
+                + "ORDER BY " + Qualified.SESSIONS_TITLE + ")";
+
+        String BLOCK_STARRED_SESSION_ROOM_NAME = "(SELECT " + Qualified.ROOMS_ROOM_NAME + " FROM "
+                + DatabaseTables.SESSIONS_JOIN_ROOMS + " WHERE " + Qualified.SESSIONS_BLOCK_ID + "="
+                + Qualified.BLOCKS_BLOCK_ID + " AND " + Qualified.SESSIONS_STARRED + "=1 "
+                + "ORDER BY " + Qualified.SESSIONS_TITLE + ")";
+
+        String BLOCK_STARRED_SESSION_ROOM_ID = "(SELECT " + Qualified.ROOMS_ROOM_ID + " FROM "
+                + DatabaseTables.SESSIONS_JOIN_ROOMS + " WHERE " + Qualified.SESSIONS_BLOCK_ID + "="
+                + Qualified.BLOCKS_BLOCK_ID + " AND " + Qualified.SESSIONS_STARRED + "=1 "
+                + "ORDER BY " + Qualified.SESSIONS_TITLE + ")";
+
         String SESSIONS_SNIPPET = "snippet(" + DatabaseTables.SESSIONS_SEARCH + ",'{','}','\u2026')";
     }
 
@@ -741,6 +793,9 @@ public class ScheduleProvider extends ContentProvider {
      * parent {@link Tables}. Used when needed to work around SQL ambiguity.
      */
     private interface Qualified {
+        String SESSIONS_STARRED = DatabaseTables.SESSIONS + "." + Sessions.SESSION_STARRED;
+        String SESSIONS_BLOCK_ID = DatabaseTables.SESSIONS + "." + Sessions.BLOCK_ID;
+
         String SESSIONS_SESSION_ID = DatabaseTables.SESSIONS + "." + Sessions.SESSION_ID;
         String SESSIONS_ROOM_ID = DatabaseTables.SESSIONS + "." + Sessions.ROOM_ID;
         String SESSIONS_TAGS_SESSION_ID = DatabaseTables.SESSIONS_TAGS + "."
@@ -753,5 +808,14 @@ public class ScheduleProvider extends ContentProvider {
                 + SessionsSpeakers.SPEAKER_ID;
 
         String FEEDBACK_SESSION_ID = DatabaseTables.FEEDBACK + "." + Feedback.SESSION_ID;
+
+
+        String SESSIONS_TITLE = DatabaseTables.SESSIONS + "." + Sessions.SESSION_TITLE;
+
+
+        String ROOMS_ROOM_NAME = DatabaseTables.ROOMS + "." + Rooms.ROOM_NAME;
+        String ROOMS_ROOM_ID = DatabaseTables.ROOMS + "." + Rooms.ROOM_ID;
+
+        String BLOCKS_BLOCK_ID = DatabaseTables.BLOCKS + "." + Blocks.BLOCK_ID;
     }
 }

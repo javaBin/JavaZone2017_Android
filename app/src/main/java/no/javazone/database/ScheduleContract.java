@@ -203,6 +203,17 @@ public class ScheduleContract {
                     || BLOCK_TYPE_KEYNOTE.equals(type);
         }
 
+        public static final String SESSIONS_COUNT = "sessions_count";
+        public static final String NUM_STARRED_SESSIONS = "num_starred_sessions";
+        public static final String STARRED_SESSION_ID = "starred_session_id";
+        public static final String STARRED_SESSION_TITLE = "starred_session_title";
+        public static final String STARRED_SESSION_LIVESTREAM_URL =
+                "starred_session_livestream_url";
+        public static final String STARRED_SESSION_ROOM_NAME = "starred_session_room_name";
+        public static final String STARRED_SESSION_ROOM_ID = "starred_session_room_id";
+        public static final String STARRED_SESSION_HASHTAGS = "starred_session_hashtags";
+        public static final String STARRED_SESSION_URL = "starred_session_url";
+
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_BLOCKS).build();
 
@@ -228,6 +239,11 @@ public class ScheduleContract {
             endTime /= DateUtils.SECOND_IN_MILLIS;
             return ParserUtils.sanitizeId(startTime + "-" + endTime);
         }
+
+        public static final String EMPTY_SESSIONS_SELECTION = "(" + BLOCK_TYPE
+                + " = '" + ParserUtils.BLOCK_TYPE_SESSION + "' OR " + BLOCK_TYPE
+                + " = '" + ParserUtils.BLOCK_TYPE_CODE_LAB + "') AND "
+                + SESSIONS_COUNT + " = 0";
     }
 
     /**
@@ -308,7 +324,7 @@ public class ScheduleContract {
         }
     }
 
-    public static class Sessions implements SessionsColumns, RoomsColumns,
+    public static class Sessions implements SessionsColumns, RoomsColumns, BlocksColumns,
             SyncColumns, BaseColumns {
 
         public static final String QUERY_PARAMETER_TAG_FILTER = "filter";
