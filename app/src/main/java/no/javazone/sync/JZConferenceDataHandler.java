@@ -117,8 +117,10 @@ public class JZConferenceDataHandler extends JsonHandler {
             // TODO
 
             String sessionTitle = session.title;
-            populateStartEndTime(session);
-            parseSpeakers(event, batch);
+            //populateStartEndTime(session);
+            // parseSpeakers(session, batch);
+           // populateRoom(session);
+
 
             long sessionStartTime = 0;
             long sessionEndTime = 0;      //TODO handle sessions without timeslot
@@ -167,35 +169,6 @@ public class JZConferenceDataHandler extends JsonHandler {
                         .withValue(ScheduleContract.Sessions.ROOM_ID, ParserUtils.sanitizeId(session.room))
                         .withValue(ScheduleContract.Sessions.SESSION_COLOR, color);
 
-
-                String blockId = ScheduleContract.Blocks.generateBlockId(sessionStartTime, sessionEndTime);
-                if (blockId != null && !blockIds.contains(blockId)) { // TODO add support for fetching blocks and inserting
-                    String blockType;
-                    String blockTitle;
-                    if (EVENT_TYPE_KEYNOTE.equals(session.format)) {
-                        blockType = ParserUtils.BLOCK_TYPE_KEYNOTE;
-                        blockTitle = mContext.getString(R.string.schedule_block_title_keynote);
-                    } else if (EVENT_TYPE_CODELAB.equals(session.format)) {
-                        blockType = ParserUtils.BLOCK_TYPE_CODE_LAB;
-                        blockTitle = mContext
-                                .getString(R.string.schedule_block_title_code_labs);
-                    } else {
-                        blockType = ParserUtils.BLOCK_TYPE_SESSION;
-                        blockTitle = mContext.getString(R.string.schedule_block_title_sessions);
-                    }
-
-                    batch.add(ContentProviderOperation
-                            .newInsert(ScheduleContract.Blocks.CONTENT_URI)
-                            .withValue(ScheduleContract.Blocks.BLOCK_ID, blockId)
-                            .withValue(ScheduleContract.Blocks.BLOCK_TYPE, blockType)
-                            .withValue(ScheduleContract.Blocks.BLOCK_TITLE, blockTitle)
-                            .withValue(ScheduleContract.Blocks.BLOCK_START, sessionStartTime)
-                            .withValue(ScheduleContract.Blocks.BLOCK_END, sessionEndTime)
-                            .build());
-                    blockIds.add(blockId);
-                }
-
-                builder.withValue(ScheduleContract.Sessions.BLOCK_ID, blockId);
                 batch.add(builder.build());
 
                 // Replace all session speakers

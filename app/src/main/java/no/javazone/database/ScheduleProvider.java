@@ -549,6 +549,17 @@ public class ScheduleProvider extends ContentProvider {
                         .map(Blocks.NUM_STARRED_SESSIONS, Subquery.BLOCK_NUM_STARRED_SESSIONS)
                         .where(Blocks.BLOCK_ID + "=?", blockId);
             }
+            case BLOCKS_ID_SESSIONS: {
+                final String blockId = Blocks.getBlockId(uri);
+                return builder.table(DatabaseTables.SESSIONS_JOIN_BLOCKS_ROOMS)
+                        .map(Blocks.SESSIONS_COUNT, Subquery.BLOCK_SESSIONS_COUNT)
+                        .map(Blocks.NUM_STARRED_SESSIONS, Subquery.BLOCK_NUM_STARRED_SESSIONS)
+                        .mapToTable(Sessions._ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.SESSION_ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.BLOCK_ID, DatabaseTables.SESSIONS)
+                        .mapToTable(Sessions.ROOM_ID, DatabaseTables.SESSIONS)
+                        .where(Qualified.SESSIONS_BLOCK_ID + "=?", blockId);
+            }
             case BLOCKS_ID_SESSIONS_STARRED: {
                 final String blockId = Blocks.getBlockId(uri);
                 return builder.table(DatabaseTables.SESSIONS_JOIN_BLOCKS_ROOMS)

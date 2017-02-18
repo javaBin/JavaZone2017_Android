@@ -5,12 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
+
 import java.io.IOException;
+import java.io.StringReader;
 
 import no.javazone.BuildConfig;
+import no.javazone.R;
 import no.javazone.database.ScheduleContract;
+import no.javazone.schedule.JsonHandler;
 import no.javazone.sync.ConferenceDataHandler;
 import no.javazone.sync.SyncHelper;
+import no.javazone.sync.handler.BlocksHandler;
 import no.javazone.util.LogUtils;
 import no.javazone.util.SettingsUtils;
 import no.javazone.util.ToStringConverterFactory;
@@ -76,6 +83,11 @@ public class DataBootstrapService extends IntentService {
                 LOGD(TAG, "Starting data bootstrap process.");
 
                 ConferenceDataHandler dataHandler = new ConferenceDataHandler(appContext);
+                BlocksHandler blockHandler = new BlocksHandler(appContext);
+                String blockJson = JsonHandler
+                        .parseResource(appContext, R.raw.blocks);
+                processDataBody(blockJson, blockHandler);
+
 
                 dataHandler.applyConferenceData(new String[]{response.body()},
                         BuildConfig.BOOTSTRAP_DATA_TIMESTAMP, false);
@@ -96,6 +108,24 @@ public class DataBootstrapService extends IntentService {
                 SettingsUtils.markDataBootstrapDone(appContext);
             } finally {
                 SyncHelper.requestManualSync();
+            }
+        }
+
+        private void processDataBody(String dataBody, JsonHandler handler) throws IOException {
+            JsonReader reader = new JsonReader(new StringReader(dataBody));
+            JsonParser parser = new JsonParser();
+            try {
+                reader.setLenient(true);
+                reader.beginObject();
+
+                while (reader.hasNext()) {
+                    String key = reader.nextName();
+                        LOGD(TAG, "Processing key in conference data json: " + key);
+                        handler.process(parser.parse(reader));
+                }
+                reader.endObject();
+            } finally {
+                reader.close();
             }
         }
 

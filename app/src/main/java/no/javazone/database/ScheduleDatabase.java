@@ -45,6 +45,9 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
 
         String SEARCH_SUGGEST = "search_suggest";
 
+        String SESSIONS_JOIN_BLOCKS_ROOMS = "sessions "
+                + "LEFT OUTER JOIN blocks ON sessions.block_id=blocks.block_id "
+                + "LEFT OUTER JOIN rooms ON sessions.room_id=rooms.room_id";
 
         String SESSIONS_JOIN_ROOMS_TAGS = "sessions "
                 + "LEFT OUTER JOIN rooms ON sessions.room_id=rooms.room_id "

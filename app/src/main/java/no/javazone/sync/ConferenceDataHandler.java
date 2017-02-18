@@ -142,10 +142,6 @@ public class ConferenceDataHandler {
         }
         LOGD(TAG, "Total content provider operations: " + batch.size());
 
-        // download or process local map tile overlay files (SVG files)
-        LOGD(TAG, "Processing map overlay files");
-        //processMapOverlayFiles(mMapPropertyHandler.getTileOverlays(), downloadsAllowed);
-
         // finally, push the changes into the Content Provider
         LOGI(TAG, "Applying " + batch.size() + " content provider operations.");
         try {
@@ -178,13 +174,6 @@ public class ConferenceDataHandler {
         return mContentProviderOperationsDone;
     }
 
-    /**
-     * Processes a conference data body and calls the appropriate data type handlers
-     * to process each of the objects represented therein.
-     *
-     * @param dataBody The body of data to process
-     * @throws IOException If there is an error parsing the data.
-     */
     private void processDataBody(String dataBody) throws IOException {
         JsonReader reader = new JsonReader(new StringReader(dataBody));
         JsonParser parser = new JsonParser();
@@ -211,8 +200,6 @@ public class ConferenceDataHandler {
             reader.close();
         }
     }
-
-    // Returns the timestamp of the data we have in the content provider.
     public String getDataTimestamp() {
         return PreferenceManager.getDefaultSharedPreferences(mContext).getString(
                 SP_KEY_DATA_TIMESTAMP, DEFAULT_TIMESTAMP);

@@ -23,23 +23,13 @@ import android.preference.PreferenceManager;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import no.javazone.BuildConfig;
 import no.javazone.R;
 
 import static no.javazone.util.LogUtils.LOGD;
 
-/**
- * Centralized Analytics interface to ensure proper initialization and
- * consistent analytics application across the app.
- * <p>
- * For the purposes of this application, initialization of the Analytics tracker is broken
- * into two steps.  {@link #prepareAnalytics(Context)} is called upon app creation, which sets up
- * a listener for changes to shared settings_prefs.  When the user agrees to TOS, the listener triggers
- * the actual initialization step, setting up a Google Analytics tracker.  This ensures that
- * no data is collected or accidentally sent before the TOS step, and that campaign tracking data
- * isn't accidentally deleted by starting and immediately disabling a tracker upon app creation.
- */
 public class AnalyticsHelper {
 
     private final static String TAG = LogUtils.makeLogTag(AnalyticsHelper.class);
@@ -47,6 +37,7 @@ public class AnalyticsHelper {
     private static Context sAppContext = null;
 
     private static Tracker mTracker;
+    private static FirebaseAnalytics mFirebaseAnalytics;
 
     /**
      * Custom dimension slot number for the "attendee at venue" preference.
@@ -56,16 +47,8 @@ public class AnalyticsHelper {
      */
     private static final int SLOT_ATTENDING_DIMENSION = 1;
 
-    /**
-     * The {@link PreferenceManager doesn't store a strong references to preference change
-     * listeners.  To prevent one from being garbage collected, a strong reference must be
-     * created in app code.
-     */
     private static SharedPreferences.OnSharedPreferenceChangeListener sPrefListener;
 
-    /**
-     * Log a specific screen view under the {@code screenName} string.
-     */
     public static void sendScreenView(String screenName) {
         if (isInitialized()) {
             mTracker.setScreenName(screenName);
