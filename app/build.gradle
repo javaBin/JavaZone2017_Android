@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.firebase.firebase-crash'
 apply plugin: 'jacoco'
 
 repositories {
@@ -98,7 +99,8 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue("string", "website_host_name", "${production_website_host_name}")
         }
         release {
@@ -223,7 +225,7 @@ dependencies {
     compile 'com.google.firebase:firebase-database:10.0.1'
 
     compile 'com.google.guava:guava:18.0'
-    compile 'com.estimote:sdk:0.11.0@aar'
+    compile 'com.estimote:sdk:0.16.0@aar'
     compile 'com.firebase:firebase-client-android:2.5.0'
 }
 

@@ -6,6 +6,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 import no.javazone.androidapp.v1.R;
 import no.javazone.androidapp.v1.navigation.NavigationModel;
 import no.javazone.androidapp.v1.ui.activity.base.BaseActivity;
@@ -20,6 +22,7 @@ public class ExploreActivity extends BaseActivity implements Toolbar.OnMenuItemC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent launchIntent = getIntent();
+
         if (launchIntent != null && (!Intent.ACTION_MAIN.equals(launchIntent.getAction())
                 || !launchIntent.hasCategory(Intent.CATEGORY_LAUNCHER))) {
             overridePendingTransition(0, 0);
