@@ -50,7 +50,7 @@
 
         <fragment
             android:id="@+id/explore_library_frag"
-            android:name="no.javazone.ui.fragment.ExploreFragment"
+            android:name="no.javazone.androidapp.v1.ui.fragment.ExploreFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />

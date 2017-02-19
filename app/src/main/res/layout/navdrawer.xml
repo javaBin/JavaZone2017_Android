@@ -17,7 +17,7 @@
 <!-- This layout is added to most layouts throughout the app using include directives in Activities'
      XML layouts. Google Account and Navigation Item lists are populated through BaseActivity code.
      -->
-<no.javazone.ui.widget.ScrimInsetsScrollView
+<no.javazone.androidapp.v1.ui.widget.ScrimInsetsScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navdrawer"
@@ -136,4 +136,4 @@
                 android:orientation="vertical" />
         </FrameLayout>
     </LinearLayout>
-</no.javazone.ui.widget.ScrimInsetsScrollView>
+</no.javazone.androidapp.v1.ui.widget.ScrimInsetsScrollView>

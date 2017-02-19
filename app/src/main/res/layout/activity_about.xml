@@ -24,7 +24,7 @@
     tools:context=".ui.activity.AboutActivity">
 
     <!-- Main layout -->
-    <no.javazone.ui.widget.DrawShadowFrameLayout
+    <no.javazone.androidapp.v1.ui.widget.DrawShadowFrameLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -74,7 +74,7 @@
             <include layout="@layout/toolbar" />
         </LinearLayout>
 
-    </no.javazone.ui.widget.DrawShadowFrameLayout>
+    </no.javazone.androidapp.v1.ui.widget.DrawShadowFrameLayout>
 
     <!-- Nav drawer -->
     <include layout="@layout/navigation_view" />

@@ -10,7 +10,7 @@
     android:fitsSystemWindows="true">
 
     <!-- Main layout -->
-    <no.javazone.ui.widget.DrawShadowFrameLayout
+    <no.javazone.androidapp.v1.ui.widget.DrawShadowFrameLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:background="@color/light_grey"
@@ -36,12 +36,12 @@
 
         <fragment
             android:id="@+id/explore_library_frag"
-            android:name="no.javazone.ui.fragment.JzVideoLibraryFragment"
+            android:name="no.javazone.androidapp.v1.ui.fragment.JzVideoLibraryFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    </no.javazone.ui.widget.DrawShadowFrameLayout>
+    </no.javazone.androidapp.v1.ui.widget.DrawShadowFrameLayout>
 
     <!-- Nav drawer -->
     <include layout="@layout/navigation_view" />

@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/padding_normal">
 
-    <no.javazone.ui.widget.BezelImageView
+    <no.javazone.androidapp.v1.ui.widget.BezelImageView
         android:id="@+id/speaker_image"
         android:scaleType="centerCrop"
         android:layout_alignParentLeft="true"

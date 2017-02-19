@@ -41,7 +41,7 @@
             android:paddingRight="@dimen/keyline_1"
             android:paddingTop="@dimen/keyline_1">
 
-            <no.javazone.ui.widget.BezelImageView
+            <no.javazone.androidapp.v1.ui.widget.BezelImageView
                 android:id="@+id/profile_image"
                 android:layout_width="@dimen/navdrawer_profile_image_size"
                 android:layout_height="@dimen/navdrawer_profile_image_size"
