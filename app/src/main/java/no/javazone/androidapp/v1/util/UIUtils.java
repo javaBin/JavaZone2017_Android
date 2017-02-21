@@ -321,35 +321,6 @@ public class UIUtils {
                 && TimeUtils.getCurrentTime(context) < Config.CONFERENCE_END_MILLIS;
     }
 
-    /**
-     * If an activity's intent is for a Google I/O web URL that the app can handle natively, this
-     * method translates the intent to the equivalent native intent.
-     */
-    public static void tryTranslateHttpIntent(Activity activity) {
-        Intent intent = activity.getIntent();
-        if (intent == null) {
-            return;
-        }
-
-        Uri uri = intent.getData();
-        if (uri == null || TextUtils.isEmpty(uri.getPath())) {
-            return;
-        }
-
-        Uri sessionDetailWebUrlPrefix = Uri.parse(Config.SESSION_DETAIL_WEB_URL_PREFIX);
-        String prefixPath = sessionDetailWebUrlPrefix.getPath();
-        String path = uri.getPath();
-
-        if (sessionDetailWebUrlPrefix.getScheme().equals(uri.getScheme()) &&
-                sessionDetailWebUrlPrefix.getHost().equals(uri.getHost()) &&
-                path.startsWith(prefixPath)) {
-            String sessionId = path.substring(prefixPath.length());
-            activity.setIntent(new Intent(
-                    Intent.ACTION_VIEW,
-                    ScheduleContract.Sessions.buildSessionUri(sessionId)));
-        }
-    }
-
     private static final int[] RES_IDS_ACTION_BAR_SIZE = {R.attr.actionBarSize};
 
     /**

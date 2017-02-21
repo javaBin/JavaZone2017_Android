@@ -253,7 +253,7 @@ public class ScheduleWidgetRemoteViewsService extends RemoteViewsService {
         private void init() {
             ScheduleHelper scheduleHelper = new ScheduleHelper(mContext);
 
-            //Fetch all sessions and blocks
+            //Fetch all sessions and dbspecific_data
             List<ScheduleItem> allScheduleItems = scheduleHelper.getScheduleData(Long.MIN_VALUE, Long.MAX_VALUE);
 
             String displayTimeZone = SettingsUtils.getDisplayTimeZone(mContext).getID();

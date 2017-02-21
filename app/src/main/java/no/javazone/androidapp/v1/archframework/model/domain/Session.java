@@ -5,12 +5,12 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Random;
 
 public class Session {
-    @SerializedName("sessionId")
+    @SerializedName(value= "sessionId", alternate = {"id"})
     public String id;
-    @SerializedName("abstract")
+    @SerializedName(value = "abstract", alternate = {"description"})
     public String description;
     public String title;
-    @SerializedName("keywords")
+    @SerializedName(value = "keywords", alternate={"tags"})
     public String[] tags;
 
     public String startTimestamp;

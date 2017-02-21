@@ -56,7 +56,7 @@ public class MapUtils {
         if (TextUtils.isEmpty(markerType)) {
             return MarkerModel.TYPE_INACTIVE;
         }
-        String tags = markerType.toLowerCase(Locale.US);
+        String tags = markerType.toLowerCase(Locale.getDefault());
         if (tags.contains("session")) {
             return MarkerModel.TYPE_SESSION;
         } else if (tags.contains("PLAIN")) {

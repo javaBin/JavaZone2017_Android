@@ -26,7 +26,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
     private final Context mContext;
 
     interface DatabaseTables {
-        String BLOCKS = "blocks";
+        String BLOCKS = "dbspecific_data";
         String TAGS = "tags";
         String ROOMS = "rooms";
         String CARDS = "cards";
@@ -43,7 +43,7 @@ public class ScheduleDatabase extends SQLiteOpenHelper {
         String SEARCH_SUGGEST = "search_suggest";
 
         String SESSIONS_JOIN_BLOCKS_ROOMS = "sessions "
-                + "LEFT OUTER JOIN blocks ON sessions.block_id=blocks.block_id "
+                + "LEFT OUTER JOIN dbspecific_data ON sessions.block_id=dbspecific_data.block_id "
                 + "LEFT OUTER JOIN rooms ON sessions.room_id=rooms.room_id";
 
         String SESSIONS_JOIN_ROOMS_TAGS = "sessions "

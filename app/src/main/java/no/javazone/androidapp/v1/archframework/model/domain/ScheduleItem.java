@@ -44,7 +44,7 @@ public class ScheduleItem implements Cloneable, Comparable<ScheduleItem> {
     public long startTime = 0;
     public long endTime = 0;
 
-    // number of sessions available in this block (usually for free blocks)
+    // number of sessions available in this block (usually for free dbspecific_data)
     public int numOfSessions = 0;
 
     // session id

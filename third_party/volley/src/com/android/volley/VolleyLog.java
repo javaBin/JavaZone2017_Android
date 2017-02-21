@@ -76,7 +76,7 @@ public class VolleyLog {
      * calling thread ID and method name.
      */
     private static String buildMessage(String format, Object... args) {
-        String msg = (args == null) ? format : String.format(Locale.US, format, args);
+        String msg = (args == null) ? format : String.format(Locale.getDefault(), format, args);
         StackTraceElement[] trace = new Throwable().fillInStackTrace().getStackTrace();
 
         String caller = "<unknown>";
@@ -93,7 +93,7 @@ public class VolleyLog {
                 break;
             }
         }
-        return String.format(Locale.US, "[%d] %s: %s",
+        return String.format(Locale.getDefault(), "[%d] %s: %s",
                 Thread.currentThread().getId(), caller, msg);
     }
 

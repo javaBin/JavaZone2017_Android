@@ -30,7 +30,6 @@ import java.util.List;
 
 import no.javazone.androidapp.v1.R;
 import no.javazone.androidapp.v1.adapter.EventDataAdapter;
-import no.javazone.androidapp.v1.adapter.LiveStreamSessionsAdapter;
 import no.javazone.androidapp.v1.adapter.SessionsAdapter;
 import no.javazone.androidapp.v1.archframework.model.ExploreModel;
 import no.javazone.androidapp.v1.archframework.model.ModelWithLoaderManager;
@@ -324,9 +323,7 @@ public class ExploreFragment extends Fragment implements UpdatableView<ExploreMo
         @Override
         public int getItemViewType(final int position) {
             final Object item = mItems.get(position);
-            if (item instanceof LiveData) {
-                return TYPE_LIVE_STREAM;
-            } else if (item instanceof ItemGroup) {
+            if (item instanceof ItemGroup) {
                 return TYPE_TRACK;
             } else if (item instanceof MessageData) {
                 return TYPE_MESSAGE;
@@ -350,8 +347,6 @@ public class ExploreFragment extends Fragment implements UpdatableView<ExploreMo
                     return createMessageViewHolder(parent);
                 case TYPE_KEYNOTE:
                     return createKeynoteViewHolder(parent);
-                case TYPE_LIVE_STREAM:
-                    return createLiveStreamViewHolder(parent);
                 default:
                     throw new IllegalArgumentException("Unknown view type.");
             }
@@ -368,9 +363,6 @@ public class ExploreFragment extends Fragment implements UpdatableView<ExploreMo
                     break;
                 case TYPE_KEYNOTE:
                     bindKeynote((KeynoteViewHolder) holder, (SessionData) mItems.get(position));
-                    break;
-                case TYPE_LIVE_STREAM:
-                    bindLiveStream((TrackViewHolder) holder, (LiveData) mItems.get(position));
                     break;
                 case TYPE_EVENT_DATA:
                     bindEventData((EventDataViewHolder) holder, (EventData) mItems.get(position));
@@ -621,13 +613,6 @@ public class ExploreFragment extends Fragment implements UpdatableView<ExploreMo
                     + (model.getEventData() != null ? 1 : 0);
             mTrackSessionsAdapters = new SparseArrayCompat<>(trackCount);
             mTrackSessionsState = new SparseArrayCompat<>(trackCount);
-
-            final LiveData liveData = model.getLiveData();
-            if (liveData != null && liveData.getSessions().size() > 0) {
-                mTrackSessionsAdapters.put(getTrackId(liveData),
-                        new LiveStreamSessionsAdapter(mHost, liveData.getSessions(),
-                                mImageLoader));
-            }
 
             final EventData eventData = model.getEventData();
             if (eventData != null && eventData.getCards() != null &&

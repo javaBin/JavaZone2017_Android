@@ -51,10 +51,7 @@ public class Config {
                     ParserUtils.parseTime(BuildConfig.CONFERENCE_DAY1_END)},
             // start and end of day 2
             {ParserUtils.parseTime(BuildConfig.CONFERENCE_DAY2_START),
-                    ParserUtils.parseTime(BuildConfig.CONFERENCE_DAY2_END)},
-            // start and end of day 3
-            {ParserUtils.parseTime(BuildConfig.CONFERENCE_DAY3_START),
-                    ParserUtils.parseTime(BuildConfig.CONFERENCE_DAY3_END)},
+                    ParserUtils.parseTime(BuildConfig.CONFERENCE_DAY2_END)}
     };
 
     public static final TimeZone CONFERENCE_TIMEZONE =
@@ -64,28 +61,10 @@ public class Config {
 
     public static final long CONFERENCE_END_MILLIS = CONFERENCE_DAYS[CONFERENCE_DAYS.length - 1][1];
 
-
-    // YouTube share URL
-    public static final String YOUTUBE_SHARE_URL_PREFIX = "http://youtu.be/";
-
-    // Live stream captions config
-    public static final String LIVESTREAM_CAPTIONS_DARK_THEME_URL_PARAM = "&theme=dark";
-
     // When do we start to offer to set up the user's wifi?
     public static final long WIFI_SETUP_OFFER_START = (BuildConfig.DEBUG ?
             System.currentTimeMillis() - 1000 :
             CONFERENCE_START_MILLIS - TimeUnit.MILLISECONDS.convert(3L, TimeUnit.DAYS));
-
-    // Format of the youtube link to a Video Library video
-    public static final String VIDEO_LIBRARY_URL_FMT = "https://www.youtube.com/watch?v=%s";
-
-    // Fallback URL to get a youtube video thumbnail in case one is not provided in the data
-    // (normally it should, but this is a safety fallback if it doesn't)
-    public static final String VIDEO_LIBRARY_FALLBACK_THUMB_URL_FMT =
-            "http://img.youtube.com/vi/%s/default.jpg";
-
-    // Link to Google I/O Extended events presented in Explore screen
-    public static final String IO_EXTENDED_LINK = "http://www.google.com/events/io/io-extended";
 
     // Auto sync interval. Shouldn't be too small, or it might cause battery drain.
     public static final long AUTO_SYNC_INTERVAL_LONG_BEFORE_CONFERENCE =
@@ -173,10 +152,6 @@ public class Config {
         }
         return displayOrder;
     }
-
-    // URL prefix for web links to session pages
-    public static final String SESSION_DETAIL_WEB_URL_PREFIX
-            = "https://www.google.com/events/io/schedule/session/";
 
     public static final String HTTPS = "https";
 

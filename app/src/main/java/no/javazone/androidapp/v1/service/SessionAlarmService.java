@@ -118,7 +118,7 @@ public class SessionAlarmService extends IntentService {
         LOGD(TAG, "SessionAlarmService handling " + action);
 
         if (ACTION_SCHEDULE_ALL_STARRED_BLOCKS.equals(action)) {
-            LOGD(TAG, "Scheduling all starred blocks.");
+            LOGD(TAG, "Scheduling all starred dbspecific_data.");
             scheduleAllStarredBlocks();
             scheduleAllStarredSessionFeedbacks();
             return;

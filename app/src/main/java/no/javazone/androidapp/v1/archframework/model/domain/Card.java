@@ -12,10 +12,10 @@ import static no.javazone.androidapp.v1.util.LogUtils.makeLogTag;
 public class Card {
     public static final String TAG = makeLogTag(Card.class);
     public static final SimpleDateFormat TIME_FORMAT =
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
+            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
     // TODO: Remove this format once other clients aren't reliant on it.
     public static final SimpleDateFormat ALT_TIME_FORMAT =
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
 
     @SerializedName("card_id")
     public String mId;

@@ -142,15 +142,11 @@ public class ExploreModel extends ModelWithLoaderManager<ExploreModel.ExploreQue
      */
     public List<MessageData> getMessages() {
         final List<MessageData> messagesToDisplay = new ArrayList<>();
-        if (SettingsUtils.isAttendeeAtVenue(mContext)) {
-            // Users are required to opt in or out of whether they want conference message cards
-            if (!ConfMessageCardUtils.hasAnsweredConfMessageCardsPrompt(mContext)) {
-                // User has not answered whether they want to opt in.
-                // Build a opt-in/out card.
-                messagesToDisplay.add(MessageCardHelper.getConferenceOptInMessageData());
-                return messagesToDisplay;
-            }
+        if (shouldShowCard(ConfMessageCardUtils.ConfMessageCard.SESSION_NOTIFICATIONS)) {
+            messagesToDisplay.add(MessageCardHelper.getNotificationsOptInMessageData());
+        }
 
+        if (SettingsUtils.isAttendeeAtVenue(mContext)) {
             if (ConfMessageCardUtils.isConfMessageCardsEnabled(mContext)) {
                 LOGD(TAG, "Conf cards Enabled");
                 // User has answered they want to opt in AND the message cards are enabled.

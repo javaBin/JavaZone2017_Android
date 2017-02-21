@@ -18,12 +18,20 @@ package no.javazone.androidapp.v1.util;
 
 import android.util.Log;
 
+import com.google.firebase.crash.FirebaseCrash;
+
 import no.javazone.androidapp.v1.BuildConfig;
 
 public class LogUtils {
     private static final String LOG_PREFIX = "iosched_";
     private static final int LOG_PREFIX_LENGTH = LOG_PREFIX.length();
     private static final int MAX_LOG_TAG_LENGTH = 23;
+
+    public static String ERRORLOG = "Error";
+    public static String DEBUGLOG = "Debug";
+    public static String VERBOSELOG = "Verbose";
+    public static String INFOLOG = "Info";
+    public static String WARNINGLOG = "Warning";
 
     public static boolean LOGGING_ENABLED = !BuildConfig.BUILD_TYPE.equalsIgnoreCase("release");
 
@@ -100,6 +108,63 @@ public class LogUtils {
 
     public static void LOGE(final String tag, String message, Throwable cause) {
         Log.e(tag, message, cause);
+    }
+
+    public static void log(final String logType, final String tag, String message) {
+        logToConsole(logType, tag, message);
+        FirebaseCrash.log(tag + ": " + message);
+    }
+
+    public static void log(final String logType, final String tag, String message, Throwable cause) {
+        logToConsole(logType, tag, message, cause);
+        FirebaseCrash.log(tag + ": " + message);
+        if (cause != null) {
+            FirebaseCrash.report(cause);
+        }
+    }
+
+    private static void logToConsole(final String type, final String tag, String message) {
+        switch(type) {
+            case "Error":
+                LOGE(tag, message);
+                break;
+            case "Debug":
+                LOGD(tag, message);
+                break;
+            case "Verbose":
+                LOGV(tag, message);
+                break;
+            case "Info":
+                LOGI(tag, message);
+                break;
+            case "Warning":
+                LOGW(tag, message);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private static void logToConsole(final String type, final String tag, String message, Throwable cause) {
+        switch(type) {
+            case "Error":
+                LOGE(tag, message, cause);
+            break;
+            case "Debug":
+                LOGD(tag, message, cause);
+                break;
+            case "Verbose":
+                LOGV(tag, message, cause);
+                break;
+            case "Info":
+                LOGI(tag, message, cause);
+                break;
+            case "Warning":
+                LOGW(tag, message, cause);
+                break;
+            default:
+                break;
+        }
     }
 
     private LogUtils() {

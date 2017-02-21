@@ -44,18 +44,18 @@ public class TimeUtils {
     private static final String TAG = makeLogTag(TimeUtils.class);
 
     private static final SimpleDateFormat[] ACCEPTED_TIMESTAMP_FORMATS = {
-            new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US),
-            new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy", Locale.US),
-            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US),
-            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.US),
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US),
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US),
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US),
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss Z", Locale.US)
+            new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.getDefault()),
+            new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy", Locale.getDefault()),
+            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()),
+            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.getDefault()),
+            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault()),
+            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()),
+            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()),
+            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss Z", Locale.getDefault())
     };
 
     private static final SimpleDateFormat VALID_IFMODIFIEDSINCE_FORMAT =
-            new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
+            new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.getDefault());
 
     public static Date parseTimestamp(String timestamp) {
         for (SimpleDateFormat format : ACCEPTED_TIMESTAMP_FORMATS) {

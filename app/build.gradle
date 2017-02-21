@@ -27,27 +27,18 @@ android {
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         buildConfigField("boolean", "ENABLE_DEBUG_TOOLS", "false")
-        buildConfigField("String", "GENERIC_API_KEY", "\"${oauth2_creds_api_key}\"")
         buildConfigField("String", "JAVAZONE_BASE_ADDRESS_URL", "\"${javazone_base_address_url}\"")
         buildConfigField("String", "SLEEPINGPILL_BASE_ADDRESS_URL", "\"${sleepingpill_web_session_all_uri}\"")
-        buildConfigField("String", "YOUTUBE_API_KEY", "\"${youtube_api_key}\"")
         buildConfigField("String", "FEEDBACK_API_ENDPOINT", "\"${feedback_api_endpoint}\"")
-        buildConfigField("String", "TEST_YOUTUBE_LIVE_URL", "\"${test_youtube_live_url}\"")
         buildConfigField("String", "METADATA_URL", "\"${metadata_url}\"")
         buildConfigField("String", "WIFI_SSID", "\"${wifi_ssid}\"")
         buildConfigField("String", "WIFI_PASSPHRASE", "\"${wifi_passphrase}\"")
 
-        buildConfigField("String", "CONFERENCE_HASHTAG", "\"${conference_hashtag}\"")
-        buildConfigField("String", "CONFERENCE_HASHTAG_PREFIX", "\"${conference_hashtag_prefix}\"")
         buildConfigField("String", "BOOTSTRAP_DATA_TIMESTAMP", "\"${bootstrap_data_timestamp}\"")
-        buildConfigField("String", "PRECONFERENCE_DAY_START", "\"${preconference_day_start}\"")
-        buildConfigField("String", "PRECONFERENCE_DAY_END", "\"${preconference_day_end}\"")
         buildConfigField("String", "CONFERENCE_DAY1_START", "\"${conference_day1_start}\"")
         buildConfigField("String", "CONFERENCE_DAY1_END", "\"${conference_day1_end}\"")
         buildConfigField("String", "CONFERENCE_DAY2_START", "\"${conference_day2_start}\"")
         buildConfigField("String", "CONFERENCE_DAY2_END", "\"${conference_day2_end}\"")
-        buildConfigField("String", "CONFERENCE_DAY3_START", "\"${conference_day3_start}\"")
-        buildConfigField("String", "CONFERENCE_DAY3_END", "\"${conference_day3_end}\"")
         buildConfigField("String", "INPERSON_TIMEZONE", "\"${inperson_timezone}\"")
 
 
@@ -65,7 +56,6 @@ android {
         buildConfigField("boolean", "ENABLE_EXTENDED_SESSION_URL", "true")
         buildConfigField("String", "CONFERENCE_VERSION", "\"${conf_version}\"")
         buildConfigField("String", "PRODUCTION_WEBSITE_HOST_NAME", "\"${production_website_host_name}\"")
-        buildConfigField("String", "WEB_URL_SCHEDULE_PATH", "\"${web_url_schedule_path}\"")
 
         resValue("string", "pref_conf_messages_enabled", "pref_conf_messages_enabled_${conf_version}")
         buildConfigField("String", "PREF_CONF_MESSAGES_ENABLED", "\"pref_conf_messages_enabled_${conf_version}\"")

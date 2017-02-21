@@ -23,6 +23,7 @@ import android.preference.PreferenceManager;
 
 import java.util.TimeZone;
 
+import no.javazone.androidapp.v1.BuildConfig;
 import no.javazone.androidapp.v1.Config;
 
 import static no.javazone.androidapp.v1.util.LogUtils.makeLogTag;
@@ -113,37 +114,29 @@ public class SettingsUtils {
         sp.edit().putBoolean(PREF_DEBUG_BUILD_WARNING_SHOWN, true).apply();
     }
 
-    /**
-     * Return true if user has accepted the Code of
-     * {@link com.google.samples.apps.iosched.welcome.ConductFragment Conduct}, false if they haven't (yet).
-     *
-     * @param context Context to be used to lookup the {@link android.content.SharedPreferences}.
-     */
     public static boolean isConductAccepted(final Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getBoolean(PREF_CONDUCT_ACCEPTED, false);
     }
 
-    /**
-     * Mark {@code newValue whether} the user has accepted the TOS so the app doesn't ask again.
-     *
-     * @param context Context to be used to edit the {@link android.content.SharedPreferences}.
-     * @param newValue New value that will be set.
-     */
     public static void markTosAccepted(final Context context, boolean newValue) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         sp.edit().putBoolean(PREF_TOS_ACCEPTED, newValue).apply();
     }
 
-    /**
-     * Mark {@code newValue whether} the user has accepted the Code of Conduct so the app doesn't ask again.
-     *
-     * @param context Context to be used to edit the {@link android.content.SharedPreferences}.
-     * @param newValue New value that will be set.
-     */
     public static void markConductAccepted(final Context context, boolean newValue) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         sp.edit().putBoolean(PREF_CONDUCT_ACCEPTED, newValue).apply();
+    }
+
+    public static void setShowSessionReminders(final Context context, boolean show) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        sp.edit().putBoolean(BuildConfig.PREF_SESSION_REMINDERS_ENABLED, show).apply();
+    }
+
+    public static void setShowSessionFeedbackReminders(final Context context, boolean show) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        sp.edit().putBoolean(BuildConfig.PREF_SESSION_FEEDBACK_REMINDERS_ENABLED, show).apply();
     }
 
     public static boolean hasDeclinedWifiSetup(Context context) {

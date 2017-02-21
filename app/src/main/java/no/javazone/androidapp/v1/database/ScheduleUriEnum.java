@@ -13,11 +13,11 @@ package no.javazone.androidapp.v1.database;
  * segment.
  */
 public enum ScheduleUriEnum {
-    BLOCKS(100, "blocks", ScheduleContract.Blocks.CONTENT_TYPE_ID, false, ScheduleDatabase.DatabaseTables.BLOCKS),
-    BLOCKS_BETWEEN(101, "blocks/between/*/*", ScheduleContract.Blocks.CONTENT_TYPE_ID, false, null),
-    BLOCKS_ID(102, "blocks/*", ScheduleContract.Blocks.CONTENT_TYPE_ID, true, null),
-    BLOCKS_ID_SESSIONS(103, "blocks/*/sessions", ScheduleContract.Blocks.CONTENT_TYPE_ID, true, null),
-    BLOCKS_ID_SESSIONS_STARRED(104, "blocks/*/sessions/starred", ScheduleContract.Blocks.CONTENT_TYPE_ID, true, null),
+    BLOCKS(100, "dbspecific_data", ScheduleContract.Blocks.CONTENT_TYPE_ID, false, ScheduleDatabase.DatabaseTables.BLOCKS),
+    BLOCKS_BETWEEN(101, "dbspecific_data/between/*/*", ScheduleContract.Blocks.CONTENT_TYPE_ID, false, null),
+    BLOCKS_ID(102, "dbspecific_data/*", ScheduleContract.Blocks.CONTENT_TYPE_ID, true, null),
+    BLOCKS_ID_SESSIONS(103, "dbspecific_data/*/sessions", ScheduleContract.Blocks.CONTENT_TYPE_ID, true, null),
+    BLOCKS_ID_SESSIONS_STARRED(104, "dbspecific_data/*/sessions/starred", ScheduleContract.Blocks.CONTENT_TYPE_ID, true, null),
     TAGS(200, "tags", ScheduleContract.Tags.CONTENT_TYPE_ID, false, ScheduleDatabase.DatabaseTables.TAGS),
     TAGS_ID(201, "tags/*", ScheduleContract.Tags.CONTENT_TYPE_ID, false, null),
     ROOMS(300, "rooms", ScheduleContract.Rooms.CONTENT_TYPE_ID, false, ScheduleDatabase.DatabaseTables.ROOMS),

@@ -79,7 +79,7 @@ public class ScheduleItemHelper {
         while (immutableIt.hasNext()) {
             ScheduleItem immutableItem = immutableIt.next();
             if (immutableItem.type == ScheduleItem.BREAK) {
-                // Breaks (lunch, after hours, etc) should not make free blocks to move
+                // Breaks (lunch, after hours, etc) should not make free dbspecific_data to move
                 continue;
             }
             ListIterator<ScheduleItem> mutableIt = mutableItems.listIterator();

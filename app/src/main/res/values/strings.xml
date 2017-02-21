@@ -770,6 +770,12 @@ user updates the rating. -->
         <xliff:g example="Day 1" id="day">%1$s</xliff:g>, <xliff:g example="2:30PM" id="start_time">%2$s</xliff:g>
     </string>
 
+        <string name="explore_io_notifications_ask_opt_in"
+            description="This message is displayed on the Explore I/O screen to ask users whether
+        they would like to opt in to receive notifications for the sessions the have added to their schedule."><![CDATA[
+        <b>Session Notifications</b><br/>
+        Would you like to receive notifications for sessions on your schedule?]]></string>
+
     <!-- BEGIN Explore Message Card User Messages -->
     <string name="explore_io_msgcards_ask_opt_in"
         description="This message is displayed on the Explore I/O screen to ask users whether

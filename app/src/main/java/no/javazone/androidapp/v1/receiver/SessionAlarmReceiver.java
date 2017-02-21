@@ -26,7 +26,7 @@ import static no.javazone.androidapp.v1.util.LogUtils.makeLogTag;
 
 /**
  * {@link BroadcastReceiver} to reinitialize {@link android.app.AlarmManager} for all starred
- * session blocks.
+ * session dbspecific_data.
  */
 public class SessionAlarmReceiver extends BroadcastReceiver {
     public static final String TAG = makeLogTag(SessionAlarmReceiver.class);

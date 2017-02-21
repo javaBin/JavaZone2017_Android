@@ -124,7 +124,7 @@ public class ScheduleContract {
         String TILE_URL = "map_tile_url";
     }
 
-    private static final String PATH_BLOCKS = "blocks";
+    private static final String PATH_BLOCKS = "dbspecific_data";
 
     private static final String PATH_AFTER = "after";
 

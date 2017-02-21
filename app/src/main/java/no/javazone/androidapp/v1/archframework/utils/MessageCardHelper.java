@@ -37,9 +37,6 @@ public class MessageCardHelper {
         return messageData;
     }
 
-    /**
-     * Return the conference messages opt-in data.
-     */
     public static MessageData getConferenceOptInMessageData() {
         MessageData messageData = new MessageData();
         messageData.setStartButtonStringResourceId(R.string.explore_io_msgcards_answer_no);
@@ -66,9 +63,36 @@ public class MessageCardHelper {
         return messageData;
     }
 
-    /**
-     * Return the wifi setup card data.
-     */
+    public static MessageData getNotificationsOptInMessageData() {
+        MessageData messageData = new MessageData();
+        messageData.setStartButtonStringResourceId(R.string.explore_io_msgcards_answer_no);
+        messageData.setMessageStringResourceId(R.string.explore_io_notifications_ask_opt_in);
+        messageData.setEndButtonStringResourceId(R.string.explore_io_msgcards_answer_yes);
+
+        messageData.setStartButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LOGD(TAG, "Marking notifications question answered with decline.");
+                ConfMessageCardUtils.setDismissedConfMessageCard(view.getContext(),
+                        ConfMessageCardUtils.ConfMessageCard.SESSION_NOTIFICATIONS, false);
+                SettingsUtils.setShowSessionReminders(view.getContext(), false);
+                SettingsUtils.setShowSessionFeedbackReminders(view.getContext(), false);
+            }
+        });
+        messageData.setEndButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LOGD(TAG, "Marking notifications messages question answered with affirmation.");
+                ConfMessageCardUtils.setDismissedConfMessageCard(view.getContext(),
+                        ConfMessageCardUtils.ConfMessageCard.SESSION_NOTIFICATIONS, true);
+                SettingsUtils.setShowSessionReminders(view.getContext(), true);
+                SettingsUtils.setShowSessionFeedbackReminders(view.getContext(), true);
+            }
+        });
+
+        return messageData;
+    }
+
     public static MessageData getWifiSetupMessageData() {
         MessageData messageData = new MessageData();
         messageData.setStartButtonStringResourceId(R.string.explore_io_msgcards_answer_no);

@@ -421,12 +421,6 @@ public class SessionDetailModel
     private void buildLinks(Cursor cursor) {
         mLinks.clear();
 
-        if (hasLiveStream() && isSessionOngoing()) {
-            mLinks.add(new Pair<Integer, Intent>(
-                    R.string.session_link_livestream,
-                    getWatchLiveIntent()));
-        }
-
         if (!hasFeedback() && isSessionReadyForFeedback()) {
             mLinks.add(new Pair<Integer, Intent>(
                     R.string.session_feedback_submitlink,
@@ -454,14 +448,6 @@ public class SessionDetailModel
         } else {
             return Intent.FLAG_ACTIVITY_NEW_DOCUMENT;
         }
-    }
-
-    public Intent getWatchLiveIntent() {
-        final String youtubeLink = String.format(
-                Locale.US, Config.VIDEO_LIBRARY_URL_FMT,
-                TextUtils.isEmpty(mLiveStreamId) ? "" : mLiveStreamId
-        );
-        return new Intent(Intent.ACTION_VIEW, Uri.parse(youtubeLink));
     }
 
     public Intent getFeedbackIntent() {

@@ -20,6 +20,7 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import no.javazone.androidapp.v1.R;
 import no.javazone.androidapp.v1.database.ScheduleContract;
 import no.javazone.androidapp.v1.schedule.JsonHandler;
 import no.javazone.androidapp.v1.sync.handler.BlocksHandler;
@@ -29,10 +30,12 @@ import no.javazone.androidapp.v1.sync.handler.SessionsHandler;
 import no.javazone.androidapp.v1.sync.handler.SpeakersHandler;
 import no.javazone.androidapp.v1.sync.handler.TagsHandler;
 
+import static no.javazone.androidapp.v1.util.LogUtils.DEBUGLOG;
 import static no.javazone.androidapp.v1.util.LogUtils.LOGD;
 import static no.javazone.androidapp.v1.util.LogUtils.LOGE;
 import static no.javazone.androidapp.v1.util.LogUtils.LOGI;
 import static no.javazone.androidapp.v1.util.LogUtils.LOGW;
+import static no.javazone.androidapp.v1.util.LogUtils.log;
 import static no.javazone.androidapp.v1.util.LogUtils.makeLogTag;
 
 public class ConferenceDataHandler {
@@ -47,7 +50,7 @@ public class ConferenceDataHandler {
     private static final String DEFAULT_TIMESTAMP = "Sat, 1 Jan 2000 00:00:00 GMT";
 
     private static final String DATA_KEY_ROOMS = "rooms";
-    private static final String DATA_KEY_BLOCKS = "blocks";
+    private static final String DATA_KEY_BLOCKS = "dbspecific_data";
     private static final String DATA_KEY_CARDS = "cards";
     private static final String DATA_KEY_TAGS = "tags";
     private static final String DATA_KEY_SPEAKERS = "speakers";
@@ -75,7 +78,7 @@ public class ConferenceDataHandler {
     //MapPropertyHandler mMapPropertyHandler = null;
 
     // Convenience map that maps the key name to its corresponding handler (e.g.
-    // "blocks" to mBlocksHandler (to avoid very tedious if-elses)
+    // "dbspecific_data" to mBlocksHandler (to avoid very tedious if-elses)
     HashMap<String, JsonHandler> mHandlerForKey = new HashMap<String, JsonHandler>();
 
     // Tally of total content provider operations we carried out (for statistical purposes)
@@ -169,7 +172,7 @@ public class ConferenceDataHandler {
         JsonReader reader = new JsonReader(new StringReader(dataBody));
         JsonParser parser = new JsonParser();
         try {
-            reader.setLenient(true); // To err is human
+            reader.setLenient(true);
 
             // the whole file is a single JSON object
             reader.beginObject();
@@ -191,6 +194,21 @@ public class ConferenceDataHandler {
             reader.close();
         }
     }
+
+
+    private void processLocalResource(Context appContext) {
+        BlocksHandler blockHandler = new BlocksHandler(appContext);
+        String blockJson = null;
+        try {
+            blockJson = JsonHandler
+                    .parseResource(appContext, R.raw.dbspecific_data);
+        } catch (IOException ex) {
+            log(DEBUGLOG, TAG, "*** ERROR DURING LOCAL RESOURCE PARSING!", ex);
+
+        }
+    }
+
+
     public String getDataTimestamp() {
         return PreferenceManager.getDefaultSharedPreferences(mContext).getString(
                 SP_KEY_DATA_TIMESTAMP, DEFAULT_TIMESTAMP);

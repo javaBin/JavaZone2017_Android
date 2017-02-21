@@ -47,7 +47,7 @@ public class ScheduleHelper {
     }
 
     public ArrayList<ScheduleItem> getScheduleData(long start, long end) {
-        // get sessions in my schedule and blocks, starting anytime in the conference day
+        // get sessions in my schedule and dbspecific_data, starting anytime in the conference day
         ArrayList<ScheduleItem> mutableItems = new ArrayList<ScheduleItem>();
         ArrayList<ScheduleItem> immutableItems = new ArrayList<ScheduleItem>();
         addBlocks(start, end, mutableItems, immutableItems);
@@ -69,7 +69,7 @@ public class ScheduleHelper {
     }
 
     /**
-     * Fill the number of sessions for FREE blocks:
+     * Fill the number of sessions for FREE dbspecific_data:
      */
     protected void setSessionCounters(ArrayList<ScheduleItem> items, long dayStart, long dayEnd) {
         ArrayList<ScheduleItem> free = new ArrayList<ScheduleItem>();
@@ -97,7 +97,7 @@ public class ScheduleHelper {
             long start = cursor.getLong(SessionsCounterQuery.SESSION_INTERVAL_START);
             int counter = cursor.getInt(SessionsCounterQuery.SESSION_INTERVAL_COUNT);
 
-            // Find blocks that this interval applies.
+            // Find dbspecific_data that this interval applies.
             for (ScheduleItem item: free) {
                 // If grouped sessions starts and ends inside the free block, it is considered in it:
                 if (item.startTime <= start && start < item.endTime) {
@@ -107,7 +107,7 @@ public class ScheduleHelper {
         }
         cursor.close();
 
-        // remove free blocks that have no available sessions or that are in the past
+        // remove free dbspecific_data that have no available sessions or that are in the past
         long now = TimeUtils.getCurrentTime(mContext);
         Iterator<ScheduleItem> it = items.iterator();
         while (it.hasNext()) {
@@ -210,7 +210,7 @@ public class ScheduleHelper {
                     item.startTime = cursor.getLong(BlocksQuery.BLOCK_START);
                     item.endTime = cursor.getLong(BlocksQuery.BLOCK_END);
 
-                    // Hide BREAK blocks to remote attendees (b/14666391):
+                    // Hide BREAK dbspecific_data to remote attendees (b/14666391):
                     if (item.type == ScheduleItem.BREAK) {
                         continue;
                     }
@@ -234,7 +234,7 @@ public class ScheduleHelper {
         if (TextUtils.isEmpty(tagsText)) {
             return ScheduleItem.SESSION_TYPE_MISC;
         }
-        String tags = tagsText.toUpperCase(Locale.US);
+        String tags = tagsText.toUpperCase(Locale.getDefault());
         if (tags.contains("TYPE_SESSIONS") || tags.contains("KEYNOTE")) {
             return ScheduleItem.SESSION_TYPE_SESSION;
         } else if (tags.contains("TYPE_CODELAB")) {

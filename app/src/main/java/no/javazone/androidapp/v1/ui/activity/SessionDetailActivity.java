@@ -27,7 +27,6 @@ public class SessionDetailActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        UIUtils.tryTranslateHttpIntent(this);
         BeamUtils.tryUpdateIntentFromBeam(this);
         boolean shouldBeFloatingWindow = shouldBeFloatingWindow();
         if (shouldBeFloatingWindow) {
