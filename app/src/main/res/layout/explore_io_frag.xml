@@ -22,15 +22,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <!-- Empty state -->
-        <ImageView
+
+
+        <LinearLayout
             android:id="@android:id/empty"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/light_grey"
-            android:scaleType="centerInside"
-            android:src="@drawable/io_logo"
-            android:visibility="gone" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center|center_vertical"
+            android:visibility="gone">
+                <!-- Empty state -->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/light_grey"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_duke_viking512x512"
+                    android:visibility="gone" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/empty_sessions"
+                    style="@style/TextTitle"
+                    android:layout_gravity="center"/>
+        </LinearLayout>
 
         <!-- Explore card stream -->
         <android.support.v7.widget.RecyclerView

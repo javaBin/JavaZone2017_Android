@@ -335,19 +335,7 @@ public class ExploreModel extends ModelWithLoaderManager<ExploreModel.ExploreQue
                     continue;
                 }
 
-                if (!atVenue &&
-                        (!session.IsLive(mContext)) && !session.isVideoAvailable()) {
-                    // Skip the opportunity to present the session for those not on site
-                    // since it won't be viewable as there is neither a live stream nor video
-                    // available.
-                    continue;
-                }
-
                 String tags = session.getTags();
-
-                if (session.IsLive(mContext)) {
-                    liveData.addSessionData(session);
-                }
 
                 if (!TextUtils.isEmpty(tags)) {
                     StringTokenizer tagsTokenizer = new StringTokenizer(tags, ",");
@@ -386,9 +374,6 @@ public class ExploreModel extends ModelWithLoaderManager<ExploreModel.ExploreQue
             } while (cursor.moveToNext());
         }
 
-        if (liveData.getSessions().size() > 0) {
-            mLiveData = liveData;
-        }
         mThemes = themeGroups;
         mTracks = trackGroups;
         mOrderedTracks = null;

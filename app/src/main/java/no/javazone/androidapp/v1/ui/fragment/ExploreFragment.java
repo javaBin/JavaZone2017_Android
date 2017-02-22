@@ -254,8 +254,6 @@ public class ExploreFragment extends Fragment implements UpdatableView<ExploreMo
 
         private static final int TYPE_KEYNOTE = 2;
 
-        private static final int TYPE_LIVE_STREAM = 3;
-
         private static final int TYPE_EVENT_DATA = 4;
 
         private static final int LIVE_STREAM_TRACK_ID = R.string.live_now;
@@ -498,24 +496,6 @@ public class ExploreFragment extends Fragment implements UpdatableView<ExploreMo
             return holder;
         }
 
-        private @NonNull TrackViewHolder createLiveStreamViewHolder(final ViewGroup parent) {
-            final TrackViewHolder holder = new TrackViewHolder(
-                    mInflater.inflate(R.layout.explore_io_track_card, parent, false));
-            ViewCompat.setImportantForAccessibility(
-                    holder.sessions, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
-            holder.header.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    final Intent intent = new Intent(mHost, ExploreSessionsActivity.class);
-                    intent.setData(ScheduleContract.Sessions
-                            .buildSessionsAfterUri(TimeUtils.getCurrentTime(mHost)));
-                    intent.putExtra(ExploreSessionsActivity.EXTRA_SHOW_LIVE_STREAM_SESSIONS, true);
-                    ActivityCompat.startActivity(mHost, intent, null);
-                }
-            });
-            return holder;
-        }
-
         private void bindTrack(final TrackViewHolder holder, final ItemGroup track) {
             bindTrackOrLiveStream(holder, track, track.getTitle());
         }
@@ -549,10 +529,6 @@ public class ExploreFragment extends Fragment implements UpdatableView<ExploreMo
             }
         }
 
-        private void bindLiveStream(final TrackViewHolder holder, final LiveData data) {
-            bindTrackOrLiveStream(holder, data, mHost.getString(R.string.live_now));
-        }
-
         private void bindTrackOrLiveStream(final TrackViewHolder holder, final ItemGroup track,
                                            final String title) {
             holder.title.setText(title);
@@ -563,9 +539,9 @@ public class ExploreFragment extends Fragment implements UpdatableView<ExploreMo
             } else {
                 holder.headerImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 // TODO
-                holder.headerImage.setImageResource(R.drawable.ic_hash_io_16_monochrome);
-
+                holder.headerImage.setImageResource(R.drawable.ic_duke_viking512x512);
             }
+
             final int trackId = getTrackId(track);
             holder.sessions.setAdapter(mTrackSessionsAdapters.get(trackId));
             holder.sessions.getLayoutManager().onRestoreInstanceState(
@@ -596,11 +572,6 @@ public class ExploreFragment extends Fragment implements UpdatableView<ExploreMo
                 }
             }
 
-            final LiveData liveData = model.getLiveData();
-            if (liveData != null && liveData.getSessions().size() > 0) {
-                exploreCards.add(liveData);
-            }
-
             // Add track cards, ordered alphabetically
             exploreCards.addAll(model.getOrderedTracks());
 
@@ -629,9 +600,7 @@ public class ExploreFragment extends Fragment implements UpdatableView<ExploreMo
         }
 
         private int getTrackId(Object track) {
-            if (track instanceof LiveData) {
-                return LIVE_STREAM_TRACK_ID;
-            } else if (track instanceof EventData) {
+            if (track instanceof EventData) {
                 return EVENT_DATA_TRACK_ID;
             } else if (track instanceof ItemGroup) {
                 return ((ItemGroup)track).getId().hashCode();

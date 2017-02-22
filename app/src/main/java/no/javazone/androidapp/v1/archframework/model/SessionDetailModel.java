@@ -709,7 +709,6 @@ public class SessionDetailModel
                 ScheduleContract.Sessions.SESSION_VIDEO_URL,
                 ScheduleContract.Sessions.ROOM_ID,
                 ScheduleContract.Rooms.ROOM_NAME,
-                ScheduleContract.Sessions.SESSION_COLOR,
                 ScheduleContract.Sessions.SESSION_RELATED_CONTENT,
                 ScheduleContract.Sessions.SESSION_TAGS,
                 ScheduleContract.Sessions.SESSION_SPEAKER_NAMES}),

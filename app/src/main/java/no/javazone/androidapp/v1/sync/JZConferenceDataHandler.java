@@ -164,8 +164,7 @@ public class JZConferenceDataHandler extends JsonHandler {
                         // .withValue(ScheduleContract.Sessions.SESSION_SPEAKER_NAMES, speakerNames)
                         .withValue(ScheduleContract.Sessions.SESSION_KEYWORDS, null)             // Not available
                         .withValue(ScheduleContract.Sessions.SESSION_STARRED, starred)
-                        .withValue(ScheduleContract.Sessions.ROOM_ID, ParserUtils.sanitizeId(session.room))
-                        .withValue(ScheduleContract.Sessions.SESSION_COLOR, color);
+                        .withValue(ScheduleContract.Sessions.ROOM_ID, ParserUtils.sanitizeId(session.room));
 
                 batch.add(builder.build());
 
@@ -398,10 +397,7 @@ public class JZConferenceDataHandler extends JsonHandler {
                 .withValue(ScheduleContract.Sessions.SESSION_GROUPING_ORDER, session.groupingOrder)
                 .withValue(ScheduleContract.Sessions.SESSION_IMPORT_HASHCODE,
                         session.getImportHashCode())
-                .withValue(ScheduleContract.Sessions.SESSION_STARRED, session.starred)
-                // Disabled since this isn't being used by this app.
-                // .withValue(ScheduleContract.Sessions.SESSION_RELATED_CONTENT, session.relatedContent)
-                .withValue(ScheduleContract.Sessions.SESSION_COLOR, color);
+                .withValue(ScheduleContract.Sessions.SESSION_STARRED, session.starred);
         list.add(builder.build());
     }
 

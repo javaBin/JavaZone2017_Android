@@ -257,7 +257,6 @@ public class ScheduleHelper {
                 Rooms.ROOM_NAME,
                 Sessions.SESSION_STARRED,
                 Sessions.SESSION_SPEAKER_NAMES,
-                Sessions.SESSION_COLOR,
                 Sessions.HAS_GIVEN_FEEDBACK,
                 Sessions.SESSION_TAGS,
         };

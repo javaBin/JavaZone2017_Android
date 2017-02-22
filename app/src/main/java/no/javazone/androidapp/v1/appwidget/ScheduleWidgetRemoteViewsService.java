@@ -132,9 +132,7 @@ public class ScheduleWidgetRemoteViewsService extends RemoteViewsService {
                 final ScheduleItem item = mScheduleItems.get(itemPosition);
                 ScheduleItem nextItem = (itemPosition < mScheduleItems.size() - 1) ? mScheduleItems.get(itemPosition + 1) : null;
 
-                if (mDefaultSessionColor < 0) {
-                    mDefaultSessionColor = mContext.getResources().getColor(R.color.default_session_color);
-                }
+                mDefaultSessionColor = mContext.getResources().getColor(R.color.default_session_color);
 
                 int itemViewType = getItemViewType(itemPosition);
                 boolean isNowPlaying = false;
