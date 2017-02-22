@@ -35,9 +35,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
@@ -148,7 +145,6 @@ public class SessionDetailFragment extends Fragment implements
         setHasOptionsMenu(true);
         mAnalyticsScreenViewHasFired = false;
         mClient = new GoogleApiClient.Builder(getActivity())
-                .addApi(AppIndex.API)
                 .enableAutoManage((SessionDetailActivity) getActivity(), null)
                 .build();
     }

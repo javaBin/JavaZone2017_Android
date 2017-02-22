@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package no.javazone.androidapp.v1.settings;
+package no.javazone.androidapp.v1.ui.activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -47,9 +47,6 @@ public class SettingsActivity extends BaseActivity {
         overridePendingTransition(0, 0);
     }
 
-    /**
-     * The Fragment is added via the R.layout.settings_act layout xml.
-     */
     public static class SettingsFragment extends PreferenceFragmentCompat
             implements SharedPreferences.OnSharedPreferenceChangeListener {
         public SettingsFragment() {
@@ -101,14 +98,6 @@ public class SettingsActivity extends BaseActivity {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            // The Calendar Sync requires checking the Calendar permission.
-
-            if (BuildConfig.PREF_CONF_MESSAGES_ENABLED.equals(key) ||
-                    BuildConfig.PREF_ATTENDEE_AT_VENUE.equals(key)) {
-                // This will activate re-registering with the correct GCM topic(s).
-                //new MessagingRegistrationWithGCM(getActivity()).registerDevice();
-
-            }
         }
 
         private void setContentTopClearance(int clearance) {

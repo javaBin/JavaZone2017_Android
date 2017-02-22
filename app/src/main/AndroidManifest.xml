@@ -115,7 +115,7 @@
         </activity>
 
         <activity
-            android:name=".settings.SettingsActivity"
+            android:name=".ui.activity.SettingsActivity"
             android:exported="false"
             android:label="@string/title_settings"
             android:parentActivityName=".ui.activity.ExploreActivity"

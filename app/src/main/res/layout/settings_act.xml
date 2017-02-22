@@ -24,7 +24,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".settings.SettingsActivity">
+    tools:context=".ui.activity.SettingsActivity">
 
 
     <no.javazone.androidapp.v1.ui.widget.DrawShadowFrameLayout
@@ -36,7 +36,7 @@
 
         <fragment
             android:id="@+id/settings_fragment"
-            android:name="no.javazone.androidapp.v1.settings.SettingsActivity$SettingsFragment"
+            android:name="no.javazone.androidapp.v1.ui.activity.SettingsActivity$SettingsFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

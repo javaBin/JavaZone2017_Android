@@ -22,7 +22,7 @@ import no.javazone.androidapp.v1.R;
 import no.javazone.androidapp.v1.archframework.model.Model;
 import no.javazone.androidapp.v1.archframework.view.UserActionEnum;
 import no.javazone.androidapp.v1.database.QueryEnum;
-import no.javazone.androidapp.v1.settings.SettingsActivity;
+import no.javazone.androidapp.v1.ui.activity.SettingsActivity;
 import no.javazone.androidapp.v1.ui.activity.AboutActivity;
 import no.javazone.androidapp.v1.ui.activity.ExploreActivity;
 import no.javazone.androidapp.v1.ui.activity.JzVideoLibraryActivity;

@@ -90,6 +90,7 @@
 
         <item name="imageItemBackground">?android:selectableItemBackground</item>
         <item name="android:borderlessButtonStyle">@style/Widget.AppCompat.Button.Borderless</item>
+        <item name="preferenceTheme">@style/SettingsPreferenceThemeOverlay</item>
     </style>
 
     <style name="Theme.JZSched" parent="Theme.JZSched.Base" />
@@ -589,6 +590,12 @@
     <style name="Theme.JZSched.SessionDetails.VersionBase"
         parent="Theme.JZSched.SessionDetails.SizeBase" />
 
+    <style name="SettingsPreferenceThemeOverlay" parent="PreferenceThemeOverlay">
+        <item name="switchPreferenceCompatStyle">@style/SettingsSwitchPreference</item>
+    </style>
 
+    <style name="SettingsSwitchPreference" parent="Preference.SwitchPreferenceCompat">
+        <item name="android:layout">@layout/jzsched_preference</item>
+    </style>
 
 </resources>
