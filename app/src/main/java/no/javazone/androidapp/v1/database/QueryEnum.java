@@ -17,7 +17,7 @@ package no.javazone.androidapp.v1.database;
 
 /**
  * Represents a data query which typically is carried out using the content provider {@link
- * com.google.samples.apps.iosched.provider.ScheduleProvider}.
+ * no.javazone.androidapp.v1.provider.ScheduleProvider}.
  */
 public interface QueryEnum {
 
@@ -28,8 +28,8 @@ public interface QueryEnum {
 
     /**
      * @return the projection for the query. The fields in the projection are defined in the {@link
-     * com.google.samples.apps.iosched.provider.ScheduleContract}. This field may be null if the
-     * query is not to be carried on the {@link com.google.samples.apps.iosched.provider
+     * no.javazone.androidapp.v1.provider.ScheduleContract}. This field may be null if the
+     * query is not to be carried on the {@link no.javazone.androidapp.v1.provider
      * .ScheduleProvider}
      */
     public String[] getProjection();

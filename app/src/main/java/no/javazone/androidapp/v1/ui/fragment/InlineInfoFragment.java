@@ -25,16 +25,6 @@ import android.view.ViewGroup;
 
 import no.javazone.androidapp.v1.R;
 
-/**
- * Map info fragment that displays its content within in.
- *
- * It resizes based on the available space of its container. The list of sessions is automatically
- * marked as scrollable if required.
- * It is designed to be displayed at the left of the screen with a fixed width that is the only
- * value that is returned to
- * {@link com.google.samples.apps.iosched.map.MapInfoFragment.Callback#onInfoSizeChanged(int, int,
- * int, int)}.
- */
 public class InlineInfoFragment extends MapInfoFragment {
 
     private View mLayout;

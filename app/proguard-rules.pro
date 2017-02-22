@@ -99,7 +99,7 @@
 # Make sure that Google Analytics doesn't get removed
 -keep class com.google.analytics.tracking.android.CampaignTrackingReceiver
 # Keep the LUtils members that are used by the ObjectAnimator using reflection
--keep public class com.google.samples.apps.iosched.util.LUtils {
+-keep public class no.javazone.androidapp.v1.util.LUtils {
     public <methods>;
 }
 
@@ -122,6 +122,7 @@
 -dontwarn org.junit.**
 -dontwarn org.mockito.**
 -dontwarn org.robolectric.**
+-dontwarn android.tests.**
 -dontwarn com.bumptech.glide.GlideTest
 -dontwarn com.google.common.cache.**
 -dontwarn com.google.common.primitives.**
@@ -132,6 +133,8 @@
 
 -dontwarn okio.**
 -dontwarn com.viewpagerindicator.**
+-dontnote okhttp3.**, okio.**, retrofit2.**, pl.droidsonroids.**
+-ignorewarnings
 
 
 
@@ -144,3 +147,17 @@
 -keep class org.joda.time.** { *; }
 -keep interface org.joda.time.** { *; }
 
+-dontskipnonpubliclibraryclassmembers
+
+-keepattributes *Annotation*,EnclosingMethod
+
+-keepnames class org.codehaus.jackson.** { *; }
+
+-dontwarn javax.xml.**
+-dontwarn javax.xml.stream.events.**
+-dontwarn com.fasterxml.jackson.databind.**
+
+-keep public class MyClass.** {
+  public void set*(***);
+  public *** get*();
+}

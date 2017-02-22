@@ -23,7 +23,7 @@
 
     <include layout="@layout/toolbar_with_headerbar"/>
 
-    <com.google.samples.apps.iosched.ui.widget.MultiSwipeRefreshLayout
+    <no.javazone.androidapp.v1.ui.widget.MultiSwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         app:foreground="@drawable/header_shadow"
         android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                             android:layout_marginBottom="16dp"
                             android:layout_marginLeft="@dimen/keyline_1"/>
 
-                        <com.google.samples.apps.iosched.myschedule.MyScheduleSingleDayNoScrollView
+                        <no.javazone.androidapp.v1.myschedule.MyScheduleSingleDayNoScrollView
                             android:id="@+id/my_schedule_zeroth_day"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
                             android:layout_marginBottom="16dp"
                             android:layout_marginLeft="@dimen/keyline_1"/>
 
-                        <com.google.samples.apps.iosched.myschedule.MyScheduleSingleDayNoScrollView
+                        <no.javazone.androidapp.v1.myschedule.MyScheduleSingleDayNoScrollView
                             android:id="@+id/my_schedule_first_day"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
                             android:layout_marginBottom="16dp"
                             android:layout_marginLeft="@dimen/keyline_1"/>
 
-                        <com.google.samples.apps.iosched.myschedule.MyScheduleSingleDayNoScrollView
+                        <no.javazone.androidapp.v1.myschedule.MyScheduleSingleDayNoScrollView
                             android:id="@+id/my_schedule_second_day"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
                             android:layout_marginBottom="16dp"
                             android:layout_marginLeft="@dimen/keyline_1"/>
 
-                        <com.google.samples.apps.iosched.myschedule.MyScheduleSingleDayNoScrollView
+                        <no.javazone.androidapp.v1.myschedule.MyScheduleSingleDayNoScrollView
                             android:id="@+id/my_schedule_third_day"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -138,5 +138,5 @@
             </LinearLayout>
         </ScrollView>
 
-    </com.google.samples.apps.iosched.ui.widget.MultiSwipeRefreshLayout>
+    </no.javazone.androidapp.v1.ui.widget.MultiSwipeRefreshLayout>
 </LinearLayout>

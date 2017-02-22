@@ -23,27 +23,6 @@ import no.javazone.androidapp.v1.archframework.presenter.Presenter;
 import no.javazone.androidapp.v1.database.QueryEnum;
 import no.javazone.androidapp.v1.archframework.view.UserActionEnum;
 
-/**
- * A Model is a class used to manipulate stored data, as well as provide getters for the data. It
- * provides the {@link Presenter} with an interface through which to load and update the data (MVP
- * architectural pattern).
- * <p/>
- * It is parametrised by the {@link QueryEnum} (the list of queries it is able to process) and the
- * {@link UserActionEnum} (the list of user actions it is able to process).
- * <p/>
- * Typically, the {@link Presenter} will call {@link #requestData(QueryEnum, DataQueryCallback)} at
- * least once when created, to load the initial data into the Model. This interface doesn't define
- * how the Model gets its data, but an implementation class {@link ModelWithLoaderManager} is
- * provided, obtaining the data from the {@link com.google.samples.apps.iosched.provider
- * .ScheduleProvider} by creating a {@link android.content.CursorLoader} and then parsing the
- * received {@link android.database.Cursor}. Not all features use this way of loading the data, but
- * a lot of them do.
- * <p/>
- * Additionally, when a {@link UserActionEnum} is received, the model updates both its own data and
- * the stored data, typically by making an update or insert call on the {@link
- * com.google.samples.apps .iosched.provider.ScheduleProvider}.
- * <p/>
- */
 public interface Model<Q extends QueryEnum, UA extends UserActionEnum> {
 
     /**

@@ -13,7 +13,7 @@
   the License.
   -->
 
-<com.google.samples.apps.iosched.ui.widget.SquareFrameLayout
+<no.javazone.androidapp.v1.ui.widget.SquareFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/session"
@@ -53,4 +53,4 @@
 
     </LinearLayout>
 
-</com.google.samples.apps.iosched.ui.widget.SquareFrameLayout>
+</no.javazone.androidapp.v1.ui.widget.SquareFrameLayout>

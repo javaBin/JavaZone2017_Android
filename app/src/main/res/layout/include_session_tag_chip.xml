@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2015 Google Inc. All rights reserved.
+  Copyright 2014 Google Inc. All rights reserved.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,18 +14,18 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
-<no.javazone.androidapp.v1.ui.widget.SearchSnippet
+
+<TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/search_result"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="?android:listPreferredItemHeightSmall"
-    android:gravity="start|center_vertical"
-    android:paddingTop="@dimen/spacing_normal"
-    android:paddingBottom="@dimen/spacing_normal"
-    android:paddingLeft="@dimen/keyline_2"
-    android:paddingStart="@dimen/keyline_2"
-    android:paddingRight="@dimen/padding_normal"
-    android:paddingEnd="@dimen/padding_normal"
-    android:textAlignment="viewStart"
-    style="@style/Body1Text" />
+    android:layout_height="match_parent"
+    android:layout_marginEnd="@dimen/spacing_micro"
+    android:layout_marginRight="@dimen/spacing_micro"
+    android:background="@drawable/session_tag_chip"
+    android:drawablePadding="@dimen/spacing_micro"
+    android:gravity="center"
+    android:paddingLeft="@dimen/spacing_normal"
+    android:paddingRight="@dimen/spacing_normal"
+    android:textColor="@color/session_detail_tag_text"
+    android:minWidth="@dimen/a11y_min_touch_target_dimen"
+    style="@style/Body2Text" />

@@ -13,7 +13,7 @@
   the License.
   -->
 
-<com.google.samples.apps.iosched.ui.widget.ForegroundLinearLayout
+<no.javazone.androidapp.v1.ui.widget.ForegroundLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/compact_list_tile"
     android:layout_height="@dimen/compact_list_tile"
@@ -39,4 +39,4 @@
         android:ellipsize="end"
         style="@style/Body2Text" />
 
-</com.google.samples.apps.iosched.ui.widget.ForegroundLinearLayout>
+</no.javazone.androidapp.v1.ui.widget.ForegroundLinearLayout>

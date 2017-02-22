@@ -27,7 +27,7 @@ import static no.javazone.androidapp.v1.navigation.NavigationModel.*;
 
 /**
  * This abstract class implements both {@link UpdatableView} and {@link AppNavigationView}, without
- * any specific UI implementation details. This uses the {@link com.google.samples.apps.iosched
+ * any specific UI implementation details. This uses the {@link no.javazone.androidapp.v1
  * .archframework} for getting its data and processing user actions. Some methods which are UI
  * specific are left abstract. Extend this class for full navigation functionality.
  */

@@ -45,7 +45,7 @@
             <!-- minHeight determines the point to fade in the status bar scrim. Ideally it would
                  fade in when the image has completely collapsed but it needs to be > 0. -->
 
-            <com.google.samples.apps.iosched.ui.widget.AspectRatioView
+            <no.javazone.androidapp.v1.ui.widget.AspectRatioView
                 android:id="@+id/session_photo_container"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -76,7 +76,7 @@
                     style="?borderlessButtonStyle" />
                 <!-- paddingTop offsets the text+drawablePadding to center the image -->
 
-            </com.google.samples.apps.iosched.ui.widget.AspectRatioView>
+            </no.javazone.androidapp.v1.ui.widget.AspectRatioView>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 

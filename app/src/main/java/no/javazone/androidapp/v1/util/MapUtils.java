@@ -48,10 +48,6 @@ public class MapUtils {
     private static final String TAG = LogUtils.makeLogTag(MapUtils.class);
     public static final String TYPE_ICON_PREFIX = "ICON_";
 
-    /**
-     * Returns the room type for a {@link com.google.samples.apps.iosched.map.util.MarkerModel}
-     * for a given String.
-     */
     public static int detectMarkerType(String markerType) {
         if (TextUtils.isEmpty(markerType)) {
             return MarkerModel.TYPE_INACTIVE;

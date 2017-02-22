@@ -86,11 +86,12 @@ android {
 
 
     }
-
+''
     buildTypes {
         debug {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+           // minifyEnabled true
+           // proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+           // testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.txt'
             resValue("string", "website_host_name", "${production_website_host_name}")
         }
         release {

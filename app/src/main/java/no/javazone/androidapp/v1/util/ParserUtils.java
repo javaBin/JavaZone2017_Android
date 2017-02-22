@@ -23,9 +23,6 @@ import android.text.format.Time;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-/**
- * Various utility methods used by {@link com.google.samples.apps.iosched.io.JSONHandler}.
- */
 public class ParserUtils {
     /** Used to sanitize a string to be {@link Uri} safe. */
     public static final String BLOCK_TYPE_SESSION = "session";

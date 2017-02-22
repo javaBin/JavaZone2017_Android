@@ -26,7 +26,7 @@
     app:cardCornerRadius="@dimen/stream_card_corner_radius"
     app:cardElevation="@dimen/card_elevation">
 
-    <com.google.samples.apps.iosched.ui.widget.ForegroundLinearLayout
+    <no.javazone.androidapp.v1.ui.widget.ForegroundLinearLayout
         android:id="@+id/explore_io_clickable_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
         android:orientation="vertical"
         android:foreground="?android:selectableItemBackground">
 
-        <com.google.samples.apps.iosched.ui.widget.AspectRatioView
+        <no.javazone.androidapp.v1.ui.widget.AspectRatioView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:aspectRatio="@dimen/aspect_16_9">
@@ -47,7 +47,7 @@
                 android:src="@drawable/io_logo"
                 android:scaleType="centerCrop" />
 
-        </com.google.samples.apps.iosched.ui.widget.AspectRatioView>
+        </no.javazone.androidapp.v1.ui.widget.AspectRatioView>
 
         <TextView
             android:id="@+id/title"
@@ -76,6 +76,6 @@
             tools:text="@string/placeholder_session_subtitle"
             style="@style/Body2Text" />
 
-    </com.google.samples.apps.iosched.ui.widget.ForegroundLinearLayout>
+    </no.javazone.androidapp.v1.ui.widget.ForegroundLinearLayout>
 
 </android.support.v7.widget.CardView>

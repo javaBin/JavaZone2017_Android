@@ -60,7 +60,7 @@ public class MapActivity extends BaseActivity
     public static final String EXTRA_ROOM = "com.google.android.iosched.extra.ROOM";
 
     public static final String EXTRA_DETACHED_MODE
-            = "com.google.samples.apps.iosched.EXTRA_DETACHED_MODE";
+            = "no.javazone.androidapp.v1.EXTRA_DETACHED_MODE";
 
     public static final String BUNDLE_STATE_MAPVIEW = "mapview";
 

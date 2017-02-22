@@ -181,7 +181,7 @@ public class ExploreModel extends ModelWithLoaderManager<ExploreModel.ExploreQue
 
     /**
      * @return the tracks ordered alphabetically. The ordering can only happen if the query {@link
-     * com.google.samples.apps.iosched.explore.ExploreIOModel.ExploreIOQueryEnum#TAGS} has returned,
+     * no.javazone.androidapp.v1.explore.ExploreIOModel.ExploreIOQueryEnum#TAGS} has returned,
      * which can be checked by calling {@link #getTagMetadata()}.
      */
     public Collection<ItemGroup> getOrderedTracks() {

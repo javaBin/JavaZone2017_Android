@@ -375,12 +375,8 @@ public class SessionDetailModel
                 .getString(cursor.getColumnIndex(ScheduleContract.Sessions.SESSION_TAGS));
         mIsKeynote = mTagsString != null && mTagsString.contains(Config.Tags.SPECIAL_KEYNOTE);
 
-        mSessionColor = cursor.getInt(
-                cursor.getColumnIndex(ScheduleContract.Sessions.SESSION_COLOR));
         if (mSessionColor == 0) {
             mSessionColor = ContextCompat.getColor(mContext, R.color.default_session_color);
-        } else {
-            mSessionColor = UIUtils.setColorOpaque(mSessionColor);
         }
 
         mVideoUrl = cursor.getString(cursor.getColumnIndex(

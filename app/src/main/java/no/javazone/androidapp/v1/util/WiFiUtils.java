@@ -178,7 +178,7 @@ public class WiFiUtils {
 
     public static class WiFiDialog extends DialogFragment {
         private static final String ARG_WIFI_ENABLED
-                = "com.google.samples.apps.iosched.ARG_WIFI_ENABLED";
+                = "no.javazone.androidapp.v1.ARG_WIFI_ENABLED";
 
         private boolean mWiFiEnabled;
 

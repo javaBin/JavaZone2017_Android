@@ -33,18 +33,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static no.javazone.androidapp.v1.util.LogUtils.LOGE;
 import static no.javazone.androidapp.v1.util.LogUtils.makeLogTag;
 
-/**
- * Implementation class for {@link Model}, using the {@link LoaderManager} callbacks to query the
- * data from the {@link com.google.samples.apps.iosched.provider.ScheduleProvider}.
- */
 public abstract class ModelWithLoaderManager<Q extends QueryEnum, UA extends UserActionEnum>
         implements Model<Q, UA>, LoaderManager.LoaderCallbacks<Cursor> {
 
-    /**
-     * Key to be used in Bundle passed in {@link #onUserAction(UserActionEnum, Bundle)} for a user
-     * action that requires running {@link QueryEnum}, specifying its id. The value stored must be
-     * an Integer.
-     */
     public static final String KEY_RUN_QUERY_ID = "KEY_RUN_QUERY_ID";
 
     private static final String TAG = makeLogTag(ModelWithLoaderManager.class);
@@ -57,7 +48,7 @@ public abstract class ModelWithLoaderManager<Q extends QueryEnum, UA extends Use
 
     /**
      * Map of callbacks, using the query as key. This is required because we can't pass on the
-     * {@link com.google.samples.apps.iosched.archframework.Model.DataQueryCallback} to the {@link
+     * {@link no.javazone.androidapp.v1.archframework.Model.DataQueryCallback} to the {@link
      * LoaderManager} callbacks.
      * <p/>
      * This is @VisibleForTesting because for integration testing, a fake model is used to allow

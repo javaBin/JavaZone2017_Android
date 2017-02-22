@@ -226,7 +226,7 @@
         <receiver android:name=".receiver.SessionAlarmReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="com.google.samples.apps.iosched.action.UPDATE_CALENDAR_COMPLETED" />
+                <action android:name="no.javazone.androidapp.v1.action.UPDATE_CALENDAR_COMPLETED" />
             </intent-filter>
         </receiver>
 
@@ -276,7 +276,7 @@
                 <!-- Receives the actual messages. -->
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
 
-                <category android:name="com.google.samples.apps.iosched" />
+                <category android:name="no.javazone.androidapp.v1" />
             </intent-filter>
         </receiver>
 

@@ -20,11 +20,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.MyScheduleActivity">
+    tools:context=".ui.activity.MyScheduleActivity">
 
     <!-- Main layout -->
     <fragment
-        android:name="com.google.samples.apps.iosched.myschedule.MyScheduleAllDaysFragment"
+        android:name="no.javazone.androidapp.v1.ui.activity.MyScheduleAllDaysFragment"
         android:id="@+id/myScheduleWideFrag"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
