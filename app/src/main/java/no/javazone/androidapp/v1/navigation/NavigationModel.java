@@ -18,10 +18,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import no.javazone.androidapp.v1.BuildConfig;
 import no.javazone.androidapp.v1.R;
 import no.javazone.androidapp.v1.archframework.model.Model;
 import no.javazone.androidapp.v1.archframework.view.UserActionEnum;
 import no.javazone.androidapp.v1.database.QueryEnum;
+import no.javazone.androidapp.v1.debug.DebugActivity;
 import no.javazone.androidapp.v1.ui.activity.SettingsActivity;
 import no.javazone.androidapp.v1.ui.activity.AboutActivity;
 import no.javazone.androidapp.v1.ui.activity.ExploreActivity;
@@ -87,6 +89,11 @@ public class NavigationModel implements Model<NavigationModel.NavigationQueryEnu
 
     private void populateNavigationItems() {
         NavigationItemEnum[] items =  NAVIGATION_ATTENDING;
+        boolean debug = BuildConfig.DEBUG;
+
+        if (debug) {
+            items = NavigationConfig.appendItem(items, NavigationItemEnum.DEBUG);
+        }
 
         mItems = NavigationConfig.filterOutItemsDisabledInBuildConfig(items);
     }
@@ -111,6 +118,8 @@ public class NavigationModel implements Model<NavigationModel.NavigationQueryEnu
                 SettingsActivity.class),
         ABOUT(R.id.about_nav_item, R.string.description_about, R.drawable.ic_about,
                 AboutActivity.class),
+        DEBUG(R.id.debug_nav_item, R.string.navdrawer_item_debug, R.drawable.ic_navview_settings,
+                DebugActivity.class),
         INVALID(12, 0, 0, null);
 
         private int id;

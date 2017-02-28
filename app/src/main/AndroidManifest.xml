@@ -222,6 +222,23 @@
                 android:value=".ui.activity.ExploreActivity" />
         </activity>
 
+        <!-- TaskStackBuilder proxy activity for widgets and notifications. -->
+
+        <activity
+            android:name=".ui.activity.TaskStackBuilderProxyActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.NoDisplay" />
+        <activity
+            android:name=".debug.DebugActivity"
+            android:exported="false"
+            android:label="@string/title_activity_debug_test_runner"
+            android:parentActivityName=".ui.activity.ExploreActivity"
+            android:theme="@style/Theme.JZSched">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activity.ExploreActivity" />
+        </activity>
+
         <!-- Session alarm/calendar integrating components. -->
         <receiver android:name=".receiver.SessionAlarmReceiver">
             <intent-filter>
